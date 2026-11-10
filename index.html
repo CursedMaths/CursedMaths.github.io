@@ -27,6 +27,7 @@ p{margin:.6rem 0}
 @media(min-width:52rem){.hero{grid-template-columns:1.1fr 1fr;gap:3rem}}
 section{margin-top:4rem;max-width:44rem}
 section.wide{max-width:none}
+section.wide > p, section.wide > .status{max-width:44rem}
 figure{margin:0}
 svg{width:100%;height:auto;display:block}
 figcaption{color:var(--muted);font-size:.92rem;margin-top:.5rem}
@@ -256,6 +257,68 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       ratios <em>t</em>(<em>c<sub>k</sub></em>)/<em>t</em>(<em>s</em>) equal <em>k</em>/8 to about 2·10<sup>−4</sup>.</p>
     </div>
   </div>
+</section>
+
+<section class="wide">
+  <h2>Degree 4: every possible case</h2>
+  <p>In degree 4 the whole picture can be listed. Up to automorphisms of the disk on both sides, write
+  \(B(z)=\zeta\, z\prod_{j=1}^{3}\frac{z-a_j}{1-\bar a_j z}\) with \(|\zeta|=1\). Then \(B\) has three critical points in the
+  disk, counted with multiplicity. The loops around the critical values in the disk give permutations of the 4 roots;
+  their product is the 4-cycle given by one turn around the circle, and their indices add up to 3. A 4-cycle can be
+  written as such a product in only four ways, which gives four cases.</p>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Critical points in the disk</th><th>Cycle types of the loops</th><th>Monodromy group</th><th>Ellipse?</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td>one triple point</td><td>(4)</td><td>cyclic \(C_4\)</td><td>yes, case (a)</td><td>\(z^4\)</td></tr>
+      <tr><td>two simple points with the same value, one simple point</td><td>(2,2) and (2,1,1)</td><td>dihedral \(D_4\)</td><td>yes, case (b): \(B=C_2\circ D_2\)</td><td>\(C_1\circ D\) of the degree-8 example</td></tr>
+      <tr><td>one double point, one simple point</td><td>(3,1) and (2,1,1)</td><td>symmetric \(S_4\)</td><td>no</td><td>\(z^3\,\frac{z-0.9}{1-0.9z}\)</td></tr>
+      <tr><td>three simple points, three values</td><td>(2,1,1) three times</td><td>symmetric \(S_4\)</td><td>no (generic case)</td><td>zeros \(0,\ 0.5,\ -0.4+0.3i,\ 0.2-0.6i\)</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>The alternating group \(A_4\) never occurs, because it contains no 4-cycle. In the \(D_4\) case the four roots sit
+  like the corners of a square: the monodromy can only rotate or flip the square, and its diagonals are the fibres of
+  \(D_2\). In the \(S_4\) case no ordering of the roots survives. This matches Theorem Z, and the classical fact that in
+  degree 4, being associated to an ellipse is the same as being a composition (Fujimura; Gorkin and Wagner).</p>
+
+  <h3>The curve of pairs of roots</h3>
+  <p>Two roots \(x\neq y\) of the same equation \(B(z)=w\) satisfy \(R(x,y)=\frac{B(x)-B(y)}{x-y}=0\). This defines a curve
+  \(C\) of bidegree \((3,3)\). Forgetting the order of \(x\) and \(y\), and writing \(s=x+y\), \(p=xy\), gives a plane cubic
+  \(E=\{F(s,p)=0\}\); the point \((s,p)\) encodes the chord joining \(x\) and \(y\). Its shape tells the four cases apart.</p>
+
+  <div style="overflow-x:auto">
+  <table>
+    <thead><tr><th>Case</th><th>Curve \(C\) of ordered pairs</th><th>Genus of \(C\)</th><th>Curve \(E\) of unordered pairs</th><th>How to parametrize</th></tr></thead>
+    <tbody>
+      <tr><td>\(C_4\), \(z^4\)</td><td>three lines \(y=i^kx\)</td><td>0, 0, 0</td><td>a line and a conic</td><td>linear</td></tr>
+      <tr><td>\(D_4\), ellipse</td><td>diagonals \(y=\sigma(x)\) and sides</td><td>0 and 1</td><td>a line and a conic</td><td>rational, and \(\wp\) for the sides</td></tr>
+      <tr><td>\(S_4\), double point</td><td>irreducible, two nodes</td><td>2</td><td>smooth cubic, genus 1</td><td>\(\wp\) plus a square root</td></tr>
+      <tr><td>\(S_4\), generic</td><td>irreducible, smooth</td><td>4</td><td>smooth cubic, genus 1</td><td>\(\wp\) plus a square root</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>In the \(D_4\) case the curve splits in two. The diagonals of the Poncelet quadrilaterals give a line in \(E\), whose
+  dual is a point: all the diagonals pass through one point. The sides give a conic in \(E\), whose dual is the ellipse;
+  on that component, moving to the next vertex of the quadrilateral is a translation of an elliptic curve, which is
+  Poncelet's porism.</p>
+
+  <p>In the \(S_4\) case nothing splits, but something elliptic survives: the curve \(E\) of <em>pairs</em> of roots has
+  genus 1 even though \(C\) has genus 4. One can then uniformize everything with the Weierstrass function \(\wp\): a point
+  \(u\) of the torus gives \((s,p)\), hence a pair of roots \(\frac{s\pm\sqrt{s^2-4p}}{2}\), and the complementary pair is
+  obtained by translating \(u\) by a point of order 2.</p>
+
+  <p>The genera can all be checked with the Riemann–Hurwitz formula. For instance, in the generic case \(C\to\mathbb P^1\),
+  \((x,y)\mapsto B(x)\), has degree 12 and six critical values, each acting on the 12 ordered pairs with five
+  transpositions, so \(2g-2=12\cdot(-2)+6\cdot5=6\) and \(g=4\). The same count on the Galois closure, where all four roots
+  become single-valued, gives genus 1 for \(D_4\), 5 for the degenerate \(S_4\) case and 13 for the generic one: the curve
+  \(E\) of pairs is the finest level that stays elliptic. This is special to degree 4, and comes from the exceptional
+  homomorphism \(S_4\to S_3\).</p>
+  <div class="status"><strong>Checked.</strong> The four monodromy groups were computed numerically on the four examples of
+  the table (orders 4, 8, 24, 24), and all genera were recomputed with Riemann–Hurwitz. The explicit uniformization of the
+  \(S_4\) case is from a working note.</div>
 </section>
 
 <section>
