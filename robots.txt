@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cursedmaths.github.io/sitemap.xml
