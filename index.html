@@ -3,8 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blaschke products associated to ellipses — Martin Baptiste</title>
-<meta name="description" content="Blaschke products whose level sets are Poncelet polygons of an ellipse: three theorems, the dihedral symmetry group, and where the critical points lie.">
+<title>Blaschke products associated to ellipses: Poncelet polygons, critical values and monodromy — Martin Baptiste</title>
+<meta name="description" content="When do the level sets of a finite Blaschke product form Poncelet polygons circumscribing one ellipse? A characterization by critical values (one, or two with simple critical points), the cyclic or dihedral monodromy group, the elliptic curve and isogeny behind it, the Poncelet package of foci, and the full classification in degrees 4 and 6. Paper (PDF) and interactive figures.">
+<meta name="keywords" content="Blaschke product, finite Blaschke products, Poncelet polygons, Poncelet porism, ellipse, Poncelet package, critical values, critical points, monodromy group, dihedral group, elliptic curve, elliptic functions, isogeny, numerical range, compressed shift, Blaschke curve, Kippenhahn curve, Daepp Gorkin Mortini, Finding Ellipses, PGL(2,5)">
+<meta name="author" content="Martin Baptiste">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://cursedmaths.github.io/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blaschke products associated to ellipses: a characterization by critical values">
+<meta property="og:description" content="A finite Blaschke product is associated to an ellipse (its level sets are Poncelet polygons) iff it has one critical value in the disk, or two with simple critical points. Monodromy group cyclic or dihedral; elliptic curves and isogenies behind it.">
+<meta property="og:url" content="https://cursedmaths.github.io/">
+<meta property="og:site_name" content="Martin Baptiste — Blaschke products and ellipses">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Blaschke products associated to ellipses">
+<meta name="twitter:description" content="Poncelet polygons, critical values, monodromy groups, elliptic curves: a characterization of Blaschke products associated to ellipses, with interactive figures and the paper.">
+<meta name="citation_title" content="Blaschke products associated to ellipses: a simple characterization">
+<meta name="citation_author" content="Baptiste, Martin">
+<meta name="citation_publication_date" content="2026/11">
+<meta name="citation_pdf_url" content="https://cursedmaths.github.io/blaschke_ellipses_article_v3.pdf">
+<meta name="citation_abstract" content="We study finite Blaschke products whose level sets on the unit circle are the vertices of polygons circumscribing a fixed ellipse (Poncelet polygons). Theorem X describes such a Blaschke product through the foci of a family of ellipses. Theorem Y gives the elliptic curve hidden behind the configuration. Theorem Z characterizes these Blaschke products through their critical values only: B is associated to an ellipse if and only if it has one critical value in the disk, or exactly two with simple critical points. Equivalently, the monodromy group of B is cyclic or dihedral.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ScholarlyArticle",
+  "headline": "Blaschke products associated to ellipses: a simple characterization",
+  "name": "Blaschke products associated to ellipses",
+  "author": {"@type": "Person", "name": "Martin Baptiste", "url": "https://github.com/CursedMaths"},
+  "datePublished": "2026-11",
+  "url": "https://cursedmaths.github.io/",
+  "mainEntityOfPage": "https://cursedmaths.github.io/",
+  "encoding": {"@type": "MediaObject", "contentUrl": "https://cursedmaths.github.io/blaschke_ellipses_article_v3.pdf", "encodingFormat": "application/pdf"},
+  "inLanguage": "en",
+  "keywords": ["Blaschke product", "Poncelet polygons", "ellipse", "critical values", "monodromy group", "dihedral group", "elliptic curve", "isogeny", "numerical range", "Poncelet package"],
+  "about": ["finite Blaschke products", "Poncelet's porism", "elliptic curves", "monodromy of rational maps"],
+  "abstract": "We study finite Blaschke products whose level sets on the unit circle are the vertices of Poncelet polygons circumscribing a fixed ellipse. Theorem X: the zeros of B are 0 and the foci of the Poncelet package. Theorem Y: the configuration is governed by an elliptic curve. Theorem Z: B is associated to an ellipse if and only if it has one critical value in the disk, or exactly two with simple critical points; equivalently its monodromy group is cyclic or dihedral. Behind it lies an isogeny between two elliptic curves."
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -91,6 +125,8 @@ a{color:var(--ellipse);text-underline-offset:3px}
 .algo>li::after{content:"";position:absolute;left:.95rem;top:2.2rem;bottom:.2rem;width:1px;background:var(--rule)}
 .algo>li:last-child::after{display:none}
 .algo p{margin:.3rem 0}
+.box.theorem-z{border-color:var(--zero)}
+.box.theorem-z h3 .tag{display:inline-block;margin-left:.6rem;padding:.1rem .55rem;border:1px solid var(--zero);color:var(--zero);border-radius:999px;font-size:.72rem;font-weight:400;letter-spacing:.02em;vertical-align:middle;white-space:nowrap}
 .formula{font-size:.92rem;color:var(--muted);background:var(--tint);border-radius:4px;padding:.5rem .9rem;margin-top:.7rem;overflow-x:auto}
 .formula p{margin:.3rem 0}
 footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var(--rule);color:var(--muted);font-size:.9rem}
@@ -125,7 +161,10 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     <p class="byline">Martin Baptiste, November 2026</p>
     <p class="lede">A finite Blaschke product <em>B</em> of degree <em>n</em> sends the unit circle onto itself.
     Pick a point λ on the circle: the <em>n</em> solutions of <em>B(z)</em> = λ form a polygon inscribed in the circle.
-    For some Blaschke products, all these polygons are tangent to one and the same ellipse. This page explains when that happens.</p>
+    For some Blaschke products, all these polygons are tangent to one and the same ellipse. This page explains when that happens.
+    The answer, Theorem Z, is my own result: <em>a Blaschke product is associated to an ellipse if and only if it has one
+    critical value in the disk, or two with simple critical points</em> — a test that reads off \(B\) alone, in every
+    degree, with an elementary proof. The surrounding theory (Theorems X and Y, the examples) is there to explain it.</p>
   </div>
   <figure>
     <svg id="pent" viewBox="-1.12 -1.12 2.24 2.24" role="img" aria-label="A pentagon inscribed in the unit circle and tangent to an ellipse, animated as the parameter moves.">
@@ -144,8 +183,10 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     and every one of them is tangent to the same ellipse. The two crosses are the two critical values of <em>B</em>
     in the disk; they are very close to each other.</figcaption>
     <div class="formula">
-      <p>The Blaschke product used here (zeros rounded to 4 decimals):</p>
-      <p>\[ B(z)=z\prod_{k=1}^{4}\frac{z-a_k}{1-\bar a_k z},\qquad
+      <p>Call this product \(B_5\). It is the running example of the page: the sections on the dihedral group, the
+      torus, the canonical annulus and the algorithm all come back to it, and every figure labelled \(B_5\) is computed
+      from the four zeros below (rounded to 4 decimals):</p>
+      <p>\[ B_5(z)=z\prod_{k=1}^{4}\frac{z-a_k}{1-\bar a_k z},\qquad
       \begin{aligned} a_1&=0.7488+0.1831i, & a_2&=0.6286+0.0042i,\\ a_3&=-0.1599-0.4510i, & a_4&=-0.5088-0.5431i. \end{aligned} \]</p>
       <p>It was built from its ellipse: centre \(0.12-0.18i\), semi-axes \(0.9077\) and \(0.5446\), major axis inclined by
       \(30^\circ\) (Algorithm 4 of the paper).</p>
@@ -179,30 +220,62 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
 
 <section id="theorems">
   <h2>Three theorems, in plain words</h2>
-  <p>The paper proves three results about these Blaschke products. The first two describe them from the inside; the third,
-  Theorem Z, is the main new result and gives a test that needs no ellipse at all.</p>
+  <p>The paper proves three results about these Blaschke products. The first two describe them from the inside and
+  organize classical material (the Poncelet package of Darboux, the elliptic curve of Poncelet's porism) around the
+  Blaschke product. The third, <strong>Theorem Z, is the new result of the paper and my personal contribution</strong>: a
+  characterization through critical values only, valid in every degree, which needs no ellipse at all.</p>
 
   <div class="box theorem-x">
     <h3>Theorem X: the zeros are foci</h3>
-    <p>The zeros of <em>B</em> are not random. They are <em>0</em> together with the foci of a family of ellipses
-    attached to the polygons: the ellipses that envelope the diagonals <em>z<sub>j</sub>z<sub>j+k</sub></em>. So if you
-    know the ellipse, you know where the zeros of <em>B</em> are, and conversely.</p>
-    <p>When <em>n</em> is even, one more zero appears, at a point determined by the same configuration.</p>
+    <p>Fix an ellipse \(\gamma\subset\mathbb D\) admitting circumscribed \(n\)-gons inscribed in the circle. The
+    polygons come with a whole <em>Poncelet package</em> (Darboux): for \(k=1,\dots,\lfloor (n-1)/2\rfloor\), the diagonals
+    \(z_jz_{j+k}\) of all the polygons envelope one and the same ellipse \(\gamma_k\) (with \(\gamma_1=\gamma\)), and when
+    \(n\) is even the long diagonals \(z_jz_{j+n/2}\) all pass through one point \(P_{n/2}\) of the disk. Write
+    \(\alpha_k,\beta_k\) for the foci of \(\gamma_k\).</p>
+    <p><strong>Theorem X.</strong> <em>Let \(B(z)=z\prod_{j=1}^{n-1}\frac{z-a_j}{1-\bar a_jz}\) be a normalized Blaschke
+    product of degree \(n\). The following are equivalent:</em></p>
+    <ol>
+      <li><em>\(B\) is associated to \(\gamma\);</em></li>
+      <li><em>the zeros of \(B\) are \(0\), the foci \(\alpha_k,\beta_k\) of \(\gamma_1,\dots,\gamma_{\lfloor(n-1)/2\rfloor}\),
+      and, if \(n\) is even, the point \(P_{n/2}\);</em></li>
+      <li><em>\(B\) is, up to a unimodular constant, the product of \(z\), of the Blaschke factors
+      \(q_k(z)/q_k^*(z)\) built from the dual conics of the \(\gamma_k\), and of \(\frac{z-P_{n/2}}{1-\bar P_{n/2}z}\) when
+      \(n\) is even.</em></li>
+    </ol>
+    <p>So the ellipse determines the Blaschke product completely, and conversely the zeros of \(B\) read off the whole
+    Poncelet package. For \(n=3\) this is the theorem of Daepp, Gorkin and Mortini (the foci of the ellipse are the two
+    non-zero zeros of \(B\)). The proof is a product computation: the two tangents to \(\gamma_k\) through a vertex
+    \(z_0\) hit the circle at \(z_k\) and \(z_{-k}\), and \(z_kz_{-k}=\frac{(z_0-\alpha_k)(z_0-\beta_k)}{(1-\bar\alpha_kz_0)(1-\bar\beta_kz_0)}\)
+    (Lemma 3 of the paper: the foci are the roots of \(F(\varphi,0)\), by Plücker's characterization of foci through
+    isotropic tangents). Multiplying over \(k\) gives \(\prod_j z_j=B(z_0)\), so \(B\) is constant on each polygon.</p>
   </div>
 
   <div class="box theorem-x">
     <h3>Theorem Y: the hidden elliptic curve</h3>
-    <p>Behind the configuration sits an elliptic curve <em>E</em>, a torus described by a lattice Λ in ℂ. Poncelet's
-    porism, the fact that polygons close up after <em>n</em> steps, becomes very simple there: the vertices of a polygon
-    are the images of points <em>t</em>, <em>t</em> + ω, <em>t</em> + 2ω, …, <em>t</em> + (<em>n</em> − 1)ω, where ω is one
-    fixed step (a translation on the torus). The Blaschke product itself is then explicit:</p>
+    <p>A line through two points \(\varphi,\psi\) of the circle is tangent to \(\gamma\) exactly when
+    \(F(\varphi,\psi)=0\), where \(F\) is a symmetric polynomial of bidegree \((2,2)\) computed from the dual conic of
+    \(\gamma\) (Lemma 1 of the paper). Writing \(F=P(\varphi)\psi^2+Q(\varphi)\psi+R(\varphi)\), the discriminant
+    \(\Delta=Q^2-4PR\) is a quartic whose four roots are the complex points of \(\Gamma\cap\gamma\): two in the disk,
+    \(r\) and \(s\), and their mirrors \(1/\bar r\), \(1/\bar s\).</p>
+    <p><strong>Theorem Y.</strong> <em>If \(\Delta\) has four distinct roots, the curve \(C=\{F(\varphi,\psi)=0\}\) of pairs
+    of endpoints of tangent chords is a compact Riemann surface of genus 1, isomorphic to the elliptic curve
+    \(Y^2=\Delta(X)\) via \((\varphi,\psi)\mapsto\bigl(\varphi,\;2P(\varphi)\psi+Q(\varphi)\bigr)\).</em></p>
+    <p>The structure that comes with it (Lemma 5): write \(C=\mathbb C/\Lambda\). There is an even elliptic function
+    \(f\) of degree 2, the inverse of \(\int d\varphi/\sqrt{\Delta}\), and a point \(\omega\) of the torus such that the
+    point of \(C\) with parameter \(t\) is \(\bigl(f(t),f(t+\omega)\bigr)\). Going to the next vertex is the translation
+    by \(\omega\): the vertices of the polygon through \(f(t)\) are \(f(t),f(t+\omega),\dots,f(t+(n-1)\omega)\), and the
+    polygons close after \(n\) steps exactly when \(n\omega\in\Lambda\). This is Poncelet's porism, made linear. The
+    translation itself is the composition of two half-turns of the torus — "other tangent through the same point" and
+    "swap the two endpoints" — which is the whole content of Poncelet's theorem.</p>
+    <p>Combined with Theorem X, the Blaschke product becomes explicit on the torus:</p>
     <p>\[ B\bigl(f(t)\bigr) = (-1)^{n+1}\prod_{j=0}^{n-1} f(t+j\omega), \]</p>
-    <p>where <em>f</em> is the elliptic function that maps the torus onto the Riemann sphere; the vertices of the polygons
-    lie on the unit circle, which is the image of a real loop of the torus.</p>
+    <p>which solves \(B(z)=\lambda\) for every \(\lambda\) on the circle. When \(\Delta\) has a double root
+    (\(r=s\)), \(C\) degenerates into two Möbius graphs, the vertices are the orbits of an elliptic automorphism of the
+    disk, and \(\gamma\) is projectively a concentric circle: this is case (a) of Theorem Z.</p>
   </div>
 
-  <div class="box">
-    <h3>Theorem Z: the test through critical values</h3>
+  <div class="box theorem-z">
+    <h3>Theorem Z: the test through critical values <span class="tag">new result — Martin Baptiste, 2026</span></h3>
     <p><strong>Theorem Z.</strong> Let <em>B</em> be a Blaschke product of degree <em>n</em> ≥ 3. Then <em>B</em> is
     associated to an ellipse if and only if one of the following holds:</p>
     <ol>
@@ -214,6 +287,15 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     <p>The proof is elementary. Follow the vertices of one polygon while λ travels once around a critical value: the
     vertices come back, but permuted. The ellipse exists exactly when neighbouring vertices always come back as
     neighbours. In the two cases of the theorem, these permutations are exactly the symmetries of the polygon.</p>
+    <p><strong>What is new, and what was known.</strong> Until now the ellipse question had been settled degree by
+    degree: degree 3 always works (Daepp, Gorkin and Mortini, 2002), degree 4 works exactly for compositions of two
+    degree-2 products (Fujimura 2013; Gorkin and Wagner 2017), degree 6 was treated by Hunziker, Martínez-Finkelshtein,
+    Poe and Simanek, and Aksoy, Arici, Celorrio and Gorkin (2023) showed that a single critical value is sufficient and
+    bounded the number of critical values in degree \(2^n\). Theorem Z replaces all of this by one condition on the
+    critical values, valid in every degree. To my knowledge, the necessity of (a) or (b) and the sufficiency of (b) are
+    new, as is the description of the monodromy group as cyclic or dihedral (Theorem Z′ of the paper), and the proof — a
+    direct monodromy argument, which does not use the elliptic curve — is new as well. I would be glad to hear of any
+    earlier occurrence.</p>
   </div>
 </section>
 
@@ -242,7 +324,8 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       leaving a coloured trace; at the end each vertex sits at its new position. The grey crosses are the critical
       points of <em>B</em>: two vertices meet and exchange near the critical points lying above the chosen critical
       value.</figcaption>
-      <div class="formula"><p>Same Blaschke product \(B\) of degree 5 as at the top of the page.</p></div>
+      <div class="formula"><p>The product is \(B_5\), the running example of the first figure, with the zeros
+      \(a_1,\dots,a_4\) given there; its two critical values are the two crosses of that figure.</p></div>
     </figure>
 
     <div>
@@ -267,7 +350,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   <h2>The torus behind the picture</h2>
   <p>Theorem Y says that the whole configuration is governed by a torus \(E=\mathbb C/\Lambda\): an elliptic function
   \(f\) of degree 2 maps \(E\) onto the sphere, and \(B\circ f=g\circ\pi\) for an isogeny \(\pi\) and a degree-2 function
-  \(g\). Below, the torus of the degree-5 pentagon is drawn as its fundamental rectangle — opposite edges are glued, as
+  \(g\). Below, the torus of the running example \(B_5\) is drawn as its fundamental rectangle — opposite edges are glued, as
   the arrows indicate — next to the disk it maps onto. Every object of the disk sits on the torus in the simplest
   possible way.</p>
 
@@ -305,7 +388,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   \(k=1,\dots,4\), on the central line — the loop that \(f\) sends onto the hyperbolic axis of the ellipse. Odd and even
   \(k\) (the two colours) land on the two critical values of \(B\). The squares at \(0\) and at \(T/2\) are the points
   <em>r</em> and <em>s</em>, the roots of \(\Delta\) in the disk.</p>
-  <div class="status"><strong>Checked.</strong> Everything in the figure is computed from the degree-5 example: the
+  <div class="status"><strong>Checked.</strong> Everything in the figure is computed from \(B_5\): the
   lattice is rectangular to \(10^{-8}\), the vertex and critical rows sit at \(\pm h/4\) and \(0\) up to
   \(4\cdot10^{-4}\) (the noise of the conic fit), and the critical points sit at \(k\omega/2\) up to \(7\cdot10^{-5}\) —
   which also confirms, with exact values, the degree-5 claim of the working note of the next section. The two rows of
@@ -392,7 +475,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     <figure>
       <svg id="ann" viewBox="-1.08 -1.08 2.16 2.16" role="img"
            aria-label="The slit disk with its canonical circles and radii; zeros on one canonical circle, critical points on the slit."></svg>
-      <figcaption>The degree-5 example. Thin blue curves: the canonical circles and radii of the annulus
+      <figcaption>The running example \(B_5\) again. Thin blue curves: the canonical circles and radii of the annulus
       \(\mathbb D\setminus[r,s]\) — images of the horizontal and vertical lines of the cylinder. White: the slit. Gold:
       the canonical circle through the origin, which carries the five zeros (stars). Crosses: the four critical points,
       on the slit.</figcaption>
@@ -405,7 +488,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     half-steps on the slit itself.</p>
     <p>That canonical circle is an <strong>algebraic curve</strong>. Together with its mirror image under the inversion
     \(z\mapsto1/\bar z\), every canonical circle is a <em>bicircular quartic</em>; the one through the zeros passes through
-    the origin, so its mirror passes through \(\infty\) and it drops to a <em>circular cubic</em>. For the degree-5 example
+    the origin, so its mirror passes through \(\infty\) and it drops to a <em>circular cubic</em>. For \(B_5\)
     (gold curve):</p>
     <p>\[ (x^2+y^2+1)\,(0.57735\,x-y)\;-\;1.287351\,x^2+3.128323\,xy-3.114374\,y^2\;=\;0 , \]</p>
     <p>which vanishes at the five zeros of \(B\). It is not a conic: the best conic of the pencil through the origin misses
@@ -487,12 +570,22 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
 
 <section class="wide" id="degree4">
   <h2>Degree 4: every possible case</h2>
-  <p>In degree 4 the whole picture can be listed. Up to automorphisms of the disk on both sides, write
-  \(B(z)=\zeta\, z\prod_{j=1}^{3}\frac{z-a_j}{1-\bar a_j z}\) with \(|\zeta|=1\): three free zeros, so six real parameters.
-  Then \(B\) has three critical points in the disk, counted with multiplicity. The loops around the critical values in
-  the disk permute the 4 roots; the product of these permutations is the 4-cycle given by one turn around the circle,
-  and their indices add up to 3. A 4-cycle factors in only four ways, which gives four cases — and only four.
-  In the figures, the sides of 72 quadrilaterals \(B^{-1}(\lambda)\) are drawn in teal and their diagonals in orange:
+  <p>In degree 4 the whole picture can be listed. First the parameters. A Blaschke product of degree 4 has four zeros
+  and a unimodular constant; composing with an automorphism of the disk on the right moves one zero to \(0\), and
+  composing with a rotation on the left removes the constant. What is left is
+  \[ B(z)=z\prod_{j=1}^{3}\frac{z-a_j}{1-\bar a_j z},\qquad a_1,a_2,a_3\in\mathbb D, \]
+  three free zeros, i.e. <em>six real parameters</em>; every degree-4 product is of this form up to automorphisms, and
+  nothing below depends on the automorphisms. (One further rotation of the disk could fix the argument of \(a_1\), but
+  it is more convenient to keep all three zeros free.)</p>
+  <p>Then the monodromy. Such a \(B\) has three critical points in the disk, counted with multiplicity. Going once
+  around a critical value permutes the 4 roots of \(B(z)=\lambda\); the product of these permutations, in the order in
+  which the critical values are met, is the 4-cycle given by one turn around the circle, and the indices of the
+  permutations (number of points minus number of cycles) add up to 3. A 4-cycle factors in only four ways under these
+  constraints, which gives four cases — and only four. Each case below is described by three things: its
+  <strong>critical data</strong> (how many critical points and values, and which permutations), its
+  <strong>parametrization</strong> (how to write down <em>every</em> \(B\) of the case, and how many of the six
+  parameters it uses), and its <strong>geometry</strong> (what the quadrilaterals do).</p>
+  <p>In the figures, the sides of 72 quadrilaterals \(B^{-1}(\lambda)\) are drawn in teal and their diagonals in orange:
   the envelope of the sides is an ellipse exactly in the first two cases, and the behaviour of the diagonals tells the
   cases apart at a glance.</p>
 
@@ -502,10 +595,13 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       <h3>Cyclic \(C_4\): one critical value</h3>
       <p><strong>Critical data.</strong> One triple critical point \(z_0\); one critical value \(v\). The loop around
       \(v\) is the 4-cycle itself.</p>
-      <p><strong>Parametrization.</strong> \(B=\mu\bigl(e^{i\theta}h(z)^4\bigr)\) with
-      \(h(z)=\frac{z-z_0}{1-\bar z_0z}\), \(\mu(w)=\frac{w+v}{1+\bar v w}\): the case is a single
-      \(\mathrm{Aut}(\mathbb D)\)-orbit, that of \(z^4\), cut out by two complex equations (the three critical points
-      coincide).</p>
+      <p><strong>Parametrization.</strong> Every product of this case is \(z^4\) in disguise:
+      \(B=\mu\bigl(e^{i\theta}h(z)^4\bigr)\) with \(h(z)=\frac{z-z_0}{1-\bar z_0z}\) the automorphism sending the triple
+      critical point \(z_0\) to \(0\), and \(\mu(w)=\frac{w+v}{1+\bar v w}\) the automorphism sending \(0\) to the
+      critical value \(v\). Up to automorphisms the case is therefore a single point, the orbit of \(z^4\). In the
+      six-parameter family it is cut out by two complex equations, "the three critical points coincide"; in the normal form
+      above (zero at \(0\)) this means that the three \(a_j\) are determined by \(z_0\) and \(v\): zero free zeros, two
+      free points.</p>
       <p><strong>Geometry.</strong> Associated to an ellipse, case (a). For \(z^4\) itself (shown) the quadrilaterals are
       perfect squares, the sides envelope a concentric circle, and all diagonals pass through the centre; a general
       case-(a) product is the image of this picture by a projective map of the disk, and the circle becomes an ellipse.</p>
@@ -517,10 +613,13 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       <h3>Dihedral \(D_4\): the ellipse case</h3>
       <p><strong>Critical data.</strong> Three simple critical points; two of them share one critical value
       (loop of type (2,2), a reflection), the third has its own (type (2,1,1), the other reflection).</p>
-      <p><strong>Parametrization.</strong> \(B=C\circ D\), a composition of two degree-2 Blaschke products — and
-      conversely every such composition lands here (or degenerates to case \(C_4\)). In normalized form
-      \(D(z)=z\frac{a-z}{1-\bar az}\), \(C(w)=w\frac{s-w}{1-\bar sw}\): four real parameters \((a,s)\), one complex
-      equation (two critical values coincide) inside the six-parameter family.</p>
+      <p><strong>Parametrization.</strong> Every product of this case is a composition \(B=C\circ D\) of two degree-2
+      Blaschke products, and conversely every such composition lands here (or degenerates to case \(C_4\)). Writing both
+      factors in normal form, \(D(z)=z\frac{a-z}{1-\bar az}\) and \(C(w)=w\frac{s-w}{1-\bar sw}\), the case is
+      parametrized by the pair \((a,s)\in\mathbb D^2\): <em>four</em> real parameters. The two missing parameters are the
+      complex equation "two of the three critical values coincide" inside the six-parameter family: the zeros of
+      \(C\circ D\) are \(0\), \(a\) and the two roots of \(D(z)=s\), so the \(a_j\) are not free but functions of
+      \((a,s)\).</p>
       <p><strong>Geometry.</strong> Associated to an ellipse, case (b): the four roots sit like the corners of a square,
       the monodromy can only rotate or flip that square. The sides envelope the ellipse; the diagonals are the fibres of
       \(D\) and <em>all pass through one point</em> — the dark knot in the figure. In degree 4, "associated to an
@@ -535,8 +634,12 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       <p><strong>Critical data.</strong> One double critical point (loop of type (3,1), a 3-cycle) and one simple
       critical point (type (2,1,1), a transposition); two critical values. A 3-cycle and a transposition generate all of
       \(S_4\).</p>
-      <p><strong>Parametrization.</strong> One complex equation on \((a_1,a_2,a_3)\): two of the three critical points
-      collide. This is the wall between the generic region and deeper degenerations.</p>
+      <p><strong>Parametrization.</strong> No closed form: the case is the hypersurface of the six-parameter family
+      cut out by one complex equation on \((a_1,a_2,a_3)\), "two of the three critical points collide" (the discriminant
+      of the critical-point polynomial \(B'\) vanishes), i.e. four real parameters. It is the wall between the generic
+      region and the two ellipse cases: cross it and the two critical values of the collided points split again. Note
+      the difference with \(D_4\): there two critical <em>values</em> coincide at distinct critical points; here two
+      critical <em>points</em> coincide.</p>
       <p><strong>Geometry.</strong> Not associated to an ellipse: no ordering of the roots survives the monodromy. The
       sides envelope a convex oval which is <em>not</em> an ellipse (a piece of a sextic, the dual of a cubic), and the
       diagonals envelope a curve with cusps, which collapses toward the double critical point near the boundary.</p>
@@ -548,8 +651,9 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       <h3>Symmetric \(S_4\), generic</h3>
       <p><strong>Critical data.</strong> Three simple critical points with three distinct critical values: three
       transpositions whose product is the 4-cycle. They generate \(S_4\).</p>
-      <p><strong>Parametrization.</strong> The open dense case: any three zeros \((a_1,a_2,a_3)\) outside the two walls
-      above. "Generic" is meant literally — a random degree-4 Blaschke product lands here.</p>
+      <p><strong>Parametrization.</strong> The open dense case: any three zeros \((a_1,a_2,a_3)\in\mathbb D^3\) off the
+      two walls above (critical values distinct, critical points distinct), all six real parameters free. "Generic" is
+      meant literally — a random degree-4 Blaschke product lands here.</p>
       <p><strong>Geometry.</strong> Not associated to an ellipse. The sides envelope an oval (again a piece of the dual
       sextic), the diagonals a three-cusped curve. The alternating group \(A_4\) never occurs as the monodromy group: it
       contains no 4-cycle.</p>
@@ -713,11 +817,54 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       <p class="how">Example shown: zeros \(0,\ 0.5,\ -0.4+0.3i,\ 0.2-0.6i,\ 0.1+0.45i,\ -0.55-0.2i\).</p>
     </div>
   </div>
+
+  <h3>The Blaschke curve of the exceptional product</h3>
+  <p>The curve of pairs of the degree-4 section can be written down for the boxed \(\mathrm{PGL}(2,5)\) product too, and
+  this time nothing is approximate: \(e\) has rational coordinates and \(|e|=\tfrac12\), so everything below is exact.
+  Two roots \(x\neq y\) of \(B(z)=w\) satisfy \(R(x,y)=\frac{B(x)-B(y)}{x-y}=0\), of bidegree \((5,5)\); in the chord
+  coordinates \(s=x+y\), \(p=xy\) this becomes the plane quintic</p>
+  \[
+  \begin{aligned}
+  F(s,p)=\;&6800\,s^5-(2704+3328i)\,s^4-(348-1664i)\,s^3\\
+  &-(2704-3328i)\,p s^4-24496\,p s^3+(7436+9152i)\,p s^2+(696-3328i)\,p s\\
+  &-(348+1664i)\,p^2 s^3+(7436-9152i)\,p^2 s^2+15417\,p^2 s-(2028+2496i)\,p^2\\
+  &+(696+3328i)\,p^3 s-(2028-2496i)\,p^3\;=\;0 .
+  \end{aligned}
+  \]
+  <p>The point \((s,p)\) encodes the chord joining \(x\) and \(y\): it is the line \(w+p\bar w=s\). Three facts about
+  \(F\), to be compared with the degree-4 table:</p>
+  <ul>
+    <li><strong>Irreducible.</strong> \(\mathrm{PGL}(2,5)\) is transitive on the 15 pairs of points of
+    \(\mathbb P^1(\mathbb F_5)\), so the 15 chords of a hexagon — sides, short diagonals, long diagonals — all lie on one
+    component. In the \(D_6\) case the same curve splits into a conic, a conic and a line (the two ellipses and the
+    common point of the long diagonals).</li>
+    <li><strong>Genus 2.</strong> The projection \((s,p)\mapsto w\) has degree 15 and four critical values: \(0\) and
+    \(\infty\) (loop (4,1,1), which acts on the 15 pairs with index 10) and \(v_2\), \(1/\bar v_2\) (loop (2,2,1,1), index
+    6). Riemann–Hurwitz gives \(2g-2=-30+32\), so \(g=2\): the quintic has three singular points
+    (one of them at \(s=p=0\), the triple critical point) with \(\delta=4\), and the Blaschke curve of pairs is hyperelliptic.
+    In degree 4 it was elliptic; here one needs a genus-2 Jacobian to uniformize the pairs.</li>
+    <li><strong>The envelope is a single curve of degree 12.</strong> The envelope of the chords is the dual of \(F\):
+    the discriminant in \(p\) of \(F(w+p\bar w,\,p)\) factors as \(H(x,y)\,(x^2+y^2)^2\,Q(x,y)^2\), where \(Q\) is a
+    conic with a single real point \((\tfrac{13}{46},\tfrac{8}{23})\) and \(H\) is an irreducible real curve of degree
+    \(12=20-2\delta\), with integer coefficients and 91 terms. The three envelopes of the figure — the oval touched
+    by the sides, the curve touched by the short diagonals and the small curve touched by the long diagonals — are three
+    real pieces of this one curve \(H=0\).</li>
+  </ul>
+  <details>
+    <summary>The equation \(H(x,y)=0\) of the envelope (91 terms)</summary>
+    <p class="how">Coefficients are exact integers; \(x\) and \(y\) are the real coordinates of the disk. Also available as a
+    <a href="blaschke_curve_degree6_PGL25.txt">text file</a> with \(F\), \(H\) and a coefficient dictionary.</p>
+    <pre style="white-space:pre-wrap;font-size:0.8em">H(x,y) = 14174952846451897110528x^12 - 2896876160811157684224x^11y - 18368929646983019999232x^11 + 81949418976910113062912x^10y^2 - 8597068678082185986048x^10y - 5786562254642798707200x^10 - 14047417388902751666176x^9y^3 - 74478845539278819811328x^9y^2 + 22490306707563697127424x^9y + 14883911731570111756032x^9 + 199111071615904251076608x^8y^4 - 57476653855409330061312x^8y^3 - 29456747135745382920192x^8y^2 - 8170339663713601081344x^8y - 2491734662247159945840x^8 - 29198077003934529486848x^7y^5 - 111698557168080335831040x^7y^4 + 94145435565228662784000x^7y^3 + 26765489226550678722560x^7y^2 - 9005388197502292377600x^7y - 2756347818112611746400x^7 + 262274831285712041885696x^6y^6 - 139482379998665639723008x^6y^5 - 49119928428447236977664x^6y^4 - 5955112170691891757056x^6y^3 - 791951465073569881024x^6y^2 + 8216549677031420674560x^6y + 165083538036135232632x^6 - 31871113433012149157888x^5y^7 - 73026077773416577638400x^5y^6 + 143294621806457209913344x^5y^5 - 14833496159888430688768x^5y^4 - 30408890381377219592192x^5y^3 + 5559886944728050210016x^5y^2 - 2765938690643318002176x^5y + 736626872537931570936x^5 + 197211484432383405232128x^4y^8 - 160540982220660698382336x^4y^7 - 35849153969943579533312x^4y^6 + 24345100835642512400384x^4y^5 - 3583531662597675571616x^4y^4 + 12053127181266845566464x^4y^3 - 4026897072933630154056x^4y^2 + 244801095592869768576x^4y - 150941871445461611031x^4 - 17614086225982571413504x^3y^9 - 17094848850499997650944x^3y^8 + 92964361002331319894016x^3y^7 - 47311194334845322805248x^3y^6 - 27298076462623169036288x^3y^5 + 22121814055862488342752x^3y^4 - 5173158442475192951808x^3y^3 + 951839171945723611888x^3y^2 + 229546091960959967232x^3y - 60261350365643434800x^3 + 79744444853559310548992x^2y^10 - 89084161096207991767040x^2y^9 - 11449854843378404743680x^2y^8 + 34080481047508066795520x^2y^7 - 8840302921990519228864x^2y^6 + 3201034028435364333056x^2y^5 - 3517856531145551900664x^2y^4 + 1692691784400155478784x^2y^3 - 236506021284200180014x^2y^2 - 64135129594466860800x^2y + 22861100871220860000x^2 - 3790508568813357760512xy^11 + 342587647132043968512xy^10 + 21205268863642397294592xy^9 - 20570108800857990296832xy^8 - 5452325916775460536320xy^7 + 12480991900188685699488xy^6 - 4151959066609261859328xy^5 + 24701437955661655032xy^4 + 236812134517566087168xy^3 - 45815246861166135600xy^2 + 3289820351351040000xy - 1771292517228000000x + 13471186221441912078336y^12 - 19145973696885789032448y^11 - 1249975014854880018432y^10 + 11769094097063080587264y^9 - 3965810712189154374000y^8 - 550884168775983005184y^7 - 567487093898918958648y^6 + 759498340331497872768y^5 - 102176047282442660631y^4 - 71585438015422406400y^3 + 23549116185085140000y^2 - 2180052328896000000y + 114331896900000000</pre>
+  </details>
+
   <div class="status"><strong>Checked.</strong> The classification is an exhaustive computer enumeration of all
   factorizations of a 6-cycle with total index 5 (groups of orders 6, 12, 18, 24, 48, 72, 120, 720, and no others — in
   particular no group of order 36, 60 or 360). The eight products shown were then run through the numerical monodromy
   computation: each gives exactly its group, with the stated loop types. For the boxed product, the computed loops are
-  (4,1,1) and (2,2,1,1) and the group has order 120.</div>
+  (4,1,1) and (2,2,1,1) and the group has order 120. The quintic \(F\) and the degree-12 curve \(H\) were computed
+  exactly (resultants over \(\mathbb Z[i]\), factorization over \(\mathbb Z\)); the contact points of the sides, short and
+  long diagonals of the hexagons \(B^{-1}(\lambda)\) satisfy \(H=0\) to \(10^{-50}\), and the genus and the degree
+  \(12=20-8\) agree with the three singular points of \(F\) found by elimination.</div>
 </section>
 
 <section class="wide" id="algorithm">
@@ -757,15 +904,17 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   </ol>
 
   <div class="formula">
-    <p>Worked out on the degree-5 pentagon at the top of the page: the roots of \(\Delta\) in the disk are
+    <p>Worked out on \(B_5\), the running example: start from its ellipse (centre \(0.12-0.18i\), semi-axes
+    \(0.9077\) and \(0.5446\), inclination \(30^\circ\)) and run the six steps. The roots of \(\Delta\) in the disk are
     \(\mu=0.7896+0.1524i\) and \(\nu=-0.4934-0.5692i\), one period of \(F\) around the circle gives
     \(\omega=0.9829-0.5675i\), and</p>
     <p>\[ f(\pm\omega)=\{0.7488+0.1831i,\ -0.5088-0.5431i\},\qquad
     f(\pm2\omega)=\{0.6286+0.0042i,\ -0.1599-0.4510i\}: \]</p>
-    <p>exactly the four zeros \(a_1,\dots,a_4\) of the product shown in the first figure.</p>
+    <p>exactly the four zeros \(a_1,\dots,a_4\) of \(B_5\) given in the first figure: the recipe recovers the product the
+    figure was drawn from.</p>
   </div>
   <div class="status"><strong>Checked.</strong> Theorem X is proven in the paper. The numerical pipeline above was run
-  on the degree-5 example: the elliptic positions \(F(a_k)\) of the four zeros equal \(\pm\omega\) and \(\pm2\omega\)
+  on \(B_5\): the elliptic positions \(F(a_k)\) of the four zeros equal \(\pm\omega\) and \(\pm2\omega\)
   (modulo the period lattice) to \(10^{-9}\), and the closure scale of step 1 matches the elliptic computation of the
   paper to all ten digits. The closed \(\mathrm{sn}^2\) form of \(f\) in step 4 is quoted from a working note and was not
   re-checked; the computations here evaluate \(f\) by integration.</div>
@@ -773,7 +922,10 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
 
 <section id="paper">
   <h2>Read the paper</h2>
-  <p>The full article gives the proofs of Theorems X, Y and Z, and the construction of the examples.</p>
+  <p>The full article gives the proofs of Theorems X, Y and Z, and the construction of the examples. Theorem Z and its
+  monodromy form, Theorem Z′, are my own results; the paper is written so that the proof of Theorem Z (Section 5) can be
+  read on its own, with a self-contained introduction to the tools for readers who have never met Riemann surfaces or
+  elliptic curves.</p>
   <p><a class="download" href="blaschke_ellipses_article_v3.pdf">Download the paper (PDF)</a></p>
   <p>Comments and questions are welcome, through the <a href="https://github.com/CursedMaths">GitHub profile</a>.</p>
 </section>
