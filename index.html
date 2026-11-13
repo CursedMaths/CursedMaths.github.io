@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blaschke products associated to ellipses: Poncelet polygons, critical values and monodromy — Martin Baptiste</title>
 <meta name="description" content="When do the level sets of a finite Blaschke product form Poncelet polygons circumscribing one ellipse? A characterization by critical values (one, or two with simple critical points), the cyclic or dihedral monodromy group, the elliptic curve and isogeny behind it, the Poncelet package of foci, and the full classification in degrees 4 and 6. Paper (PDF) and interactive figures.">
-<meta name="keywords" content="Blaschke product, finite Blaschke products, Poncelet polygons, Poncelet porism, ellipse, Poncelet package, critical values, critical points, monodromy group, dihedral group, elliptic curve, elliptic functions, isogeny, numerical range, compressed shift, Blaschke curve, Kippenhahn curve, Daepp Gorkin Mortini, Finding Ellipses, PGL(2,5), dessins d'enfants, Shabat polynomials, plane trees, Chebyshev polynomials, Gau Wu, elliptical range theorem, Mathieu group M11, Mathieu group M23, Elkies">
+<meta name="keywords" content="Blaschke product, finite Blaschke products, Poncelet polygons, Poncelet porism, ellipse, Poncelet package, critical values, critical points, monodromy group, dihedral group, elliptic curve, elliptic functions, isogeny, numerical range, compressed shift, Blaschke curve, Kippenhahn curve, Daepp Gorkin Mortini, Finding Ellipses, PGL(2,5), dessins d'enfants, Shabat polynomials, plane trees, Chebyshev polynomials, Gau Wu, elliptical range theorem, Mathieu group M11, Mathieu group M23, Elkies, Shabat-Blaschke products, Chiu-Ng conjecture, hyperbolic Belyi maps, Hurwitz spaces, theta functions, modular lambda function">
 <meta name="author" content="Martin Baptiste">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://cursedmaths.github.io/">
@@ -153,6 +153,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     <li><a href="#numrange">The numerical range</a></li>
     <li><a href="#dessins">Dessins d'enfants</a></li>
     <li><a href="#algorithm">The algorithm</a></li>
+    <li><a href="#chiu-ng">The Chiu–Ng conjecture</a></li>
     <li><a href="#paper">The paper</a></li>
   </ol>
 </nav>
@@ -167,7 +168,8 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     For some Blaschke products, all these polygons are tangent to one and the same ellipse. This page explains when that happens.
     The answer, Theorem Z, is my own result: <em>a Blaschke product is associated to an ellipse if and only if it has one
     critical value in the disk, or two with simple critical points</em> — a test that reads off \(B\) alone, in every
-    degree, with an elementary proof. The surrounding theory (Theorems X and Y, the examples) is there to explain it.</p>
+    degree, with an elementary proof. The surrounding theory (Theorems X and Y, the examples) is there to explain it. The page also contains a
+    <a href="#chiu-ng">proof of a conjecture of Chiu and Ng</a> on Shabat–Blaschke products.</p>
   </div>
   <figure>
     <svg id="pent" viewBox="-1.12 -1.12 2.24 2.24" role="img" aria-label="A pentagon inscribed in the unit circle and tangent to an ellipse, animated as the parameter moves.">
@@ -211,6 +213,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     <li><a href="#numrange">The numerical range: the same curve, seen by a matrix</a></li>
     <li><a href="#dessins">Dessins d'enfants: the tree of a Blaschke product</a></li>
     <li><a href="#algorithm">From an ellipse to its Blaschke product</a></li>
+    <li><a href="#chiu-ng">A proof of the Chiu–Ng conjecture</a></li>
     <li><a href="#paper">Read the paper</a></li>
   </ol>
 </nav>
@@ -1227,6 +1230,58 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   (modulo the period lattice) to \(10^{-9}\), and the closure scale of step 1 matches the elliptic computation of the
   paper to all ten digits. The closed \(\mathrm{sn}^2\) form of \(f\) in step 4 is quoted from a working note and was not
   re-checked; the computations here evaluate \(f\) by integration.</div>
+</section>
+
+<section id="chiu-ng">
+  <h2>A proof of the Chiu–Ng conjecture</h2>
+  <p>When a Blaschke product has exactly two critical values \(a\) and \(b\) in the disk, the preimage of the segment
+  \([a,b]\) is a tree, as explained in the section on dessins d'enfants. Kenneth Chung Tak Chiu and Tuen Wai Ng call these
+  products <em>Shabat–Blaschke products</em>, in their paper <a href="https://arxiv.org/abs/1907.10145">Hyperbolic Belyi
+  maps and Shabat–Blaschke products</a> (Journal of Mathematical Sciences, 2026). For a tree \(T\) with \(n\) edges and
+  \(\tau\) on the positive imaginary axis, they consider the product \(B_\tau\) whose critical values are \(\pm c\), with
+  \(c=\sqrt{k(n\tau)}=\vartheta_2(n\tau)/\vartheta_3(n\tau)\). When the tree is a chain, which by Theorem Z is exactly
+  the case of the products associated to an ellipse, they compute the coefficients of \(B_\tau\) with theta functions.
+  For the other trees they conjectured (Conjecture 11.1) that these coefficients are algebraic functions of theta
+  quotients, and that they extend to the whole upper half-plane \(\mathbb H\).</p>
+
+  <div class="box">
+    <h3>Theorem</h3>
+    <p>For every tree \(T\), the coefficients of \(B_\tau\), suitably normalised, extend to holomorphic functions on the
+    whole upper half-plane \(\mathbb H\), and they are algebraic over \(\mathbb Q(c)\), with \(c=\sqrt{k(n\tau)}\).
+    In particular the conjecture of Chiu and Ng is true.</p>
+  </div>
+
+  <h3>The idea of the proof</h3>
+  <p>On the Riemann sphere, \(B_\tau\) has four critical values: \(c\) and \(-c\) in the disk, and their mirror images
+  \(1/c\) and \(-1/c\) outside. Written with \(1/c\) instead of \(1/\bar c\), these conditions no longer involve complex
+  conjugation, so they still make sense when \(c\) is complex. For each \(c\), only finitely many normalised rational
+  functions satisfy them, and as \(c\) moves they form the sheets of a finite étale covering of
+  \(X_0=\mathbb C\setminus\{0,1,-1,i,-i\}\), the set of values of \(c\) for which the four critical values are
+  distinct.</p>
+  <figure>
+    <img src="chiu_ng_covering.png" alt="The covering Y over X_0, and the half-plane H mapped to X_0 by c(tau)" style="width:100%;height:auto;display:block;background:#fff;border-radius:6px;padding:.6rem">
+    <figcaption>Above each \(c\) lie the \(N\) functions \(R_1,\dots,R_N\) with the same ramification as \(B_\tau\).
+    Turning around a forbidden value (red) can exchange the sheets. The theorem says that \(\tau\mapsto R_\tau\)
+    (dashed arrow) is defined on all of \(\mathbb H\).</figcaption>
+  </figure>
+  <p>As functions of \(c\), the coefficients are therefore multivalued, like \(\sqrt z\) around \(0\): turning around one
+  of the five forbidden values can exchange the sheets. But <strong>as functions of \(\tau\), through \(c(\tau)\), they
+  are well defined, because no closed loop of \(\mathbb H\) gives a turn around a forbidden value.</strong> Indeed
+  \(c(\tau)\) never takes these values, because the theta constants do not vanish and
+  \(1-c^4=(\vartheta_0/\vartheta_3)^4\neq0\), and the half-plane has no holes. Turns around a forbidden value only come
+  from paths of \(\mathbb H\) which are not closed, exactly as \(\log(e^z)=z\) is a single-valued function of \(z\)
+  although \(\log w\) is multivalued.</p>
+  <figure>
+    <img src="chiu_ng_loops.png" alt="A closed loop and an open path in H, their images in the plane of c, and the coefficient t followed along them" style="width:100%;height:auto;display:block;background:#fff;border-radius:6px;padding:.6rem">
+    <figcaption>The smallest tree which is not a chain, with black vertices of valencies 3 and 1. Along a closed loop of
+    \(\mathbb H\) (blue), \(c\) does not turn around any forbidden value and the coefficient \(t\) comes back to its
+    initial value. Along the open path from \(\tau_0\) to \(\tau_0+1\) (orange), \(c\) turns once around \(0\) and \(t\)
+    arrives on another root, at another point of \(\mathbb H\).</figcaption>
+  </figure>
+
+  <p><a class="download" href="chiu_ng_proof.pdf">Download the proof (PDF)</a></p>
+  <p>This note has not yet been refereed. Comments and corrections are welcome, through the
+  <a href="https://github.com/CursedMaths">GitHub profile</a>.</p>
 </section>
 
 <section id="paper">
