@@ -296,6 +296,10 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
     </ol>
     <p>Checking this needs only the critical points of <em>B</em>, which are the roots of a polynomial. No ellipse has to
     be computed.</p>
+    <p><strong>An example from the literature.</strong> In Example 7 of B. Mirman, <a href="https://doi.org/10.1016/S0024-3795(98)10037-X">Numerical ranges and Poncelet curves</a>, Linear Algebra Appl. 281 (1998), 59–85, the matrix with eigenvalues
+    \(\pm1/\sqrt2\), each counted twice, gives a Poncelet curve of rank 5 which is not a conic. Theorem Z sees this at
+    once: the corresponding product \(B(z)=z\bigl(\frac{z^2-1/2}{1-z^2/2}\bigr)^2\) has three critical values in the
+    disk, \(0\) and \(\pm0.0566\), so it is associated to no ellipse.</p>
     <p>The proof is elementary. Follow the vertices of one polygon while λ travels once around a critical value: the
     vertices come back, but permuted. The ellipse exists exactly when neighbouring vertices always come back as
     neighbours. In the two cases of the theorem, these permutations are exactly the symmetries of the polygon.</p>
@@ -328,6 +332,10 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
       isogeny of degree \(n\) onto the torus \(\mathbb C/(\mathbb Z+n\tau\mathbb Z)\);</em></li>
       <li><em>all the ellipses \(\gamma_k\) of the Poncelet package have the same points \(r\) and \(s\).</em></li>
     </ol>
+    <p><strong>What is not new.</strong> Statement 4 is not new for circles: it is Proposition 4 of B. Mirman, <a href="https://doi.org/10.1016/S0024-3795(98)10037-X">Numerical ranges and Poncelet curves</a>, Linear Algebra Appl. 281 (1998), 59–85.
+    Mirman shows that when the curves of a package are circles, they belong to one pencil with the unit circle, with a
+    common "imaginary chord" whose endpoints are the points \(r,s\). For ellipses, the statement still has to be compared
+    with the pencils of Lomeli and Meiss (2023), whose invariant modulus plays the role of \(k(\tau)\).</p>
     <p>In plain words: the distance between \(r\) and \(s\) gives \(k(\tau)\), the distance between the two critical values
     gives \(k(n\tau)\), and these two numbers are tied by the classical modular equation of degree \(n\). For \(n=3\) it is
     Legendre's equation \(\sqrt{k\ell}+\sqrt{k'\ell'}=1\), with \(\ell=k(3\tau)\), \(k'=\sqrt{1-k^2}\) and
@@ -1355,6 +1363,22 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
 
   <p><strong>Checked.</strong> For every degree from 3 to 8 and every ellipse of the package, with \(\tau=0.35\,i\), the
   chords of the Poncelet polygons are tangent to the ellipse given by these formulas to 12 digits.</p>
+
+  <h3>A remark on invariant measures</h3>
+  <p>The map that sends a vertex of a Poncelet polygon to the next one has invariant measures on the circle. In
+  B. Mirman, <a href="https://doi.org/10.1016/S0024-3795(98)10037-X">Numerical ranges and Poncelet curves</a>, Linear Algebra Appl. 281 (1998), 59–85 (Theorem 2), the measure is \(h(e^{i\theta})\,d\theta\) with
+  \(h=1/\bigl((n+1)|\langle w,e(\theta)\rangle|^2\bigr)\). In the language of Blaschke products, the weights
+  \(|w_j|^2\) are the Clark masses \(1/|B'(\zeta_j)|\) at the vertices, Mirman's Lemma 2 is the equation
+  \(B(e^{i\varphi})=e^{i\gamma}\) rewritten, and
+  \[ h(e^{i\theta})=\frac{|B'(e^{i\theta})|}{\deg B} . \]
+  Mirman presents it as the measure of Kołodziej and King, which goes back to Jacobi. In the elliptic coordinate of
+  Theorem Y, Jacobi's measure is \(dt\). The formulas above show that the two measures are <em>different</em> in case
+  (b) of Theorem Z: on the circle, \(f_{n,\tau}=\Psi_{n\tau}\circ(\zeta\mapsto\zeta^n)\circ\Psi_\tau^{-1}\), where
+  \(\Psi_\sigma\) sends the uniform angle \(s\) to the point \(z(s+\pi\sigma/2,\sigma)\), so Jacobi's measure comes
+  from \(\Psi_\tau\) and Mirman's from \(\Psi_{n\tau}\). In degree 3 with \(\tau=0.35\,i\), the density of one
+  with respect to the other varies between \(2.57\) and \(3.46\) instead of being constant. Both measures are
+  invariant, since the polygons close, but they coincide only in case (a), with a single critical value, as for the
+  concentric circles of Mirman's Example 3.</p>
 </section>
 
 <section id="chiu-ng">
