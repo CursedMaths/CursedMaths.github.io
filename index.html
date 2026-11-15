@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blaschke products associated to ellipses: Poncelet polygons, critical values and monodromy — Martin Baptiste</title>
 <meta name="description" content="When do the level sets of a finite Blaschke product form Poncelet polygons circumscribing one ellipse? A characterization by critical values (one, or two with simple critical points), the cyclic or dihedral monodromy group, the elliptic curve and isogeny behind it, the Poncelet package of foci, and the full classification in degrees 4 and 6. Paper (PDF) and interactive figures.">
-<meta name="keywords" content="Blaschke product, finite Blaschke products, Poncelet polygons, Poncelet porism, ellipse, Poncelet package, critical values, critical points, monodromy group, dihedral group, elliptic curve, elliptic functions, isogeny, numerical range, compressed shift, Blaschke curve, Kippenhahn curve, Daepp Gorkin Mortini, Finding Ellipses, PGL(2,5), dessins d'enfants, Shabat polynomials, plane trees, Chebyshev polynomials, Gau Wu, elliptical range theorem, Mathieu group M11, Mathieu group M23, Elkies, Shabat-Blaschke products, Chiu-Ng conjecture, hyperbolic Belyi maps, Hurwitz spaces, theta functions, modular lambda function, Kippenhahn curve components, class of a Poncelet curve, Poncelet curves of rank n, numerical range boundary, Möbius ladder, Burnside theorem, doubly transitive groups, prime degree, Riemann existence theorem, Müller classification, PGL(2,7), PSL(3,2), pendulum, stroboscopic polygons, Jacobi proof of Poncelet, Kepler equation, eccentric anomaly, Bessel series, Jacobi elliptic functions, Poisson kernel, Ax theorem, functional Schanuel, generalized Jacobian, hyperelliptic integral, star polygons, plane trees by number of leaves, Burnside lemma, OEIS A002995, A007997, A108838, Strebel differential, flat structure, harmonic criterion, Blaschke clock">
+<meta name="keywords" content="roots of Blaschke products, hypergeometric series, Klein quartic, Belyi map, Landen transformation, Blaschke product, finite Blaschke products, Poncelet polygons, Poncelet porism, ellipse, Poncelet package, critical values, critical points, monodromy group, dihedral group, elliptic curve, elliptic functions, isogeny, numerical range, compressed shift, Blaschke curve, Kippenhahn curve, Daepp Gorkin Mortini, Finding Ellipses, PGL(2,5), dessins d'enfants, Shabat polynomials, plane trees, Chebyshev polynomials, Gau Wu, elliptical range theorem, Mathieu group M11, Mathieu group M23, Elkies, Shabat-Blaschke products, Chiu-Ng conjecture, hyperbolic Belyi maps, Hurwitz spaces, theta functions, modular lambda function, Kippenhahn curve components, class of a Poncelet curve, Poncelet curves of rank n, numerical range boundary, Möbius ladder, Burnside theorem, doubly transitive groups, prime degree, Riemann existence theorem, Müller classification, PGL(2,7), PSL(3,2), pendulum, stroboscopic polygons, Jacobi proof of Poncelet, Kepler equation, eccentric anomaly, Bessel series, Jacobi elliptic functions, Poisson kernel, Ax theorem, functional Schanuel, generalized Jacobian, hyperelliptic integral, star polygons, plane trees by number of leaves, Burnside lemma, OEIS A002995, A007997, A108838, Strebel differential, flat structure, harmonic criterion, Blaschke clock">
 <meta name="author" content="Martin Baptiste">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://cursedmaths.github.io/">
@@ -133,6 +133,35 @@ h4{font-weight:600;font-size:1rem;margin:1.2rem 0 .3rem}
 footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var(--rule);color:var(--muted);font-size:.9rem}
 .act{display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0}
 #perm-out{font-size:.98rem;min-height:2.4em;color:var(--muted)}
+
+.tabbar{position:sticky;top:0;z-index:20;margin:-3rem -1.5rem 2rem;padding:.55rem 1.5rem;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--rule)}
+.tabs{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;color:var(--muted);text-decoration:none;font-size:.95rem;padding:.3rem .85rem;border:1px solid var(--rule);border-radius:999px;white-space:nowrap}
+.tab:hover{color:var(--ink);border-color:var(--muted)}
+.tab[aria-selected=true]{color:var(--paper);background:var(--ellipse);border-color:var(--ellipse)}
+#tabbtn-home[aria-selected=true]{background:var(--zero);border-color:var(--zero)}
+.panel{min-width:0}
+.panel.off{position:absolute;left:-300vw;top:0;width:min(64rem,100vw);height:0;overflow:hidden;visibility:hidden}
+.panel > section:first-of-type{margin-top:2.5rem}
+.tabtitle{font-size:1.8rem;margin:0 0 .5rem}
+.zfirst{margin:0 0 1.2rem;padding:.6rem 0 .6rem 1.2rem;border-left-width:4px}
+.zfirst .zh{font-size:1.25rem;margin:0 0 .4rem}
+.zfirst .tag{display:inline-block;margin-left:.5rem;padding:.1rem .55rem;border:1px solid var(--zero);color:var(--zero);border-radius:999px;font-size:.72rem;font-weight:400;vertical-align:middle;white-space:nowrap}
+.zfirst p,.zfirst li{font-size:1.08rem}
+.zfirst .zmore{font-size:.95rem;color:var(--muted);margin-top:.6rem}
+.hero .lede{font-size:1rem;color:var(--muted)}
+.mindmap{max-width:74rem;margin:1rem auto 0}
+.mindmap text{font-family:"Spectral",Georgia,serif;pointer-events:none}
+.mindmap a rect{transition:stroke-width .15s}
+.mindmap a:hover rect,.mindmap a:focus rect{stroke-width:3.2}
+.maplist{display:none}
+@media(max-width:46rem){.mindmap{display:none}.maplist{display:block;padding-left:1.2rem}.maplist li{margin:.5rem 0}}
+section{scroll-margin-top:4.2rem}
+.grid2 > *,.cases > *,.hero > *{min-width:0}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
+.case svg{max-width:min(21rem,100%)}
+@media(max-width:46rem){mjx-container:not([display]){max-width:100%;overflow-x:auto;overflow-y:hidden;display:inline-block;vertical-align:bottom}table{display:block;overflow-x:auto;max-width:100%}}
+@media(min-width:78rem){.tabbar{margin:-3rem 0 2rem;padding:.55rem 0}.toc{top:1rem}}
 </style>
 </head>
 <body>
@@ -140,33 +169,26 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
 <div class="backdrop" aria-hidden="true"><svg viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true"><g fill="none" stroke="var(--ellipse)" stroke-opacity="0.07" stroke-width="0.006"><polygon points="1.0,-0.0 0.8221,-0.5694 -0.9813,-0.1924 -0.6116,0.7911 0.386,0.9225" /><polygon points="0.9877,-0.1564 0.5023,-0.8647 -0.9415,0.337 -0.4378,0.8991 0.7608,0.649" /><polygon points="0.9511,-0.309 -0.2745,-0.9616 -0.789,0.6144 -0.1456,0.9893 0.9534,0.3017" /><polygon points="0.891,-0.454 -0.8399,-0.5427 -0.6802,0.733 0.1704,0.9854 0.9953,0.0973" /><polygon points="0.809,-0.5878 -0.9894,-0.1454 -0.6014,0.799 0.4163,0.9092 0.9999,-0.0124" /><polygon points="0.7071,-0.7071 -0.9944,0.1054 -0.5353,0.8446 0.5876,0.8092 0.9967,-0.081" /><polygon points="0.5878,-0.809 -0.9646,0.2636 -0.4752,0.8799 0.7048,0.7094 0.9915,-0.1303" /><polygon points="0.454,-0.891 -0.929,0.3701 -0.4179,0.9085 0.7861,0.6181 0.9856,-0.1693" /><polygon points="0.309,-0.9511 -0.8948,0.4465 -0.3618,0.9322 0.8437,0.5368 0.9793,-0.2026" /><polygon points="0.1564,-0.9877 -0.8634,0.5045 -0.3059,0.9521 0.8854,0.4648 0.9726,-0.2325" /><polygon points="0.0,-1.0 -0.8347,0.5506 -0.2494,0.9684 0.9163,0.4005 0.9654,-0.2606" /><polygon points="-0.1564,-0.9877 -0.8083,0.5888 -0.1915,0.9815 0.9395,0.3426 0.9576,-0.288" /><polygon points="-0.309,-0.9511 -0.7834,0.6215 -0.1316,0.9913 0.957,0.2899 0.949,-0.3153" /><polygon points="-0.454,-0.891 -0.7596,0.6504 -0.069,0.9976 0.9704,0.2413 0.9392,-0.3435" /><polygon points="-0.5878,-0.809 -0.7363,0.6767 -0.003,1.0 0.9806,0.1959 0.9278,-0.3732" /><polygon points="-0.7071,-0.7071 -0.7129,0.7013 0.0673,0.9977 0.9883,0.1528 0.9142,-0.4052" /><polygon points="-0.809,-0.5878 -0.6888,0.7249 0.1428,0.9898 0.9938,0.1114 0.8977,-0.4406" /><polygon points="-0.891,-0.454 -0.6634,0.7483 0.2243,0.9745 0.9975,0.071 0.8768,-0.4808" /><polygon points="-0.9511,-0.309 -0.6355,0.7721 0.3128,0.9498 0.9995,0.031 0.8495,-0.5276" /><polygon points="-0.9877,-0.1564 -0.6038,0.7971 0.4091,0.9125 1.0,-0.0095 0.8122,-0.5834" /><polygon points="-1.0,-0.0 -0.566,0.8244 0.5134,0.8582 0.9987,-0.0514 0.7584,-0.6518" /><polygon points="-0.9877,0.1564 -0.5182,0.8553 0.6246,0.7809 0.9954,-0.0961 0.6756,-0.7373" /><polygon points="-0.9511,0.309 -0.453,0.8915 0.7394,0.6733 0.9893,-0.1461 0.5381,-0.8429" /><polygon points="-0.891,0.454 -0.3554,0.9347 0.8492,0.5281 0.9785,-0.2062 0.2917,-0.9565" /><polygon points="-0.809,0.5878 -0.1932,0.9812 0.9389,0.3442 0.9579,-0.2872 -0.152,-0.9884" /><polygon points="-0.7071,0.7071 0.0853,0.9964 0.9898,0.1426 0.9105,-0.4135 -0.7337,-0.6794" /><polygon points="-0.5878,0.809 0.455,0.8905 0.9996,-0.0281 0.7906,-0.6123 -0.9963,-0.0864" /><polygon points="-0.454,0.891 0.7379,0.6749 0.9894,-0.1454 0.5403,-0.8415 -0.9517,0.3072" /><polygon points="-0.309,0.9511 0.8835,0.4685 0.973,-0.2309 0.1649,-0.9863 -0.8651,0.5017" /><polygon points="-0.1564,0.9877 0.9504,0.311 0.9526,-0.3041 -0.2473,-0.9689 -0.7934,0.6087" /><polygon points="-0.0,1.0 0.981,0.1939 0.9272,-0.3745 -0.5934,-0.8049 -0.7353,0.6778" /><polygon points="0.1564,0.9877 0.9945,0.1044 0.8944,-0.4472 -0.8247,-0.5655 -0.6846,0.729" /><polygon points="0.309,0.9511 0.9995,0.0326 0.8508,-0.5255 -0.949,-0.3152 -0.6367,0.7711" /><polygon points="0.454,0.891 0.9996,-0.0277 0.7911,-0.6117 -0.9961,-0.0879 -0.5881,0.8088" /><polygon points="0.5878,0.809 0.9967,-0.0811 0.7069,-0.7073 -0.9944,0.1057 -0.5352,0.8447" /><polygon points="0.7071,0.7071 0.9913,-0.1313 0.5847,-0.8112 -0.9638,0.2667 -0.4738,0.8806" /><polygon points="0.809,0.5878 0.9833,-0.1818 0.403,-0.9152 -0.9164,0.4003 -0.3977,0.9175" /><polygon points="0.891,0.454 0.9715,-0.2371 0.1316,-0.9913 -0.8586,0.5126 -0.297,0.9549" /><polygon points="0.9511,0.309 0.9523,-0.3051 -0.253,-0.9675 -0.7925,0.6098 -0.1542,0.988" /><polygon points="0.9877,0.1564 0.9155,-0.4023 -0.6975,-0.7166 -0.7149,0.6992 0.0611,0.9981" /></g><circle cx="0" cy="0" r="1" fill="none" stroke="var(--ellipse)" stroke-opacity="0.12" stroke-width="0.006"/></svg></div>
 <div class="page">
 <nav class="toc" aria-label="Contents">
-  <p>Contents</p>
-  <ol>
-    <li><a href="#idea">The idea</a></li>
-    <li><a href="#theorems">Four theorems</a></li>
-    <li><a href="#dihedral">The dihedral group</a></li>
-    <li><a href="#torus">The torus</a></li>
-    <li><a href="#critical">Critical points</a></li>
-    <li><a href="#values">Critical values</a></li>
-    <li><a href="#degree4">Degree 4, all cases</a></li>
-    <li><a href="#degree6">Degree 6, all cases</a></li>
-    <li><a href="#numrange">The numerical range</a></li>
-    <li><a href="#theorem-w">Theorem W</a></li>
-    <li><a href="#dessins">Dessins d'enfants</a></li>
-    <li><a href="#algorithm">The algorithm</a></li>
-    <li><a href="#explicit">Explicit ellipses</a></li>
-    <li><a href="#chiu-ng">The Chiu–Ng conjecture</a></li>
-    <li><a href="#pendulum">Poncelet from a pendulum</a></li>
-    <li><a href="#clocks">Blaschke clocks and trees</a></li>
-    <li><a href="#paper">The paper</a></li>
-  </ol>
+  <p id="toc-title">Contents</p>
+  <ol id="toc-list"></ol>
 </nav>
 <main>
-
+<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a></div></nav>
+<div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="theorem-z idea map paper">
 <div class="hero">
   <div>
     <h1>Blaschke products associated to ellipses</h1>
     <p class="byline">Martin Baptiste, November 2026</p>
+    <div class="box theorem-z zfirst">
+      <h2 class="zh">Theorem Z <span class="tag">new result — Martin Baptiste, 2026</span></h2>
+    <p>Let <em>B</em> be a Blaschke product of degree <em>n</em> ≥ 3. Then <em>B</em> is
+    associated to an ellipse if and only if one of the following holds:</p>
+    <ol>
+      <li>(a) <em>B</em> has exactly one critical value in the unit disk, or</li>
+      <li>(b) <em>B</em> has exactly two critical values in the unit disk, and all its critical points there are simple.</li>
+    </ol>
+      <p class="zmore"><a href="#theorem-z">Proof idea and what is new</a> · <a href="#map">Map of the site</a> · <a href="#paper">The paper</a></p>
+    </div>
     <p class="lede">A finite Blaschke product <em>B</em> of degree <em>n</em> sends the unit circle onto itself.
     Pick a point λ on the circle: the <em>n</em> solutions of <em>B(z)</em> = λ form a polygon inscribed in the circle.
     For some Blaschke products, all these polygons are tangent to one and the same ellipse. This page explains when that happens.
@@ -203,28 +225,36 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   </figure>
 </div>
 
-<nav class="toc-inline" aria-label="Contents">
-  <p>Contents</p>
-  <ol>
-    <li><a href="#idea">The idea in three sentences</a></li>
-    <li><a href="#theorems">Four theorems, in plain words</a></li>
-    <li><a href="#dihedral">The dihedral group in action</a></li>
-    <li><a href="#torus">The torus behind the picture</a></li>
-    <li><a href="#critical">Where the critical points lie</a></li>
-    <li><a href="#values">The critical values and the canonical annulus</a></li>
-    <li><a href="#degree4">Degree 4: every possible case</a></li>
-    <li><a href="#degree6">Degree 6: the eight monodromy groups</a></li>
-    <li><a href="#numrange">The numerical range: the same curve, seen by a matrix</a></li>
-    <li><a href="#theorem-w">Theorem W: the curve when it is not an ellipse</a></li>
-    <li><a href="#dessins">Dessins d'enfants: the tree of a Blaschke product</a></li>
-    <li><a href="#algorithm">From an ellipse to its Blaschke product</a></li>
-    <li><a href="#explicit">From a Blaschke product to its ellipses</a></li>
-    <li><a href="#chiu-ng">A proof of the Chiu–Ng conjecture</a></li>
-    <li><a href="#pendulum">Poncelet from a pendulum: forces, clocks and curves</a></li>
-    <li><a href="#clocks">Note: Blaschke clocks, harmonics, and the trees they count</a></li>
-    <li><a href="#paper">Read the paper</a></li>
-  </ol>
-</nav>
+<section id="theorem-z">
+  <h2>Theorem Z in detail</h2>
+  <div class="box theorem-z">
+    <h3>Theorem Z: the test through critical values <span class="tag">new result — Martin Baptiste, 2026</span></h3>
+    <p><strong>Theorem Z.</strong> Let <em>B</em> be a Blaschke product of degree <em>n</em> ≥ 3. Then <em>B</em> is
+    associated to an ellipse if and only if one of the following holds:</p>
+    <ol>
+      <li>(a) <em>B</em> has exactly one critical value in the unit disk, or</li>
+      <li>(b) <em>B</em> has exactly two critical values in the unit disk, and all its critical points there are simple.</li>
+    </ol>
+    <p>Checking this needs only the critical points of <em>B</em>, which are the roots of a polynomial. No ellipse has to
+    be computed.</p>
+    <p><strong>An example from the literature.</strong> In Example 7 of B. Mirman, <a href="https://doi.org/10.1016/S0024-3795(98)10037-X">Numerical ranges and Poncelet curves</a>, Linear Algebra Appl. 281 (1998), 59–85, the matrix with eigenvalues
+    \(\pm1/\sqrt2\), each counted twice, gives a Poncelet curve of rank 5 which is not a conic. Theorem Z sees this at
+    once: the corresponding product \(B(z)=z\bigl(\frac{z^2-1/2}{1-z^2/2}\bigr)^2\) has three critical values in the
+    disk, \(0\) and \(\pm0.0566\), so it is associated to no ellipse.</p>
+    <p>The proof is elementary. Follow the vertices of one polygon while λ travels once around a critical value: the
+    vertices come back, but permuted. The ellipse exists exactly when neighbouring vertices always come back as
+    neighbours. In the two cases of the theorem, these permutations are exactly the symmetries of the polygon.</p>
+    <p><strong>What is new, and what was known.</strong> Until now the ellipse question had been settled degree by
+    degree: degree 3 always works (Daepp, Gorkin and Mortini, 2002), degree 4 works exactly for compositions of two
+    degree-2 products (Fujimura 2013; Gorkin and Wagner 2017), degree 6 was treated by Hunziker, Martínez-Finkelshtein,
+    Poe and Simanek, and Aksoy, Arici, Celorrio and Gorkin (2023) showed that a single critical value is sufficient and
+    bounded the number of critical values in degree \(2^n\). Theorem Z replaces all of this by one condition on the
+    critical values, valid in every degree. To my knowledge, the necessity of (a) or (b) and the sufficiency of (b) are
+    new, as is the description of the monodromy group as cyclic or dihedral (Theorem Z′ of the paper), and the proof — a
+    direct monodromy argument, which does not use the elliptic curve — is new as well. I would be glad to hear of any
+    earlier occurrence.</p>
+    </div>
+</section>
 
 <section id="idea">
   <h2>The idea in three sentences</h2>
@@ -234,7 +264,104 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   property, and how to recognise them from <em>B</em> alone.</p>
 </section>
 
-<section id="theorems">
+<section class="wide" id="map">
+  <h2>Map of the site</h2>
+  <p>How the topics hang together. Each box is a link to its section; each arrow says what the relation is. Read it from the top: a Blaschke product gives polygons, and the question is whether one ellipse touches them all. Theorem Z answers by looking at the critical values.</p>
+  <figure><svg viewBox="0 0 1340 1010" role="img" aria-label="Diagram of the topics of the site and of the links between them" class="mindmap">
+<defs><marker id="ar-obj" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--ink)"/></marker><marker id="ar-ell" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--ellipse)"/></marker><marker id="ar-tor" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--geo)"/></marker><marker id="ar-mon" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--mark)"/></marker><marker id="ar-bey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--even)"/></marker><marker id="ar-dyn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--zero)"/></marker><marker id="ar-roo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,1 L10,5 L0,9 z" fill="var(--odd)"/></marker></defs>
+<line x1="334.0" y1="60.0" x2="511.6" y2="60.0" stroke="var(--ink)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-obj)"/>
+<line x1="728.4" y1="60.0" x2="848.8" y2="60.0" stroke="var(--ink)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-obj)"/>
+<line x1="988.1" y1="83.0" x2="654.2" y2="434.0" stroke="var(--ellipse)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-ell)"/>
+<line x1="223.4" y1="83.0" x2="176.6" y2="247.0" stroke="var(--ink)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-obj)"/>
+<line x1="221.8" y1="293.0" x2="539.0" y2="434.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="186.1" y1="293.0" x2="293.9" y2="447.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="392.0" y1="470.0" x2="516.0" y2="470.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="168.8" y1="293.0" x2="151.2" y2="627.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="170.4" y1="627.0" x2="289.6" y2="493.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="147.4" y1="673.0" x2="132.6" y2="807.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="315.8" y1="493.0" x2="374.2" y2="727.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="365.2" y1="773.0" x2="294.8" y2="882.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="342.4" y1="493.0" x2="587.6" y2="667.0" stroke="var(--mark)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-mon)"/>
+<line x1="620.0" y1="667.0" x2="620.0" y2="506.0" stroke="var(--even)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-bey)"/>
+<line x1="620.0" y1="713.0" x2="620.0" y2="812.0" stroke="var(--even)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-bey)"/>
+<line x1="1029.3" y1="83.0" x2="1120.7" y2="192.0" stroke="var(--ellipse)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-ell)"/>
+<line x1="1141.6" y1="238.0" x2="1148.4" y2="337.0" stroke="var(--ellipse)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-ell)"/>
+<line x1="1009.0" y1="83.0" x2="991.0" y2="477.0" stroke="var(--ellipse)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-ell)"/>
+<line x1="724.0" y1="478.4" x2="886.0" y2="491.6" stroke="var(--geo)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-tor)"/>
+<line x1="982.3" y1="523.0" x2="937.7" y2="657.0" stroke="var(--geo)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-tor)"/>
+<line x1="1025.0" y1="523.0" x2="1145.0" y2="602.0" stroke="var(--geo)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-tor)"/>
+<line x1="930.0" y1="703.0" x2="930.0" y2="827.0" stroke="var(--geo)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-tor)"/>
+<line x1="1191.3" y1="837.0" x2="1003.7" y2="523.0" stroke="var(--zero)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-dyn)"/>
+<line x1="1161.0" y1="883.0" x2="1054.0" y2="939.0" stroke="var(--zero)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-dyn)"/>
+<line x1="928.0" y1="962.0" x2="761.6" y2="962.0" stroke="var(--zero)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-dyn)"/>
+<line x1="663.7" y1="939.0" x2="906.3" y2="703.0" stroke="var(--odd)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-roo)"/>
+<line x1="406.0" y1="925.0" x2="518.4" y2="942.7" stroke="var(--odd)" stroke-width="1.5" stroke-opacity=".75" marker-end="url(#ar-roo)"/>
+<rect x="368.5" y="49.0" width="108.6" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="422.8" y="64.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">solve B(z) = λ</text>
+<rect x="737.7" y="49.0" width="101.7" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="788.6" y="64.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">is there one?</text>
+<rect x="751.5" y="198.4" width="232.8" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="867.9" y="213.7" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">exists exactly in cases (a), (b)</text>
+<rect x="152.6" y="154.0" width="94.8" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="200.0" y="169.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">where B′ = 0</text>
+<rect x="328.0" y="377.9" width="219.0" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="437.5" y="393.2" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">count them: one, or two simple</text>
+<rect x="154.6" y="359.0" width="170.7" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="240.0" y="374.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">loops permute the roots</text>
+<rect x="385.9" y="459.0" width="136.2" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="454.0" y="474.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">cyclic or dihedral</text>
+<rect x="86.3" y="489.1" width="143.1" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="157.9" y="504.4" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">pull back a segment</text>
+<rect x="148.1" y="549.0" width="163.8" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="230.0" y="564.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">the tree determines it</text>
+<rect x="75.3" y="729.0" width="129.3" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="140.0" y="744.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">which trees occur</text>
+<rect x="293.6" y="610.7" width="108.6" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="347.9" y="626.0" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">complete lists</text>
+<rect x="258.4" y="816.5" width="143.1" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="330.0" y="831.8" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">next case: PSL(3,2)</text>
+<rect x="376.2" y="569.0" width="177.6" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="465.0" y="584.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">its orbits on the chords</text>
+<rect x="545.0" y="575.5" width="150.0" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="620.0" y="590.8" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">Z = curve of class 2</text>
+<rect x="558.8" y="751.5" width="122.4" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="620.0" y="766.8" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">seen by a matrix</text>
+<rect x="1000.6" y="139.6" width="170.7" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1086.0" y="154.9" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">its foci are zeros of B</text>
+<rect x="1094.2" y="276.5" width="101.7" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1145.0" y="291.8" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">computes them</text>
+<rect x="901.7" y="249.3" width="198.3" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1000.9" y="264.6" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">tangent chords form a torus</text>
+<rect x="771.4" y="474.0" width="67.2" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="805.0" y="489.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">case (b)</text>
+<rect x="874.6" y="579.0" width="170.7" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="960.0" y="594.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">B = isogeny of degree n</text>
+<rect x="1020.4" y="551.5" width="129.3" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1085.0" y="566.8" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">cut the disk open</text>
+<rect x="872.2" y="754.0" width="115.5" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="930.0" y="769.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">closed formulas</text>
+<rect x="1009.9" y="694.1" width="205.2" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1112.5" y="709.4" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">time = position on the torus</text>
+<rect x="1042.8" y="900.0" width="129.3" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="1107.5" y="915.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">works for every B</text>
+<rect x="773.2" y="951.0" width="143.1" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="844.8" y="966.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">hidden motion arg B</text>
+<rect x="716.9" y="810.0" width="136.2" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="785.0" y="825.3" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">degree 2 is Landen</text>
+<rect x="401.0" y="922.8" width="122.4" height="22" rx="4" fill="var(--paper)" fill-opacity=".92"/><text x="462.2" y="938.1" text-anchor="middle" font-size="14" font-style="italic" fill="var(--ink)" fill-opacity=".82">Klein's formulas</text>
+<a href="#idea"><rect x="130.0" y="41.0" width="200.0" height="38" rx="19" fill="var(--tint)" stroke="var(--ink)" stroke-width="1.6"/><text x="230.0" y="65.6" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="600">A Blaschke product B</text></a>
+<a href="#idea"><rect x="515.6" y="41.0" width="208.8" height="38" rx="19" fill="var(--tint)" stroke="var(--ink)" stroke-width="1.6"/><text x="620.0" y="65.6" text-anchor="middle" font-size="16" fill="var(--ink)" font-weight="600">The polygons B(z) = λ</text></a>
+<a href="#theorems"><rect x="852.8" y="41.0" width="314.40000000000003" height="38" rx="19" fill="var(--tint)" stroke="var(--ellipse)" stroke-width="1.6"/><text x="1010.0" y="65.6" text-anchor="middle" font-size="16" fill="var(--ink)">An ellipse touched by all of them</text></a>
+<a href="#theorems"><rect x="1018.0" y="196.0" width="244.00000000000003" height="38" rx="19" fill="var(--tint)" stroke="var(--ellipse)" stroke-width="1.6"/><text x="1140.0" y="220.6" text-anchor="middle" font-size="16" fill="var(--ink)">Theorem X: zeros are foci</text></a>
+<a href="#algorithm"><rect x="1041.2" y="341.0" width="217.60000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--ellipse)" stroke-width="1.6"/><text x="1150.0" y="365.6" text-anchor="middle" font-size="16" fill="var(--ink)">Algorithm: ellipse → B</text></a>
+<a href="#critical"><rect x="43.6" y="251.0" width="252.8" height="38" rx="19" fill="var(--tint)" stroke="var(--mark)" stroke-width="1.6"/><text x="170.0" y="275.6" text-anchor="middle" font-size="16" fill="var(--ink)">Critical points and values</text></a>
+<a href="#dihedral"><rect x="232.0" y="451.0" width="156.0" height="38" rx="19" fill="var(--tint)" stroke="var(--mark)" stroke-width="1.6"/><text x="310.0" y="475.6" text-anchor="middle" font-size="16" fill="var(--ink)">Monodromy group</text></a>
+<a href="#dessins"><rect x="41.2" y="631.0" width="217.60000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--mark)" stroke-width="1.6"/><text x="150.0" y="655.6" text-anchor="middle" font-size="16" fill="var(--ink)">Dessins: the tree of B</text></a>
+<a href="#chiu-ng"><rect x="38.8" y="811.0" width="182.4" height="38" rx="19" fill="var(--tint)" stroke="var(--mark)" stroke-width="1.6"/><text x="130.0" y="835.6" text-anchor="middle" font-size="16" fill="var(--ink)">Chiu–Ng conjecture</text></a>
+<a href="#degree4"><rect x="249.2" y="731.0" width="261.6" height="38" rx="19" fill="var(--tint)" stroke="var(--mark)" stroke-width="1.6"/><text x="380.0" y="755.6" text-anchor="middle" font-size="16" fill="var(--ink)">Degrees 4 and 6: all groups</text></a>
+<a href="#roots"><rect x="158.0" y="886.0" width="244.00000000000003" height="38" rx="19" fill="var(--tint)" stroke="var(--odd)" stroke-width="1.6"/><text x="280.0" y="910.6" text-anchor="middle" font-size="16" fill="var(--ink)">Degree 7: Klein's quartic</text></a>
+<a href="#theorem-w"><rect x="506.8" y="671.0" width="226.4" height="38" rx="19" fill="var(--tint)" stroke="var(--even)" stroke-width="1.6"/><text x="620.0" y="695.6" text-anchor="middle" font-size="16" fill="var(--ink)">Theorem W: other curves</text></a>
+<a href="#numrange"><rect x="542.0" y="816.0" width="156.0" height="38" rx="19" fill="var(--tint)" stroke="var(--even)" stroke-width="1.6"/><text x="620.0" y="840.6" text-anchor="middle" font-size="16" fill="var(--ink)">Numerical range</text></a>
+<a href="#roots"><rect x="522.4" y="943.0" width="235.20000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--odd)" stroke-width="1.6"/><text x="640.0" y="967.6" text-anchor="middle" font-size="16" fill="var(--ink)">Roots as explicit series</text></a>
+<a href="#torus"><rect x="890.0" y="481.0" width="200.0" height="38" rx="19" fill="var(--tint)" stroke="var(--geo)" stroke-width="1.6"/><text x="990.0" y="505.6" text-anchor="middle" font-size="16" fill="var(--ink)">Theorem Y: the torus</text></a>
+<a href="#values"><rect x="1093.2" y="606.0" width="173.60000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--geo)" stroke-width="1.6"/><text x="1180.0" y="630.6" text-anchor="middle" font-size="16" fill="var(--ink)">Canonical annulus</text></a>
+<a href="#theorems"><rect x="843.2" y="661.0" width="173.60000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--geo)" stroke-width="1.6"/><text x="930.0" y="685.6" text-anchor="middle" font-size="16" fill="var(--ink)">Theorem L: Landen</text></a>
+<a href="#explicit"><rect x="808.0" y="831.0" width="244.00000000000003" height="38" rx="19" fill="var(--tint)" stroke="var(--geo)" stroke-width="1.6"/><text x="930.0" y="855.6" text-anchor="middle" font-size="16" fill="var(--ink)">Explicit ellipses (theta)</text></a>
+<a href="#pendulum"><rect x="1087.4" y="841.0" width="235.20000000000002" height="38" rx="19" fill="var(--tint)" stroke="var(--zero)" stroke-width="1.6"/><text x="1205.0" y="865.6" text-anchor="middle" font-size="16" fill="var(--ink)">Poncelet from a pendulum</text></a>
+<a href="#clocks"><rect x="932.0" y="943.0" width="156.0" height="38" rx="19" fill="var(--tint)" stroke="var(--zero)" stroke-width="1.6"/><text x="1010.0" y="967.6" text-anchor="middle" font-size="16" fill="var(--ink)">Blaschke clocks</text></a>
+<a href="#theorem-z"><rect x="520.0" y="438.0" width="200" height="64" rx="32" fill="var(--paper)" stroke="var(--zero)" stroke-width="1.6"/><text x="620.0" y="479.1" text-anchor="middle" font-size="26" fill="var(--ink)" font-weight="600">Theorem Z</text></a>
+</svg></figure>
+<ul class="maplist"><li><a href="#idea">A Blaschke product B</a> → <a href="#idea">The polygons B(z) = λ</a><br><em>solve B(z) = λ</em></li><li><a href="#idea">The polygons B(z) = λ</a> → <a href="#theorems">An ellipse touched by all of them</a><br><em>is there one?</em></li><li><a href="#theorems">An ellipse touched by all of them</a> → <a href="#theorem-z">Theorem Z</a><br><em>exists exactly in cases (a), (b)</em></li><li><a href="#idea">A Blaschke product B</a> → <a href="#critical">Critical points and values</a><br><em>where B′ = 0</em></li><li><a href="#critical">Critical points and values</a> → <a href="#theorem-z">Theorem Z</a><br><em>count them: one, or two simple</em></li><li><a href="#critical">Critical points and values</a> → <a href="#dihedral">Monodromy group</a><br><em>loops permute the roots</em></li><li><a href="#dihedral">Monodromy group</a> → <a href="#theorem-z">Theorem Z</a><br><em>cyclic or dihedral</em></li><li><a href="#critical">Critical points and values</a> → <a href="#dessins">Dessins: the tree of B</a><br><em>pull back a segment</em></li><li><a href="#dessins">Dessins: the tree of B</a> → <a href="#dihedral">Monodromy group</a><br><em>the tree determines it</em></li><li><a href="#dessins">Dessins: the tree of B</a> → <a href="#chiu-ng">Chiu–Ng conjecture</a><br><em>which trees occur</em></li><li><a href="#dihedral">Monodromy group</a> → <a href="#degree4">Degrees 4 and 6: all groups</a><br><em>complete lists</em></li><li><a href="#degree4">Degrees 4 and 6: all groups</a> → <a href="#roots">Degree 7: Klein's quartic</a><br><em>next case: PSL(3,2)</em></li><li><a href="#dihedral">Monodromy group</a> → <a href="#theorem-w">Theorem W: other curves</a><br><em>its orbits on the chords</em></li><li><a href="#theorem-w">Theorem W: other curves</a> → <a href="#theorem-z">Theorem Z</a><br><em>Z = curve of class 2</em></li><li><a href="#theorem-w">Theorem W: other curves</a> → <a href="#numrange">Numerical range</a><br><em>seen by a matrix</em></li><li><a href="#theorems">An ellipse touched by all of them</a> → <a href="#theorems">Theorem X: zeros are foci</a><br><em>its foci are zeros of B</em></li><li><a href="#theorems">Theorem X: zeros are foci</a> → <a href="#algorithm">Algorithm: ellipse → B</a><br><em>computes them</em></li><li><a href="#theorems">An ellipse touched by all of them</a> → <a href="#torus">Theorem Y: the torus</a><br><em>tangent chords form a torus</em></li><li><a href="#theorem-z">Theorem Z</a> → <a href="#torus">Theorem Y: the torus</a><br><em>case (b)</em></li><li><a href="#torus">Theorem Y: the torus</a> → <a href="#theorems">Theorem L: Landen</a><br><em>B = isogeny of degree n</em></li><li><a href="#torus">Theorem Y: the torus</a> → <a href="#values">Canonical annulus</a><br><em>cut the disk open</em></li><li><a href="#theorems">Theorem L: Landen</a> → <a href="#explicit">Explicit ellipses (theta)</a><br><em>closed formulas</em></li><li><a href="#pendulum">Poncelet from a pendulum</a> → <a href="#torus">Theorem Y: the torus</a><br><em>time = position on the torus</em></li><li><a href="#pendulum">Poncelet from a pendulum</a> → <a href="#clocks">Blaschke clocks</a><br><em>works for every B</em></li><li><a href="#clocks">Blaschke clocks</a> → <a href="#roots">Roots as explicit series</a><br><em>hidden motion arg B</em></li><li><a href="#roots">Roots as explicit series</a> → <a href="#theorems">Theorem L: Landen</a><br><em>degree 2 is Landen</em></li><li><a href="#roots">Degree 7: Klein's quartic</a> → <a href="#roots">Roots as explicit series</a><br><em>Klein's formulas</em></li></ul>
+</section>
+
+<section id="paper">
+  <h2>Read the paper</h2>
+  <p>The full article gives the proofs of Theorems X, Y and Z, and the construction of the examples. Theorem Z and its
+  monodromy form, Theorem Z′, are my own results; the paper is written so that the proof of Theorem Z (Section 5) can be
+  read on its own, with a self-contained introduction to the tools for readers who have never met Riemann surfaces or
+  elliptic curves.</p>
+  <p><a class="download" href="blaschke_ellipses_article_v3.pdf">Download the paper (PDF)</a></p>
+  <p>Comments and questions are welcome, through the <a href="https://github.com/CursedMaths">GitHub profile</a>.</p>
+</section>
+</div>
+
+<div class="panel" id="tab-theory" role="tabpanel" aria-labelledby="tabbtn-theory" data-sections="theorems dihedral torus critical values">
+<h1 class="tabtitle">Theory</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#theorems">Theorems X, Y, L</a></li><li><a href="#dihedral">The dihedral group</a></li><li><a href="#torus">The torus</a></li><li><a href="#critical">Critical points</a></li><li><a href="#values">Critical values</a></li></ol></nav><section id="theorems">
   <h2>Four theorems, in plain words</h2>
   <p>The paper proves three results about these Blaschke products. The first two describe them from the inside and
   organize classical material (the Poncelet package of Darboux, the elliptic curve of Poncelet's porism) around the
@@ -295,31 +422,8 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   </div>
 
   <div class="box theorem-z">
-    <h3>Theorem Z: the test through critical values <span class="tag">new result — Martin Baptiste, 2026</span></h3>
-    <p><strong>Theorem Z.</strong> Let <em>B</em> be a Blaschke product of degree <em>n</em> ≥ 3. Then <em>B</em> is
-    associated to an ellipse if and only if one of the following holds:</p>
-    <ol>
-      <li>(a) <em>B</em> has exactly one critical value in the unit disk, or</li>
-      <li>(b) <em>B</em> has exactly two critical values in the unit disk, and all its critical points there are simple.</li>
-    </ol>
-    <p>Checking this needs only the critical points of <em>B</em>, which are the roots of a polynomial. No ellipse has to
-    be computed.</p>
-    <p><strong>An example from the literature.</strong> In Example 7 of B. Mirman, <a href="https://doi.org/10.1016/S0024-3795(98)10037-X">Numerical ranges and Poncelet curves</a>, Linear Algebra Appl. 281 (1998), 59–85, the matrix with eigenvalues
-    \(\pm1/\sqrt2\), each counted twice, gives a Poncelet curve of rank 5 which is not a conic. Theorem Z sees this at
-    once: the corresponding product \(B(z)=z\bigl(\frac{z^2-1/2}{1-z^2/2}\bigr)^2\) has three critical values in the
-    disk, \(0\) and \(\pm0.0566\), so it is associated to no ellipse.</p>
-    <p>The proof is elementary. Follow the vertices of one polygon while λ travels once around a critical value: the
-    vertices come back, but permuted. The ellipse exists exactly when neighbouring vertices always come back as
-    neighbours. In the two cases of the theorem, these permutations are exactly the symmetries of the polygon.</p>
-    <p><strong>What is new, and what was known.</strong> Until now the ellipse question had been settled degree by
-    degree: degree 3 always works (Daepp, Gorkin and Mortini, 2002), degree 4 works exactly for compositions of two
-    degree-2 products (Fujimura 2013; Gorkin and Wagner 2017), degree 6 was treated by Hunziker, Martínez-Finkelshtein,
-    Poe and Simanek, and Aksoy, Arici, Celorrio and Gorkin (2023) showed that a single critical value is sufficient and
-    bounded the number of critical values in degree \(2^n\). Theorem Z replaces all of this by one condition on the
-    critical values, valid in every degree. To my knowledge, the necessity of (a) or (b) and the sufficiency of (b) are
-    new, as is the description of the monodromy group as cyclic or dihedral (Theorem Z′ of the paper), and the proof — a
-    direct monodromy argument, which does not use the elliptic curve — is new as well. I would be glad to hear of any
-    earlier occurrence.</p>
+    <h3>Theorem Z: the test through critical values</h3>
+    <p>Theorem Z is stated at the top of the first tab, with its proof idea and what is new: <a href="#theorem-z">go to Theorem Z</a>.</p>
   </div>
   <div class="box theorem-z">
     <h3>Theorem L: the ellipses are Landen transformations <span class="tag">observation, being compared with the literature</span></h3>
@@ -640,8 +744,11 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   checks above and remains to be pinned down by an orientation argument. The annulus statements rely on the torus
   picture of the axis note, whose real-structure step is still being written.</div>
 </section>
+</div>
 
-<section class="wide" id="degree4">
+<div class="panel" id="tab-cases" role="tabpanel" aria-labelledby="tabbtn-cases" data-sections="degree4 degree6 numrange theorem-w dessins">
+<h1 class="tabtitle">Examples and cases</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#degree4">Degree 4, all cases</a></li><li><a href="#degree6">Degree 6, all cases</a></li><li><a href="#numrange">The numerical range</a></li><li><a href="#theorem-w">Theorem W</a></li><li><a href="#dessins">Dessins d'enfants</a></li></ol></nav><section class="wide" id="degree4">
   <h2>Degree 4: every possible case</h2>
   <p>In degree 4 the whole picture can be listed. First the parameters. A Blaschke product of degree 4 has four zeros
   and a unimodular constant; composing with an automorphism of the disk on the right moves one zero to \(0\), and
@@ -1424,8 +1531,11 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   is still being written for the section on critical points. For the theory of dessins and trees, see Lando and Zvonkin,
   <em>Graphs on Surfaces and Their Applications</em>.</div>
 </section>
+</div>
 
-<section class="wide" id="algorithm">
+<div class="panel" id="tab-formulas" role="tabpanel" aria-labelledby="tabbtn-formulas" data-sections="algorithm explicit chiu-ng roots">
+<h1 class="tabtitle">Formulas</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#algorithm">The algorithm</a></li><li><a href="#explicit">Explicit ellipses</a></li><li><a href="#chiu-ng">The Chiu–Ng conjecture</a></li><li><a href="#roots">Solving B(z) = λ</a></li></ol></nav><section class="wide" id="algorithm">
   <h2>From an ellipse to its Blaschke product</h2>
   <p>Theorem X does more than describe the zeros of \(B\): it computes them. Here is the complete recipe, for any degree
   \(n\ge3\). It takes an ellipse and returns the associated Blaschke product; together with the test of Theorem Z, this
@@ -1622,7 +1732,125 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   <a href="https://github.com/CursedMaths">GitHub profile</a>.</p>
 </section>
 
-<section class="wide" id="pendulum">
+<section class="wide" id="roots">
+  <h2>Solving \(B(z)=\lambda\): the roots as explicit series</h2>
+  <p>The polygons of this page are the solutions of \(B(z)=\lambda\). This section writes these solutions down. For
+  every Blaschke product the \(n\) roots are the values of one single series in \(\lambda^{1/n}\), with coefficients
+  given by an integral; for the simplest family the coefficients are values of Gauss's hypergeometric function. The
+  statements below were checked numerically, to the precision indicated; they are not in the paper.</p>
+
+  <div class="box theorem-z">
+    <h3>One series for all the roots <span class="tag">note — checked numerically</span></h3>
+    <p>Let \(B\) be any Blaschke product of degree \(n\), let \(|\lambda|=1\) and let \(s\) be an \(n\)-th root of
+    \(\lambda\). Then the \(n\) solutions of \(B(z)=\lambda\) are</p>
+    <p>\[ z_r=\sum_{k\in\mathbb Z} d_k\,\bigl(s\,e^{2\pi i r/n}\bigr)^{k},\qquad r=0,1,\dots,n-1, \]</p>
+    <p>with</p>
+    <p>\[ d_0=\frac1n\sum_{B(a)=0}a,\qquad d_k=\frac{1}{2\pi i\,k}\oint_{|z|=1}B(z)^{-k/n}\,dz\quad(k\ne0). \]</p>
+    <p>(The branch of \(B^{1/n}\) is taken continuous along the circle, and \(s\) is chosen accordingly.) Two facts make
+    this work for every \(B\): when \(\lambda\) goes once around the circle, the \(n\) roots are permuted in one single
+    cycle, so they form one function of \(\lambda^{1/n}\); and the critical values of \(B\) are strictly inside the disk
+    (their mirrors strictly outside), so this function is analytic in a ring around \(|\lambda|=1\). The coefficients
+    decrease at least like \(|v_{\max}|^{|k|/n}\), where \(v_{\max}\) is the critical value of largest modulus.</p>
+  </div>
+  <div class="status">Checked on a Blaschke product of degree 5 with five random zeros: the series gives the five roots
+  to \(10^{-13}\) for several \(\lambda\) on the circle.</div>
+
+  <h3>The family \(z^m\,\frac{z-a}{1-\bar az}\): hypergeometric coefficients</h3>
+  <p>Expanding the integrand by the binomial formula and keeping the coefficient of \(1/z\) gives, for
+  \(B(z)=z^m\frac{z-a}{1-\bar az}\) with \(|a|&lt;1\) and \(n=m+1\):</p>
+  <p>\[ d_0=\frac an,\qquad
+  d_k=\frac{(-\bar a)^{k-1}}{k}\binom{k/n}{k-1}\;{}_2F_1\!\Bigl(\frac kn,\;\frac{k(n-1)}{n}-1;\;k;\;|a|^2\Bigr)\quad(k\ge1), \]</p>
+  <p>\[ d_{-p}=-\frac{(-a)^{p+1}}{p}\binom{p/n}{p+1}\;{}_2F_1\!\Bigl(\frac pn,\;\frac{p(n-1)}{n}+1;\;p+2;\;|a|^2\Bigr)\quad(p\ge1). \]</p>
+  <p>The binomial coefficient \(\binom{k/n}{k-1}\) vanishes when \(k\) is a multiple of \(n\) (for \(m\ge2\)):
+  \(d_n=d_{2n}=\dots=0\). The reason is visible on the polynomial \(z^{n}-az^{n-1}+\bar a\lambda z-\lambda\): the sum of
+  its roots is \(a\), whatever \(\lambda\), so all the polygons have the same centre of gravity \(a/n\).</p>
+  <div class="status">Checked against the exact roots to \(10^{-30}\) for \(n=2,3,4,6\) and several complex \(a\). For
+  \(n=4\), \(a=\tfrac12\): \(d_1=0.98334\), \(d_2=-0.12933\), \(d_3=-0.00851\), \(d_4=0\), \(d_{-1}=0.02440\).
+  In practice the series is not a better root finder than a polynomial solver for one value of \(\lambda\); its use is
+  to follow each root, with its label \(r\), along the whole circle, and it converges slowly when \(a\) is close to
+  the circle.</div>
+
+  <h3>The link with the motions \(\theta''=f(\theta)\)</h3>
+  <p>In the section <a href="#pendulum">Poncelet from a pendulum</a>, a point \(e^{i\theta(t)}\) moves on the circle so
+  that \(\lambda=B(e^{i\theta(t)})\) moves in a simple way. Replacing \(\lambda\) by this motion in the series gives the
+  solution \(\theta(t)\) itself.</p>
+  <ul>
+    <li><strong>The Blaschke clock.</strong> If \(\lambda=e^{it}\), then \(s=e^{it/n}\) and the \(d_k\) are exactly the
+    Fourier coefficients of \(e^{i\theta(t)}\).</li>
+    <li><strong>The hidden pendulum.</strong> For the example of degree 4,
+    \(\theta''=62\sin\theta+40\sin2\theta+24\sin3\theta\) with \(\theta(0)=0\), \(\theta'(0)=5\sqrt5\), and
+    \(B(z)=z^3\frac{z-1/2}{1-z/2}\), the angle \(\alpha\) of \(B(e^{i\theta})\) is a pendulum:
+    \(\alpha''=-36\sin\alpha\). Its position is an explicit infinite product. With \(w=e^{4i\omega t}\), \(\omega=2\pi/T\),
+    and \(q\approx0.0020327\) the nome of the pendulum (parameter \(m=4/125\)),
+    \[ B\bigl(e^{i\theta(t)}\bigr)=e^{i\alpha(t)}=w\,\Bigl(\frac{1-q\,w^{-1}}{1-q\,w}\Bigr)^{2}\Bigl(\frac{1-q^{3}w}{1-q^{3}w^{-1}}\Bigr)^{2}\Bigl(\frac{1-q^{5}w^{-1}}{1-q^{5}w}\Bigr)^{2}\cdots \]
+    One factor already gives \(10^{-8}\), two factors \(10^{-12}\).</li>
+    <li><strong>Exact Fourier coefficients.</strong> Write \(\theta(t)=\omega t+\sum_{k\ge1}b_k\sin(k\omega t)\). The
+    product of the \(n\) roots of \(B(z)=\lambda\) is \(\pm\lambda\), so the sum of the \(n\) angles of a polygon is the
+    angle of the pendulum, and adding \(n\) copies of the series shifted by \(T/n\) keeps only the multiples of \(n\).
+    Comparing with Jacobi's series for the pendulum gives
+    \[ b_{nj}=\frac4n\,\frac{q^{\,j}}{j\,(1+q^{2j})},\qquad j=1,2,3,\dots \]
+    The other coefficients have no closed form that I know of; their size is \(|c_k|\approx A\,k^{-1/3}e^{-k\omega h}\)
+    for the example, with \(e^{-4\omega h}=q\).</li>
+    <li><strong>Degree 2 is Landen's transformation.</strong> For \(B(z)=z\frac{z-1/2}{1-z/2}\) the equation is
+    \(\theta''=2\sin\theta\), itself a pendulum, and the nome of the hidden pendulum is the square of the nome of
+    \(\theta\). In general a Blaschke product of degree \(n\) with a hidden pendulum relates \(q\) to \(q^n\).</li>
+  </ul>
+  <div class="status">Checked: the formula for \(b_{nj}\) on the equations of degrees 3, 4 and 5 of the family, to 12
+  digits; the infinite product on the example of degree 4; the Landen relation on the example of degree 2 (nomes
+  \(0.134062\) and \(0.0179724\)).</div>
+
+  <h3>An integer family of equations</h3>
+  <p>For every integer \(m\ge1\) and every rational \(a\), the product \(z^m\frac{z-a}{1-az}\) gives an equation with
+  \(m\) harmonics and integer coefficients, after a change of time unit. The square roots disappear because the free
+  critical point \(c\) and \(1/c\) are the two roots of one quadratic polynomial with rational coefficients.</p>
+  <table>
+    <tr><th>\(m\)</th><th>\(a\)</th><th>Equation \(\theta''=\)</th><th>\(\theta'(0)^2\)</th><th>Hidden pendulum \(\alpha''=\)</th></tr>
+    <tr><td>1</td><td>1/2</td><td>\(2\sin\theta\)</td><td>1</td><td>\(-\sin\alpha\)</td></tr>
+    <tr><td>2</td><td>1/2</td><td>\(12\sin\theta+8\sin2\theta\)</td><td>15</td><td>\(-8\sin\alpha\)</td></tr>
+    <tr><td>2</td><td>1/3</td><td>\(24\sin\theta+9\sin2\theta\)</td><td>64</td><td>\(-6\sin\alpha\)</td></tr>
+    <tr><td>3</td><td>1/2</td><td>\(62\sin\theta+40\sin2\theta+24\sin3\theta\)</td><td>125</td><td>\(-36\sin\alpha\)</td></tr>
+    <tr><td>4</td><td>1/3</td><td>\(994\sin\theta+468\sin2\theta+162\sin3\theta+54\sin4\theta\)</td><td>5408</td><td>\(-72\sin\alpha\)</td></tr>
+  </table>
+  <p>In each case \(\theta(0)=0\), the polygons at time step \(T/(m+1)\) are the level sets of \(B\), and the solution is
+  an elliptic function followed by an algebraic equation of degree \(m+1\).</p>
+
+  <h3>Two classical limits: Schwarz triangles and Klein's quartic</h3>
+  <p>A Blaschke product with two critical values in the disk has four critical values on the sphere: \(0\), \(v\), and
+  their mirrors \(1/\bar v\) and \(\infty\). With four points there is no classical uniformization. Two special
+  situations bring the count down to three.</p>
+  <ul>
+    <li><strong>The special position \(|v|^2=\tfrac12\).</strong> Then \(1/v=2v\) (for \(v\) real): the four points are
+    \(0,v,2v,\infty\), and \(v\) is the midpoint of \(0\) and \(2v\). The map \(F(z)=\bigl(B(z)/v-1\bigr)^2\) has only
+    three critical values, \(0\), \(1\) and \(\infty\): it is a Belyi map. For \(z^3\frac{z-a}{1-az}\) this happens at
+    \(a\approx0.99502155\); the ramification of \(F\) is \(4{+}2{+}2\), \(3{+}2{+}1{+}1{+}1\) and \(6{+}2\), and the
+    triangle group is \((4,6,6)\). Every tree has one such special member in its family.</li>
+    <li><strong>The polynomial limit and Klein's quartic.</strong> In degree 7, the two mirror trees with black degrees
+    \(3,3,1\) and white degrees \(2,2,1,1,1\) have monodromy group \(\mathrm{PSL}(3,2)\), of order 168. A Blaschke
+    product with this tree is \(z^3\varphi_{0.6}(z)^3\varphi_a(z)\) with \(a\approx-0.254313-0.263009\,i\)
+    (\(\varphi_c(z)=\frac{z-c}{1-\bar cz}\)); its group was computed and has order 168. The polynomial with the same
+    tree is exact:
+    \[ P(Z)=Z^3(Z-1)^3(Z-a_0),\qquad a_0=\frac{-3+i\sqrt7}{8},\qquad v=-\frac{351}{25088}+\frac{2349\sqrt7}{1229312}\,i, \]
+    and \(P(Z)=v\,j(\tau)/1728\) is solved by the functions of Klein's quartic. With \(x,y,z\) Klein's three theta
+    products (which satisfy \(x^3y+y^3z+z^3x=0\)), \(\Phi_6=xy^5+yz^5+zx^5-5x^2y^2z^2\), \(\zeta=e^{2\pi i/7}\) and
+    \(\alpha=\frac{-1+i\sqrt7}{2}\):
+    \[ Z_r(\tau)=a_0+K\,\frac{C_0\bigl(\zeta^{4r}x,\zeta^{2r}y,\zeta^{r}z\bigr)^3}{\Phi_6(x,y,z)},\qquad
+    C_0=\zeta^3x^2+\zeta y^2+z^2+\alpha\,(\zeta^2xy+\zeta^4yz+\zeta^5zx),\qquad K=\Bigl(\frac{v}{1728}\Bigr)^{1/7}. \]</li>
+  </ul>
+  <div class="status">Status. The three critical values of \(F\) and its ramification were computed numerically. The
+  formula for \(Z_r\) was found by fitting the conic \(C_0\) and recognising its coefficients; it holds to
+  \(10^{-38}\) at three values of \(\tau\), which is not a proof. Klein's functions are taken from N. Elkies,
+  <a href="https://library.slmath.org/books/Book35/files/elkies.pdf">The Klein quartic in number theory</a>. These
+  formulas concern the polynomial limit: for the Blaschke product itself there is no variable \(\tau\), and the series
+  above is the explicit form of the roots. The hyperbolic dessins of Chiu and Ng
+  (<a href="https://arxiv.org/abs/1907.10145">Hyperbolic Belyi maps and Shabat-Blaschke products</a>) are the right
+  setting for the trees; I do not know whether the remark on \(|v|^2=\tfrac12\) is already in the literature.</div>
+</section>
+
+</div>
+
+<div class="panel" id="tab-dynamics" role="tabpanel" aria-labelledby="tabbtn-dynamics" data-sections="pendulum clocks">
+<h1 class="tabtitle">Differential equations</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#pendulum">Poncelet from a pendulum</a></li><li><a href="#clocks">Blaschke clocks and trees</a></li></ol></nav><section class="wide" id="pendulum">
   <style>
     #pendulum .grid2 > *{min-width:0}
     #pendulum mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
@@ -2160,16 +2388,7 @@ footer{max-width:44rem;margin-top:5rem;padding-top:1rem;border-top:1px solid var
   \(|B'|=\sum P_{a_j}\) is classical; I found no trace of the Blaschke clock as a force, of the harmonic criterion or
   of the level.</div>
 </section>
-
-<section id="paper">
-  <h2>Read the paper</h2>
-  <p>The full article gives the proofs of Theorems X, Y and Z, and the construction of the examples. Theorem Z and its
-  monodromy form, Theorem Z′, are my own results; the paper is written so that the proof of Theorem Z (Section 5) can be
-  read on its own, with a self-contained introduction to the tools for readers who have never met Riemann surfaces or
-  elliptic curves.</p>
-  <p><a class="download" href="blaschke_ellipses_article_v3.pdf">Download the paper (PDF)</a></p>
-  <p>Comments and questions are welcome, through the <a href="https://github.com/CursedMaths">GitHub profile</a>.</p>
-</section>
+</div>
 
 <footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.</footer>
 </main>
@@ -2447,20 +2666,48 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
   t(0.138, yb - 0.008, "ω", "var(--ink)", 0.032);
 })();
 
-/* ---------- table of contents: highlight the current section ---------- */
+/* ---------- tabs and table of contents ---------- */
 (function () {
-  const links = Array.from(document.querySelectorAll(".toc a"));
-  if (!links.length || !("IntersectionObserver" in window)) return;
-  const byId = Object.fromEntries(links.map(a => [a.getAttribute("href").slice(1), a]));
-  const current = new Set();
-  const obs = new IntersectionObserver(es => {
-    es.forEach(e => { e.isIntersecting ? current.add(e.target.id) : current.delete(e.target.id); });
-    let first = null;
-    for (const s of document.querySelectorAll("section[id]")) if (current.has(s.id)) { first = s.id; break; }
-    links.forEach(a => a.classList.remove("on"));
-    if (first && byId[first]) byId[first].classList.add("on");
-  }, { rootMargin: "-10% 0px -55% 0px" });
-  document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
+  const panels = Array.from(document.querySelectorAll(".panel"));
+  const tabs = Array.from(document.querySelectorAll(".tab"));
+  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu–Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees"};
+  const tabOf = {};
+  panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
+  const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
+  let links = [], current = null;
+  function show(tab) {
+    if (tab === current) return;
+    current = tab;
+    panels.forEach(p => p.classList.toggle("off", p.id !== "tab-" + tab));
+    tabs.forEach(a => a.setAttribute("aria-selected", a.dataset.tab === tab ? "true" : "false"));
+    const p = document.getElementById("tab-" + tab);
+    list.innerHTML = "";
+    links = p.dataset.sections.split(" ").map(s => {
+      const li = document.createElement("li"), a = document.createElement("a");
+      a.href = "#" + s; a.textContent = names[s] || s; li.appendChild(a); list.appendChild(li); return a;
+    });
+    title.textContent = tabs.find(a => a.dataset.tab === tab).textContent;
+  }
+  function route(scroll) {
+    const h = decodeURIComponent(location.hash.slice(1));
+    if (h.startsWith("tab-") && document.getElementById(h)) { show(h.slice(4)); if (scroll) window.scrollTo(0, 0); return; }
+    if (tabOf[h]) { show(tabOf[h]); const el = document.getElementById(h); if (el) requestAnimationFrame(() => el.scrollIntoView()); return; }
+    const el = h && document.getElementById(h);
+    if (el) { const p = el.closest(".panel"); if (p) { show(p.id.slice(4)); requestAnimationFrame(() => el.scrollIntoView()); return; } }
+    show("home");
+  }
+  window.addEventListener("hashchange", () => route(true));
+  route(false);
+  if ("IntersectionObserver" in window) {
+    const vis = new Set();
+    const obs = new IntersectionObserver(es => {
+      es.forEach(e => { e.isIntersecting ? vis.add(e.target.id) : vis.delete(e.target.id); });
+      let first = null;
+      for (const s of document.querySelectorAll(".panel:not(.off) section[id]")) if (vis.has(s.id)) { first = s.id; break; }
+      links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + first));
+    }, { rootMargin: "-10% 0px -55% 0px" });
+    document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
+  }
 })();
 </script>
 </body>
