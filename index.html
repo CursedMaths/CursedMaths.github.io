@@ -162,6 +162,26 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
 .case svg{max-width:min(21rem,100%)}
 @media(max-width:46rem){mjx-container:not([display]){max-width:100%;overflow-x:auto;overflow-y:hidden;display:inline-block;vertical-align:bottom}table{display:block;overflow-x:auto;max-width:100%}}
 @media(min-width:78rem){.tabbar{margin:-3rem 0 2rem;padding:.55rem 0}.toc{top:1rem}}
+.l3{margin:1.4rem 0}
+.l3-view{position:relative;background:#0d1118;border:1px solid var(--rule);border-radius:8px}
+#l3-scene{width:100%;height:560px;display:block;cursor:grab;touch-action:none}
+#l3-scene:active{cursor:grabbing}
+.l3-legend{position:absolute;right:10px;top:8px;font-size:.8rem;background:#12161fcc;padding:.35rem .6rem;border-radius:6px;color:var(--ink)}
+.l3-legend span{display:inline-block;width:12px;height:3px;margin-right:6px;vertical-align:middle}
+.l3-hint{position:absolute;left:10px;bottom:8px;color:var(--muted);font-size:.8rem}
+.l3-cards{display:grid;grid-template-columns:1fr;gap:1rem;margin-top:1rem}
+@media(min-width:52rem){.l3-cards{grid-template-columns:1fr 1fr}}
+.l3-card{background:var(--tint);border:1px solid var(--rule);border-radius:8px;padding:.7rem .9rem}
+.l3-card h3{margin:0 0 .5rem;font-size:1rem;font-weight:normal;color:var(--zero)}
+.l3-card label{display:grid;grid-template-columns:8.5em 1fr 3.8em;align-items:center;gap:.5rem;font-size:.9rem;margin:.2rem 0}
+.l3-card label output{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.l3-card input[type=range]{width:100%;accent-color:var(--ellipse)}
+.l3-card label.l3-check{display:flex;gap:.4rem;grid-template-columns:none}
+.l3-table{border-collapse:collapse;font-size:.92rem;font-variant-numeric:tabular-nums}
+.l3-table th,.l3-table td{padding:.2rem .8rem .2rem 0;text-align:left}
+.l3-table th{color:var(--muted);font-weight:normal}
+.l3-note{color:var(--muted);font-size:.85rem;margin:.4rem 0 0}
+.l3-small{width:100%;height:170px;display:block;background:#0d1118;border-radius:6px}
 </style>
 </head>
 <body>
@@ -173,7 +193,7 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   <ol id="toc-list"></ol>
 </nav>
 <main>
-<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a></div></nav>
+<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a></div></nav>
 <div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="theorem-z idea map paper">
 <div class="hero">
   <div>
@@ -2521,6 +2541,167 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
 </section>
 </div>
 
+<div class="panel" id="tab-light3d" role="tabpanel" aria-labelledby="tabbtn-light3d" data-sections="light3d light3d-closing light3d-more">
+<h1 class="tabtitle">Light in 3D</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#light3d">Light in three dimensions</a></li><li><a href="#light3d-closing">The closing condition, tested</a></li><li><a href="#light3d-more">What is checked, and what is open</a></li></ol></nav><section class="wide" id="light3d">
+  <h2>Light in three dimensions</h2>
+  <p>This tab goes one dimension up. Start in the plane: take an ellipse inside the unit circle, and declare that at
+  every point outside the ellipse, light can only travel along the two lines through that point that touch the
+  ellipse. With the unit circle as a mirror, a ray of light is exactly a Poncelet polygon. This is not just a picture:
+  it is the plane model of de Sitter space (the projective model of a universe of special relativity), in which the
+  ellipse plays the role of the light cone at infinity.</p>
+  <p>Now do the same in space. Take the ellipsoid \(K:\ \frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}=1\) inside the
+  sphere of radius \(R=2\), which is the mirror. At a point \(p\) outside \(K\), the light rays are the lines through
+  \(p\) that touch \(K\): they form a cone. A ray goes straight, grazes \(K\), hits the mirror, and leaves along another
+  line that grazes \(K\). The bounce is the reflection of this geometry, computed with the quadratic form
+  \[ g_p(v)=(p\cdot Qp-1)(v\cdot Qv)-(v\cdot Qp)^2,\qquad Q=\mathrm{diag}\big(a^{-2},b^{-2},c^{-2}\big), \]
+  which vanishes exactly on the directions that touch \(K\).</p>
+
+  <div class="l3">
+    <div class="l3-view">
+      <canvas id="l3-scene" aria-label="Three-dimensional view of light rays bouncing inside a spherical mirror around an ellipsoid"></canvas>
+      <div class="l3-legend">
+        <div><span style="background:#e59a72"></span>ellipsoid K, grazed by every ray</div>
+        <div><span style="background:#8b93a3"></span>mirror</div>
+        <div><span style="background:#5fb7c0"></span>ray of light</div>
+        <div><span style="background:#d39bc6"></span>second surface grazed by the rays</div>
+      </div>
+      <div class="l3-hint">Drag to turn, Shift and scroll to zoom.</div>
+    </div>
+    <div class="l3-cards">
+      <div class="l3-card">
+        <h3>The ellipsoid</h3>
+        <label>axis a <input id="l3-a" type="range" min="0.3" max="1.4" step="0.01" value="1.0"><output></output></label>
+        <label>axis b <input id="l3-b" type="range" min="0.3" max="1.4" step="0.01" value="0.7"><output></output></label>
+        <label>axis c <input id="l3-c" type="range" min="0.2" max="1.4" step="0.01" value="0.45"><output></output></label>
+        <label>bend the mirror <input id="l3-eps" type="range" min="0" max="0.06" step="0.002" value="0"><output></output></label>
+      </div>
+      <div class="l3-card">
+        <h3>The ray</h3>
+        <label>longitude <input id="l3-lon" type="range" min="-180" max="180" step="1" value="34"><output></output></label>
+        <label>latitude <input id="l3-lat" type="range" min="-85" max="85" step="1" value="66"><output></output></label>
+        <label>direction <input id="l3-phi" type="range" min="0" max="360" step="1" value="40"><output></output></label>
+        <label>bounces drawn <input id="l3-n" type="range" min="1" max="400" step="1" value="40"><output></output></label>
+        <div class="controls">
+          <button id="l3-ex-a" type="button">Closes after 22</button>
+          <button id="l3-ex-b" type="button">Closes after 20</button>
+          <button id="l3-rand" type="button">Random ray</button>
+        </div>
+        <div class="controls">
+          <label class="l3-check"><input id="l3-showc" type="checkbox" checked> second surface</label>
+          <label class="l3-check"><input id="l3-anim" type="checkbox"> animate</label>
+          <button id="l3-reset" type="button">Reset view</button>
+        </div>
+      </div>
+      <div class="l3-card">
+        <h3>The closing test</h3>
+        <table class="l3-table">
+          <tr><th></th><th>formula</th><th>simulation</th></tr>
+          <tr><td id="l3-lx">plane x = 0</td><td id="l3-fx"></td><td id="l3-sx"></td></tr>
+          <tr><td id="l3-lz">plane z = 0</td><td id="l3-fz"></td><td id="l3-sz"></td></tr>
+        </table>
+        <p class="l3-note">Crossings of each plane per bounce: predicted by the formula of the next section, and counted
+        along the first 3000 bounces.</p>
+        <p class="l3-note" id="l3-nu"></p>
+        <p class="l3-note" id="l3-close"></p>
+      </div>
+      <div class="l3-card">
+        <h3>Bounce map</h3>
+        <canvas id="l3-map" class="l3-small"></canvas>
+        <p class="l3-note">The first 3000 bounces on the mirror, longitude across, latitude up. They fill a band: in
+        general a ray never comes back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wide" id="light3d-closing">
+  <h2>The closing condition, tested</h2>
+  <h3>What is conserved</h3>
+  <p>All the rays of one trajectory graze a second surface, always the same one (pink in the view). It belongs to the
+  family
+  \[ \frac{x^2}{a^2+\nu}+\frac{y^2}{b^2+\nu}+\frac{z^2}{c^2+\nu}=\frac{R^2}{R^2+\nu}, \]
+  which contains \(K\) itself (\(\nu=0\)) and the mirror (\(\nu\) going to infinity). The number \(\nu\) is the same
+  for every ray of the trajectory: in the tool it stays constant to 14 digits. This is expected, since billiards inside
+  quadrics are integrable in all the classical geometries of this kind.</p>
+
+  <h3>Three coordinates</h3>
+  <p>Every point between \(K\) and the mirror lies on three surfaces of the family, with parameters
+  \(\lambda_1\le\lambda_2\le\lambda_3\). Along a ray:</p>
+  <ul>
+    <li>\(\lambda_3\) goes from infinity (on the mirror) down to \(0\) (where the ray grazes \(K\)) and back: exactly
+    once per bounce;</li>
+    <li>\(\lambda_1\) and \(\lambda_2\) go back and forth in two intervals \(J_1\) and \(J_2\), whose ends are among
+    \(-a^2,-b^2,-c^2\) and \(\nu\). Reaching \(-a^2\) means crossing the plane \(x=0\), and similarly for the other two
+    axes.</li>
+  </ul>
+  <p>There are two kinds of second surface. If \(-a^2&lt;\nu&lt;-b^2\), then \(J_1=[-a^2,\nu]\) and
+  \(J_2=[-b^2,-c^2]\). If \(-b^2&lt;\nu&lt;-c^2\), then \(J_1=[-a^2,-b^2]\) and \(J_2=[\nu,-c^2]\). In both cases
+  \(J_3=[0,\infty)\).</p>
+
+  <div class="box">
+    <p><strong>The closing condition.</strong> Let
+    \[ P(\lambda)=\lambda\,(\lambda-\nu)\,(\lambda+a^2)\,(\lambda+b^2)\,(\lambda+c^2)\,(\lambda+R^2),\qquad
+       I_j=\int_{J_j}\frac{d\lambda}{\sqrt{|P(\lambda)|}},\qquad K_j=\int_{J_j}\frac{\lambda\,d\lambda}{\sqrt{|P(\lambda)|}}. \]
+    The numbers \(\rho_1,\rho_2\) defined by
+    \[ I_3=\rho_1 I_1+\rho_2 I_2,\qquad K_3=\rho_1 K_1+\rho_2 K_2 \]
+    (up to sign) are the average numbers of crossings, per bounce, of the planes \(x=0\) and \(z=0\). A ray comes back
+    to its start, or to its mirror image in a coordinate plane, after \(n\) bounces exactly when
+    \(\rho_1=m_1/n\) and \(\rho_2=m_2/n\) with \(m_1,m_2\) integers. Then every ray grazing the same second surface
+    closes as well.</p>
+  </div>
+  <p>This is the three-dimensional version of the closing condition of the <a href="#light-result">previous tab</a>.
+  There, one equation on an elliptic curve; here, two equations on the curve \(w^2=P(\lambda)\), which has genus 2.</p>
+
+  <h3>The test</h3>
+  <figure>
+    <img src="light3d_test.png" alt="Predicted against counted crossings for 150 random ellipsoids and rays, all on the diagonal, and a histogram of the differences" style="width:100%;height:auto;display:block;border-radius:6px">
+    <figcaption>For 150 random ellipsoids and random rays, the crossings per bounce predicted by the formula, against
+    the crossings counted along 5000 bounces. The differences are of the order of 1/5000, which is the precision of
+    the count itself. The same comparison runs live in the tool above, for whatever ray you choose.</figcaption>
+  </figure>
+
+  <h3>What it says</h3>
+  <p>For a fixed ellipsoid, the pair \((\rho_1,\rho_2)\) depends only on \(\nu\): all the rays together draw a curve
+  in the plane, in two pieces, one for each kind of second surface. A ray closes exactly when its point on this curve
+  is a pair of fractions with the same denominator. A curve generally passes through no such point, so for a generic
+  ellipsoid <strong>no ray of light ever closes</strong>. To get closed rays, one has to adjust the shape: the formula
+  says how.</p>
+  <figure>
+    <img src="light3d_rotation.png" alt="The curve of crossing numbers for c = 0.45, missing all fractions, and for two adjusted values of c going through 8/11, 9/11 and 7/10, 8/10" style="width:100%;height:auto;display:block;border-radius:6px">
+    <figcaption>Left: \(a=1\), \(b=0.7\), \(c=0.45\); the grey dots are fractions with denominator at most 20, and the
+    curve misses them. Right: solving the two equations for \(c\) and \(\nu\) gives \(c=0.44453\), whose curve goes
+    through \((8/11,9/11)\), and \(c=0.52124\), whose curve goes through \((7/10,8/10)\). The buttons
+    "Closes after 22" and "Closes after 20" in the tool show these rays: the first one is at its mirror image after 11
+    bounces and back at its start after 22; the second is back after 20. The simulation returns to the start to
+    within \(10^{-11}\).</figcaption>
+  </figure>
+</section>
+
+<section class="wide" id="light3d-more">
+  <h2>What is checked, and what is open</h2>
+  <div class="status"><strong>Status.</strong> This tab is an exploration. The conservation of \(\nu\) is expected
+  from the classical integrability of billiards in quadrics (Veselov for spherical and hyperbolic geometry, Khesin
+  and Tabachnikov for pseudo-Euclidean spaces). The closing condition has the shape that the general theory of
+  Dragović and Radnović predicts, with hyperelliptic integrals; here it is only checked numerically, not proved.</div>
+  <ul>
+    <li><strong>A polynomial form.</strong> The condition should be equivalent to a statement on the curve
+    \(w^2=P(\lambda)\): the two points at infinity differ by a point of order \(n\) on its Jacobian, or equivalently a
+    Pell-Abel equation \(p^2-P\,q^2=1\) with \(\deg p=n\). This would give exact equations for the shapes that close,
+    like the rational values of the previous tab.</li>
+    <li><strong>Only quadrics?</strong> With a bent mirror (slider "bend the mirror"), \(\nu\) is no longer conserved.
+    In Euclidean space, Berger showed that only quadrics have such families of grazed surfaces, and Fierobe extended
+    this to pseudo-Euclidean and projective billiards in higher dimensions. Whether this covers the light rays here
+    remains to be checked.</li>
+  </ul>
+  <p><strong>References.</strong> A. P. Veselov, Confocal surfaces and integrable billiards on the sphere and in the
+  Lobachevsky space, J. Geom. Phys. 7 (1990). B. Khesin, S. Tabachnikov,
+  <a href="https://arxiv.org/abs/math/0608620">Pseudo-Riemannian geodesics and billiards</a>, Adv. Math. 221 (2009).
+  V. Dragović, M. Radnović, Poncelet Porisms and Beyond, Birkhäuser (2011). M. Berger, Seules les quadriques
+  admettent des caustiques, Bull. SMF 123 (1995). C. Fierobe, Only quadrics have pseudo-caustics (2023).</p>
+</section>
+</div>
+
 <footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.</footer>
 </main>
 </div>
@@ -2801,7 +2982,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 (function () {
   const panels = Array.from(document.querySelectorAll(".panel"));
   const tabs = Array.from(document.querySelectorAll(".tab"));
-  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from"};
+  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open"};
   const tabOf = {};
   panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
   const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
@@ -2839,6 +3020,321 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     }, { rootMargin: "-10% 0px -55% 0px" });
     document.querySelectorAll("section[id]").forEach(s => obs.observe(s));
   }
+})();
+</script>
+<script>
+/* ---------- Light in 3D: rays tangent to an ellipsoid, bouncing in a sphere ---------- */
+(function () {
+  "use strict";
+  const $ = id => document.getElementById("l3-" + id);
+  const cv = $("scene");
+  if (!cv) return;
+  const P = { R: 2.0 };
+  const ids = ["a", "b", "c", "eps", "lon", "lat", "phi", "n"];
+  const EX = {
+    A: { a: 1, b: 0.7, eps: 0, c: 0.44453211664771425, lon: 51.38961493000996, lat: 7.28494069287511, phi: 25.822864467835334, n: 22 },
+    B: { a: 1, b: 0.7, eps: 0, c: 0.5212375817996256, lon: 51.38961493000996, lat: 7.28494069287511, phi: 52.38188651561589, n: 20 }
+  };
+  let preset = null;
+  function readParams() {
+    for (const k of ids) P[k] = parseFloat($(k).value);
+    P.showC = $("showc").checked;
+    if (preset) Object.assign(P, preset);
+    for (const k of ids) {
+      const v = P[k];
+      $(k).nextElementSibling.textContent = (k === "lon" || k === "lat" || k === "phi") ? (preset ? v.toFixed(1) : v) + "°"
+        : (k === "c" && preset) ? v.toFixed(5) : String(v);
+    }
+  }
+
+  /* ---------- 3D algebra ---------- */
+  const dot = (u, v) => u[0]*v[0] + u[1]*v[1] + u[2]*v[2];
+  const add = (u, v) => [u[0]+v[0], u[1]+v[1], u[2]+v[2]];
+  const sc = (s, u) => [s*u[0], s*u[1], s*u[2]];
+  const cross = (u, v) => [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]];
+  const norm = u => Math.hypot(u[0], u[1], u[2]);
+  const unit = u => sc(1/norm(u), u);
+  const mv = (M, v) => [dot(M[0], v), dot(M[1], v), dot(M[2], v)];
+  const det3 = m => m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]) - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]) + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+  function solve3(M, r) {
+    const d = det3(M), x = [];
+    for (let j = 0; j < 3; j++) x.push(det3(M.map((row, i) => row.map((v, k) => k === j ? r[i] : v))) / d);
+    return x;
+  }
+
+  /* ---------- the light geometry ---------- */
+  // g_p(v) = (pQp - 1)(vQv) - (vQp)^2 vanishes exactly on the lines through p that touch the ellipsoid
+  function Gmat(p) {
+    const q = [1/P.a**2, 1/P.b**2, 1/P.c**2];
+    const Qp = [q[0]*p[0], q[1]*p[1], q[2]*p[2]];
+    const s = dot(p, Qp) - 1;
+    return [0, 1, 2].map(i => [0, 1, 2].map(j => (i === j ? s*q[i] : 0) - Qp[i]*Qp[j]));
+  }
+  const gform = (G, u, v) => dot(u, mv(G, v));
+  const F = x => dot(x, x) + P.eps*(x[0]**4 + x[1]**4 + x[2]**4) - P.R**2;
+  const gradF = x => [0, 1, 2].map(i => 2*x[i] + 4*P.eps*x[i]**3);
+  function mirrorRadius(u) {
+    if (P.eps === 0) return P.R;
+    const A = P.eps*(u[0]**4 + u[1]**4 + u[2]**4);
+    return Math.sqrt((-1 + Math.sqrt(1 + 4*A*P.R**2)) / (2*A));
+  }
+  function nextHit(p, v) {
+    if (P.eps === 0) return add(p, sc(-2*dot(p, v)/dot(v, v), v));
+    const L = 4*P.R/norm(v), N = 600;
+    let prev = 1e-9, fprev = F(add(p, sc(prev, v))), last = null;
+    for (let i = 1; i <= N; i++) {
+      const t = L*i/N, f = F(add(p, sc(t, v)));
+      if (fprev < 0 && f >= 0) last = [prev, t];
+      prev = t; fprev = f;
+    }
+    let lo = last[0], hi = last[1];
+    for (let k = 0; k < 60; k++) { const m = (lo + hi)/2; if (F(add(p, sc(m, v))) < 0) lo = m; else hi = m; }
+    return add(p, sc(lo, v));
+  }
+  function reflect(p, v) {
+    const G = Gmat(p), N = solve3(G, gradF(p));
+    return add(v, sc(-2*gform(G, v, N)/gform(G, N, N), N));
+  }
+  function startState() {
+    const lo = P.lon*Math.PI/180, la = P.lat*Math.PI/180;
+    const u = [Math.cos(la)*Math.cos(lo), Math.cos(la)*Math.sin(lo), Math.sin(la)];
+    const p = sc(mirrorRadius(u), u);
+    const G = Gmat(p), w = sc(-1, p), n = unit(gradF(p));
+    const t1 = unit(cross(n, [0.3, 0.5, 0.8])), t2 = cross(n, t1), ph = P.phi*Math.PI/180;
+    let e = add(sc(Math.cos(ph), t1), sc(Math.sin(ph), t2));
+    e = add(e, sc(-gform(G, e, w)/gform(G, w, w), w));
+    let v = add(w, sc(Math.sqrt(-gform(G, w, w)/gform(G, e, e)), e));
+    if (dot(v, p) > 0) v = sc(-1, v);
+    return [p, v];
+  }
+  // nu: the other surface of the family (duals K* + nu S*) that the ray touches
+  function nuOf(p, v) {
+    const d = unit(v);
+    const n1 = unit(cross(d, Math.abs(d[0]) < 0.9 ? [1, 0, 0] : [0, 1, 0])), n2 = cross(d, n1);
+    const u = [n1[0], n1[1], n1[2], -dot(n1, p)], w = [n2[0], n2[1], n2[2], -dot(n2, p)];
+    const k = [P.a**2, P.b**2, P.c**2, -1], s = [1, 1, 1, -1/P.R**2];
+    let A1 = 0, A2 = 0, B1 = 0, B2 = 0, C1 = 0, C2 = 0;
+    for (let i = 0; i < 4; i++) {
+      A1 += u[i]*w[i]*k[i]; A2 += u[i]*w[i]*s[i];
+      B1 += u[i]*u[i]*k[i]; B2 += u[i]*u[i]*s[i];
+      C1 += w[i]*w[i]*k[i]; C2 += w[i]*w[i]*s[i];
+    }
+    return -(2*A1*A2 - B1*C2 - B2*C1) / (A2*A2 - B2*C2);
+  }
+
+  /* ---------- the closing formula ---------- */
+  function integral(k, lo, hi, Pf) {
+    const N = 4000; let s = 0;
+    if (hi === Infinity) {             // lambda = lo + tan^2 t
+      for (let i = 0; i < N; i++) {
+        const t = (i + 0.5)*(Math.PI/2)/N, tn = Math.tan(t), l = lo + tn*tn;
+        s += l**k / Math.sqrt(Math.abs(Pf(l))) * 2*tn/(Math.cos(t)**2);
+      }
+      return s*(Math.PI/2)/N;
+    }
+    for (let i = 0; i < N; i++) {      // lambda = lo + (hi - lo)(1 - cos t)/2
+      const t = (i + 0.5)*Math.PI/N, l = lo + (hi - lo)*(1 - Math.cos(t))/2;
+      s += l**k / Math.sqrt(Math.abs(Pf(l))) * (hi - lo)*Math.sin(t)/2;
+    }
+    return s*Math.PI/N;
+  }
+  // returns [rho_long, rho_short, index of longest axis, index of shortest axis] or null
+  function formula(nu) {
+    if (P.eps !== 0) return null;
+    const ax = [P.a, P.b, P.c], ord = [0, 1, 2].sort((i, j) => ax[j] - ax[i]);
+    const A = ax[ord[0]]**2, B = ax[ord[1]]**2, C = ax[ord[2]]**2, R2 = P.R**2;
+    if (A - B < 1e-6 || B - C < 1e-6) return null;
+    const Pf = l => l*(l - nu)*(l + A)*(l + B)*(l + C)*(l + R2);
+    let J1, J2;
+    if (-A < nu && nu < -B) { J1 = [-A, nu]; J2 = [-B, -C]; }
+    else if (-B < nu && nu < -C) { J1 = [-A, -B]; J2 = [nu, -C]; }
+    else return null;
+    const I1 = [0, 1].map(k => integral(k, J1[0], J1[1], Pf)), I2 = [0, 1].map(k => integral(k, J2[0], J2[1], Pf));
+    const I3 = [0, 1].map(k => integral(k, 0, Infinity, Pf));
+    const d = I1[0]*I2[1] - I2[0]*I1[1];
+    const r1 = (I3[0]*I2[1] - I2[0]*I3[1]) / d, r2 = (I1[0]*I3[1] - I3[0]*I1[1]) / d;
+    return [Math.abs(r1), Math.abs(r2), ord[0], ord[2]];
+  }
+
+  let traj = null;
+  function compute() {
+    let [p, v] = startState();
+    const pts = [p], nus = [];
+    const NMAX = P.eps > 0 ? 600 : 3000;
+    for (let k = 0; k < NMAX; k++) {
+      nus.push(nuOf(p, v));
+      const q = nextHit(p, v);
+      v = reflect(q, v); p = q; pts.push(p);
+    }
+    traj = { pts, nus };
+  }
+
+  /* ---------- wireframes ---------- */
+  function ellipsoidWire() {
+    const L = [];
+    for (let i = 1; i < 12; i++) { const th = Math.PI*i/12, seg = []; for (let j = 0; j <= 64; j++) { const ph = 2*Math.PI*j/64; seg.push([P.a*Math.sin(th)*Math.cos(ph), P.b*Math.sin(th)*Math.sin(ph), P.c*Math.cos(th)]); } L.push(seg); }
+    for (let j = 0; j < 12; j++) { const ph = Math.PI*j/6, seg = []; for (let i = 0; i <= 40; i++) { const th = Math.PI*i/40; seg.push([P.a*Math.sin(th)*Math.cos(ph), P.b*Math.sin(th)*Math.sin(ph), P.c*Math.cos(th)]); } L.push(seg); }
+    return L;
+  }
+  function mirrorWire() {
+    const L = [], pt = (th, ph) => { const u = [Math.sin(th)*Math.cos(ph), Math.sin(th)*Math.sin(ph), Math.cos(th)]; return sc(mirrorRadius(u), u); };
+    for (let i = 1; i < 9; i++) { const th = Math.PI*i/9, seg = []; for (let j = 0; j <= 72; j++) seg.push(pt(th, 2*Math.PI*j/72)); L.push(seg); }
+    for (let j = 0; j < 12; j++) { const seg = []; for (let i = 0; i <= 48; i++) seg.push(pt(Math.PI*i/48, Math.PI*j/6)); L.push(seg); }
+    return L;
+  }
+  function conic2(al, be, r) {   // al x^2 + be y^2 = r, as a list of branches
+    const out = [], T = 2.4, M = 60;
+    const ell = () => { const s = []; for (let j = 0; j <= M; j++) { const t = 2*Math.PI*j/M; s.push([Math.sqrt(r/al)*Math.cos(t), Math.sqrt(r/be)*Math.sin(t)]); } out.push(s); };
+    if (al > 0 && be > 0) { if (r > 0) ell(); return out; }
+    if (al < 0 && be < 0) { if (r < 0) ell(); return out; }
+    const swap = al < 0, A = swap ? be : al, B = swap ? al : be;
+    for (const sg of [1, -1]) {
+      const s = [];
+      for (let j = 0; j <= M; j++) {
+        const t = -T + 2*T*j/M;
+        const xy = r > 0 ? [sg*Math.sqrt(r/A)*Math.cosh(t), Math.sqrt(-r/B)*Math.sinh(t)] : [Math.sqrt(-r/A)*Math.sinh(t), sg*Math.sqrt(r/B)*Math.cosh(t)];
+        s.push(swap ? [xy[1], xy[0]] : xy);
+      }
+      out.push(s);
+    }
+    return out;
+  }
+  function secondSurfaceWire(nu) {
+    const den = [P.a**2 + nu, P.b**2 + nu, P.c**2 + nu], rhs = 1/(1 + nu/P.R**2);
+    if (den.some(d => Math.abs(d) < 1e-9)) return [];
+    const q = den.map(d => 1/d), L = [], Rlim = P.R*1.08;
+    const pos = q.map(x => x > 0), npos = pos.filter(Boolean).length;
+    const axis = (npos === 0 || npos === 3) ? 2 : (npos === 1 ? pos.indexOf(true) : pos.indexOf(false));
+    const o = [0, 1, 2].filter(i => i !== axis);
+    for (let k = -16; k <= 16; k++) {
+      const h = P.R*k/16.5;
+      for (const br of conic2(q[o[0]], q[o[1]], rhs - q[axis]*h*h)) {
+        let seg = [];
+        for (const [x, y] of br) {
+          const p = [0, 0, 0]; p[axis] = h; p[o[0]] = x; p[o[1]] = y;
+          if (norm(p) < Rlim) seg.push(p); else { if (seg.length > 1) L.push(seg); seg = []; }
+        }
+        if (seg.length > 1) L.push(seg);
+      }
+    }
+    return L;
+  }
+
+  /* ---------- drawing ---------- */
+  const ctx = cv.getContext("2d");
+  let yaw = -0.6, pitch = 0.35, zoom = 1.0, animStep = 0, animOn = false, wires = {};
+  function proj(p, W, H) {
+    const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const x1 = cy*p[0] - sy*p[1], y1 = sy*p[0] + cy*p[1];
+    const r = [x1, cp*p[2] - sp*y1, sp*p[2] + cp*y1];
+    const s = Math.min(W, H)/(2*P.R*1.15)*zoom, k = 7.5/(7.5 + r[2]);
+    return [W/2 + s*k*r[0], H/2 - s*k*r[1], r[2]];
+  }
+  function drawPolys(polys, color, width, W, H, aFront, aBack) {
+    ctx.lineWidth = width; ctx.strokeStyle = color;
+    for (const seg of polys) {
+      let prev = proj(seg[0], W, H);
+      for (let i = 1; i < seg.length; i++) {
+        const cur = proj(seg[i], W, H);
+        ctx.globalAlpha = (prev[2] + cur[2])/2 < 0 ? aFront : aBack;
+        ctx.beginPath(); ctx.moveTo(prev[0], prev[1]); ctx.lineTo(cur[0], cur[1]); ctx.stroke();
+        prev = cur;
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+  function fit(c) {
+    const dpr = window.devicePixelRatio || 1, W = c.clientWidth, H = c.clientHeight;
+    if (W === 0 || H === 0) return null;
+    if (c.width !== Math.round(W*dpr) || c.height !== Math.round(H*dpr)) { c.width = Math.round(W*dpr); c.height = Math.round(H*dpr); }
+    const g = c.getContext("2d"); g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+    return [g, W, H];
+  }
+  function draw() {
+    const f = fit(cv); if (!f) return;
+    const W = f[1], H = f[2];
+    drawPolys(wires.M, "#8b93a3", 1, W, H, 0.35, 0.12);
+    if (P.showC) drawPolys(wires.C, "#d39bc6", 1.1, W, H, 0.75, 0.3);
+    drawPolys(wires.K, "#e59a72", 1.2, W, H, 0.95, 0.35);
+    const n = animOn ? Math.min(animStep, P.n) : P.n, pts = traj.pts;
+    ctx.lineWidth = 1.5; ctx.strokeStyle = "#5fb7c0";
+    for (let i = 0; i < n && i + 1 < pts.length; i++) {
+      const A = proj(pts[i], W, H), B = proj(pts[i + 1], W, H);
+      ctx.globalAlpha = Math.max(0.3, 1 - 0.6*i/Math.max(1, n)) * ((A[2] + B[2])/2 < 0 ? 1 : 0.7);
+      ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+    const s0 = proj(pts[0], W, H); ctx.fillStyle = "#e0c068"; ctx.beginPath(); ctx.arc(s0[0], s0[1], 5, 0, 2*Math.PI); ctx.fill();
+  }
+  function drawMap() {
+    const f = fit($("map")); if (!f) return;
+    const [g, W, H] = f, X = p => W/2 + (W - 8)/2*Math.atan2(p[1], p[0])/Math.PI, Y = p => H/2 - (H - 8)/2*Math.asin(p[2]/norm(p))/(Math.PI/2);
+    g.fillStyle = "#5fb7c0"; g.globalAlpha = 0.7;
+    for (const p of traj.pts) g.fillRect(X(p) - 0.8, Y(p) - 0.8, 1.6, 1.6);
+    g.globalAlpha = 1; g.fillStyle = "#e0c068"; g.beginPath(); g.arc(X(traj.pts[0]), Y(traj.pts[0]), 4, 0, 2*Math.PI); g.fill();
+  }
+  function closingTest() {
+    const nus = traj.nus, nu = nus[0], spread = Math.max(...nus) - Math.min(...nus);
+    $("nu").textContent = P.eps === 0
+      ? "Second surface: ν = " + nu.toFixed(6) + ", constant to " + spread.toExponential(0) + " over " + nus.length + " bounces."
+      : "Bent mirror: ν now drifts by " + spread.toFixed(3) + " over " + nus.length + " bounces, and the formula no longer applies.";
+    const fm = formula(nu), names = ["x", "y", "z"];
+    const iL = fm ? fm[2] : 0, iS = fm ? fm[3] : 2;
+    $("lx").textContent = "plane " + names[iL] + " = 0"; $("lz").textContent = "plane " + names[iS] + " = 0";
+    const pts = traj.pts, m = pts.length - 1;
+    let cL = 0, cS = 0;
+    for (let k = 0; k < m; k++) { if (Math.sign(pts[k][iL]) !== Math.sign(pts[k + 1][iL])) cL++; if (Math.sign(pts[k][iS]) !== Math.sign(pts[k + 1][iS])) cS++; }
+    $("sx").textContent = (cL/m).toFixed(5); $("sz").textContent = (cS/m).toFixed(5);
+    if (!fm) { $("fx").textContent = "-"; $("fz").textContent = "-"; $("close").textContent = P.eps === 0 ? "Formula not defined for this shape (two equal axes)." : ""; return; }
+    $("fx").textContent = fm[0].toFixed(5); $("fz").textContent = fm[1].toFixed(5);
+    let best = null;
+    for (let n = 1; n <= 40; n++) {
+      const m1 = Math.round(fm[0]*n), m2 = Math.round(fm[1]*n), d = Math.max(Math.abs(fm[0] - m1/n), Math.abs(fm[1] - m2/n));
+      if (!best || d < best.d - 1e-9) best = { n, m1, m2, d };
+    }
+    $("close").textContent = best.d < 1e-6
+      ? "Closes: " + best.m1 + "/" + best.n + " and " + best.m2 + "/" + best.n + ". After " + best.n + " bounces the ray is back at its start or at a mirror image of it."
+      : "Nearest pair of fractions with denominator at most 40: " + best.m1 + "/" + best.n + " and " + best.m2 + "/" + best.n + ", off by " + best.d.toExponential(1) + ". This ray does not close.";
+  }
+  function update() {
+    readParams();
+    try { compute(); } catch (e) { return; }
+    wires.K = ellipsoidWire(); wires.M = mirrorWire(); wires.C = P.eps === 0 ? secondSurfaceWire(traj.nus[0]) : [];
+    closingTest(); animStep = 0; draw(); drawMap();
+  }
+  for (const k of ids) $(k).addEventListener("input", () => { if (k !== "n") preset = null; update(); });
+  $("showc").addEventListener("change", () => { P.showC = $("showc").checked; draw(); });
+  function tick() {
+    if (!animOn) return;
+    animStep += 0.25; draw();
+    if (animStep < P.n) requestAnimationFrame(tick); else setTimeout(() => { animStep = 0; if (animOn) tick(); }, 900);
+  }
+  $("anim").addEventListener("change", () => { animOn = $("anim").checked; animStep = 0; if (animOn) tick(); else draw(); });
+  function usePreset(E) {
+    preset = Object.assign({}, E); delete preset.n;
+    for (const k of ids) $(k).value = k === "n" ? E.n : E[k];
+    update();
+  }
+  $("ex-a").addEventListener("click", () => usePreset(EX.A));
+  $("ex-b").addEventListener("click", () => usePreset(EX.B));
+  $("reset").addEventListener("click", () => { yaw = -0.6; pitch = 0.35; zoom = 1; draw(); });
+  $("rand").addEventListener("click", () => {
+    preset = null;
+    $("lon").value = Math.round(Math.random()*360 - 180); $("lat").value = Math.round(Math.random()*150 - 75); $("phi").value = Math.round(Math.random()*360);
+    update();
+  });
+  let drag = null;
+  cv.addEventListener("pointerdown", e => { drag = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); });
+  cv.addEventListener("pointermove", e => {
+    if (!drag) return;
+    yaw += (e.clientX - drag[0])*0.008; pitch = Math.max(-1.5, Math.min(1.5, pitch + (e.clientY - drag[1])*0.008));
+    drag = [e.clientX, e.clientY]; draw();
+  });
+  cv.addEventListener("pointerup", () => { drag = null; });
+  cv.addEventListener("wheel", e => { if (!e.shiftKey) return; e.preventDefault(); zoom = Math.max(0.5, Math.min(3, zoom*Math.exp(-e.deltaY*0.001))); draw(); }, { passive: false });
+  if ("ResizeObserver" in window) new ResizeObserver(() => { if (traj) { draw(); drawMap(); } }).observe(cv);
+  window.addEventListener("hashchange", () => requestAnimationFrame(() => { if (traj) { draw(); drawMap(); } }));
+  update();
 })();
 </script>
 </body>
