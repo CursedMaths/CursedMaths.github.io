@@ -1,2 +1,2 @@
 # CursedMaths.github.io
-A work on Blaschke product and light machines
+A work on Blaschke products and light machines
