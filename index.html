@@ -193,7 +193,7 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   <ol id="toc-list"></ol>
 </nav>
 <main>
-<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a></div></nav>
+<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a><a role="tab" class="tab" id="tabbtn-machina" href="#tab-machina" data-tab="machina" aria-controls="tab-machina">Syracuse Machina</a><a role="tab" class="tab" id="tabbtn-mirrorpen" href="#tab-mirrorpen" data-tab="mirrorpen" aria-controls="tab-mirrorpen">The mirror pen</a></div></nav>
 <div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="theorem-z idea map paper">
 <div class="hero">
   <div>
@@ -2701,6 +2701,754 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   admettent des caustiques, Bull. SMF 123 (1995). C. Fierobe, Only quadrics have pseudo-caustics (2023).</p>
 </section>
 </div>
+<div class="panel" id="tab-machina" role="tabpanel" aria-labelledby="tabbtn-machina" data-sections="machina machina-how machina-status">
+<h1 class="tabtitle">Syracuse Machina</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#machina">The machine</a></li><li><a href="#machina-how">How it works</a></li><li><a href="#machina-status">What is checked, and the limits</a></li></ol></nav><section class="wide" id="machina">
+  <h2>The machine</h2>
+  <p>This tab is a side trip, far from Blaschke products. The Syracuse sequence (also called the Collatz or
+  \(3n+1\) sequence) starts from a positive integer and repeats one rule: if the number is even, halve it; if it is
+  odd, replace \(n\) by \(3n+1\). The conjecture, open since the 1930s, says that every start reaches 1.
+  Since \(3n+1\) is always even when \(n\) is odd, the two steps can be done at once: an odd \(n\) goes
+  straight to \((3n+1)/2\). This is the form used here. From 7 it gives 7, 11, 17, 26, 13, 20, 10, 5, 8, 4, 2, 1.</p>
+  <p>The <em>Syracuse Machina</em> is a set of mirrors in which a ray of light carries out this sequence by bouncing.
+  The distance of the ray to the axis is the current number. Nothing moves and nothing decides: the shape of the
+  mirrors does the arithmetic. Pick a starting number and follow the ray.</p>
+<style>
+.sm{--sm-beam:var(--even,#e59a72);margin:1.2rem 0}
+.sm-stage{position:relative;border:1px solid var(--rule,#2c3342);border-radius:.6rem;overflow:hidden;background:#0d1118;aspect-ratio:16/10;min-height:20rem}
+.sm-stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.sm-stage canvas:active{cursor:grabbing}
+.sm-now{position:absolute;left:1.1rem;top:.7rem;pointer-events:none;line-height:1}
+.sm-now b{display:block;font-weight:600;font-size:clamp(2.4rem,7vw,4.4rem);color:var(--ink,#e6e9ef);font-variant-numeric:lining-nums tabular-nums}
+.sm-now span{display:block;margin-top:.35rem;font-style:italic;font-size:.95rem;color:var(--muted,#a3abba)}
+.sm-hint{position:absolute;right:1rem;bottom:.7rem;font-size:.8rem;color:var(--muted,#a3abba);pointer-events:none;opacity:.8}
+.sm-fail{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:2rem;text-align:center;color:var(--muted,#a3abba)}
+.sm-tape{display:flex;flex-wrap:wrap;gap:.15rem .55rem;margin:.9rem 0 0;padding:0;list-style:none;font-variant-numeric:lining-nums tabular-nums;font-size:1.02rem;color:var(--muted,#a3abba);min-height:1.8rem}
+.sm-tape li{transition:color .25s}
+.sm-tape li.done{color:color-mix(in srgb,var(--ink,#e6e9ef) 55%,transparent)}
+.sm-tape li.odd.done{color:var(--zero,#e0c068)}
+.sm-tape li.cur{color:var(--sm-beam);font-weight:600}
+.sm-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .6rem;margin-top:.9rem;font-size:.95rem}
+.sm-bar>span{color:var(--muted,#a3abba);margin-right:.2rem}
+.sm-bar button{font:inherit;line-height:1.2;color:var(--ink,#e6e9ef);background:transparent;border:1px solid var(--rule,#2c3342);border-radius:2rem;padding:.2rem .8rem;cursor:pointer;font-variant-numeric:lining-nums}
+.sm-bar button:hover{border-color:var(--ellipse,#5fb7c0)}
+.sm-bar button:focus-visible{outline:2px solid var(--ellipse,#5fb7c0);outline-offset:2px}
+.sm-bar button[aria-pressed="true"]{border-color:var(--sm-beam);color:var(--sm-beam)}
+.sm-bar .sm-gap{flex:1}
+.sm-key{display:flex;flex-wrap:wrap;gap:.3rem 1.3rem;margin:.9rem 0 0;padding:0;list-style:none;font-size:.88rem;color:var(--muted,#a3abba)}
+.sm-key i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.45rem;vertical-align:-.02rem}
+</style>
+<div class="sm" id="sm-root">
+  <div class="sm-stage">
+    <canvas id="sm-canvas" aria-label="Rotating 3D view of the mirror machine with a moving ray of light"></canvas>
+    <div class="sm-now"><b id="sm-value">7</b><span id="sm-what">starting</span></div>
+    <div class="sm-hint">drag to turn, scroll to zoom</div>
+    <div class="sm-fail" id="sm-fail">The 3D view could not start. It needs WebGL and a connection to load the three.js library.</div>
+  </div>
+  <ol class="sm-tape" id="sm-tape" aria-label="The sequence, step by step"></ol>
+  <div class="sm-bar">
+    <span>Start from</span>
+    <span id="sm-starts" style="display:contents"></span>
+    <span class="sm-gap"></span>
+    <button type="button" id="sm-pause" aria-pressed="false">Pause</button>
+    <button type="button" id="sm-spin" aria-pressed="true">Turn slowly</button>
+  </div>
+  <ul class="sm-key">
+    <li><i style="background:var(--ellipse,#5fb7c0)"></i>two bowl mirrors with one focus: a round trip divides by 2</li>
+    <li><i style="background:var(--zero,#e0c068)"></i>teeth on the odd positions</li>
+    <li><i style="background:var(--geo,#9aa8ff)"></i>gutter mirrors: position n becomes (3n+1)/2</li>
+    <li><i style="background:var(--mark,#d39bc6)"></i>second pair of gutters, then three flat mirrors back to the cavity</li>
+  </ul>
+</div>
+</section>
+<section class="wide" id="machina-how">
+  <h2>How it works</h2>
+  <p><strong>Dividing by 2.</strong> The cavity is made of two mirrors shaped like bowls (paraboloids) facing each
+  other, with the same focus. A ray that goes up parallel to the axis, at distance \(x\) from it, is sent by the
+  upper bowl through the focus, and the lower bowl sends it up again, parallel to the axis. The lower bowl has half the
+  focal length of the upper one, so the ray comes back at distance \(x/2\), on the other side of the axis. One round
+  trip, two bounces, one division by 2.</p>
+  <p><strong>Stopping on odd numbers.</strong> Just above the focus sits a comb: one small mirror, a tooth, on every
+  odd position. While the number is even the ray passes between two teeth. As soon as it is odd, the ray hits a tooth.
+  The tooth of position 1 is flat: it sends the ray straight back, the ray retraces its whole path and returns to its
+  start. Reaching 1 and closing up are the same event.</p>
+  <p><strong>From \(n\) to \((3n+1)/2\).</strong> The other teeth are tilted at 45 degrees and send the ray sideways,
+  out of the cavity through the gap between the two rims. There it meets two gutter-shaped parabolic mirrors with a
+  common focal line and focal lengths in ratio 3 to 2. Such a pair sends the position \(x\) to \((5a-3x)/2\), where
+  \(a\) is the position of the focal line. With \(a=-\tfrac15\), the position \(n\) becomes \(-(3n+1)/2\): the
+  shift of the axis by a fifth of a step is what adds the 1. Three flat mirrors then bring the ray under the cavity, and it comes
+  back in through a slot of the lower bowl.</p>
+  <p><strong>Why a third dimension.</strong> Two numbers can have the same successor: 5 and 32 both give 16. Mirrors
+  cannot do that. A path of light can be run backwards, so two different rays can never merge into one. The way out
+  is to let the ray remember where it comes from. It carries a small sideways offset, in the direction the figure
+  does not use for the number. Every round trip in the cavity halves this offset together with the number. A second
+  pair of gutters, turned by a quarter turn, shrinks it by 6 and the flat mirrors place it in a reserved band, far
+  from zero. The entry slots are cut in that band. A ray already in the cavity always lands outside the band, on
+  the mirror; a ray coming from the \((3n+1)/2\) stage always lands inside it, in a slot. The 16 that comes from 32 and
+  the 16 that comes from 5 are not at the same place.</p>
+  <p>The stage exists twice, on either side of the cavity: one copy serves the teeth on the right, the other, its
+  image by a half turn, serves the teeth on the left.</p>
+</section>
+<section class="wide" id="machina-status">
+  <h2>What is checked, and the limits</h2>
+  <div class="status"><strong>Checked.</strong> The whole machine was traced bounce by bounce, with the law of
+  reflection on every mirror and 160-digit arithmetic. In a machine covering the positions up to 4616, every start
+  from 1 to 99 follows its Syracuse sequence and ends on tooth 1; the ray started from 27 makes 387 bounces for its
+  70 steps (111 steps in the usual count). The view above shows a smaller machine, covering the positions up to 52,
+  in which the 37 starts whose sequence stays below 52 were traced the same way; the animated path coincides with
+  that tracing.</div>
+  <ul>
+    <li><strong>A machine has a capacity.</strong> The two bowls close on each other at some distance from the axis,
+    so a given machine only handles the numbers whose sequence stays below that distance. For every number there is a
+    machine large enough, but no single machine handles them all.</li>
+    <li><strong>It cannot be built.</strong> Narrowing a beam opens its angles: every division by 2 doubles the
+    slightest error of direction. With ordinary 16-digit arithmetic the simulation already fails for a third of the
+    starts below 100. The machine is exact on paper only.</li>
+    <li><strong>It proves nothing.</strong> "Every ray comes back to its start" is the Syracuse conjecture, word for
+    word. The machine is a translation of the problem into geometry, not an argument.</li>
+  </ul>
+  <div class="status"><strong>Status.</strong> This construction came out of an exploration with numerical checks,
+  not from the literature. It is known in principle that systems of mirrors can carry out computations; whether this
+  particular machine has been described before has not been checked.</div>
+</section>
+</div>
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+/* ---------- Syracuse Machina: the 3D view is loaded only when its tab is opened ---------- */
+const panel = document.getElementById("tab-machina");
+let started = false;
+async function start() {
+const THREE = await import("three");
+const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+const { EffectComposer } = await import("three/addons/postprocessing/EffectComposer.js");
+const { RenderPass } = await import("three/addons/postprocessing/RenderPass.js");
+const { UnrealBloomPass } = await import("three/addons/postprocessing/UnrealBloomPass.js");
+const { OutputPass } = await import("three/addons/postprocessing/OutputPass.js");
+const $ = id => document.getElementById("sm-" + id);
+const canvas = $("canvas");
+
+/* ---------- the machine (lengths in units of one position step) ---------- */
+const L = 52, RM = L + 2, F2 = 0.62 * RM, F1 = 2 * F2, YT = 0.3, SMEM = 0.15;
+const LAM = 1 / 6, K = (2 * L - 1) / 3, AX = -0.2, G1 = K + 2, G2 = 1.5 * G1, ZF = RM + G2 + 2;
+const B0 = YT - 1, E1 = 3, E2 = LAM * E1, ZG = ZF + G1 + E2 + 2;
+const D1 = ZG + E1 + 3 + B0, D2 = -F2 - 3 - (ZG + E1 + 3), D3 = SMEM + D2 + D1 - (B0 * (1 + LAM) - LAM * YT);
+const up = (x, z) => F1 - (x * x + z * z) / (4 * F1), lo = (x, z) => -F2 + (x * x + z * z) / (4 * F2);
+const U = 1 / RM;                                   /* scene scale: the bowls have radius 1 */
+
+/* shortcut form: an odd n goes straight to (3n+1)/2 */
+function collatz(n) { const s = [n]; while (n !== 1) { n = n % 2 ? (3 * n + 1) / 2 : n / 2; s.push(n); } return s; }
+
+/* Every bounce point of the ray, in order. Checked against an exact ray tracing of the same mirrors. */
+function buildPath(n0) {
+  let x = n0, z = 0.05, step = 0;
+  const P = [], push = (px, py, pz, kind) => P.push({ p: new THREE.Vector3(px * U, py * U, pz * U), step, kind });
+  push(x, lo(x, z), z, "cav");
+  for (let guard = 0; guard < 4000; guard++) {
+    const k = Math.round(Math.abs(x));
+    if (k % 2 === 1) {
+      if (k === 1) { push(x, YT, z, "cav"); break; }
+      const s = Math.sign(x), X = Math.abs(x), m = s * z, h = YT + m;
+      const A = (ax, ay, az, kind) => push(s * ax, ay, s * az, kind);
+      A(X, h, m, "cav");                                              /* tooth */
+      A(X, h, ZF + G1 - (X - AX) ** 2 / (4 * G1), "st");              /* far gutter */
+      const X2 = AX - 1.5 * (X - AX);
+      A(X2, h, ZF - G2 + (X2 - AX) ** 2 / (4 * G2), "st");            /* near gutter: now at -(3n+1)/2 */
+      A(X2, h, ZG + E1 - (h - B0) ** 2 / (4 * E1), "st");             /* memory gutters */
+      const y1 = B0 - LAM * (h - B0);
+      A(X2, y1, ZG - E2 + (y1 - B0) ** 2 / (4 * E2), "st");
+      const z1 = D1 - y1, y2 = D2 + z1, z2 = D3 - y2;
+      A(X2, y1, z1, "st"); A(X2, y2, z1, "st"); A(X2, y2, z2, "st");  /* three flat mirrors */
+      step++;
+      A(X2, lo(X2, z2), z2, "st");                                    /* through the entry slot */
+      x = s * X2; z = s * z2;
+      continue;
+    }
+    push(x, up(x, z), z, "cav");
+    step++;
+    x = -x / 2; z = -z / 2;
+    push(x, lo(x, z), z, "cav");
+  }
+  return P;
+}
+
+/* ---------- scene ---------- */
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); }
+catch (e) { $("fail").style.display = "flex"; throw e; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d1118);
+scene.fog = new THREE.Fog(0x0d1118, 7, 15);
+const camera = new THREE.PerspectiveCamera(36, 1.6, 0.05, 60);
+camera.position.set(3.9, 1.75, 4.1);
+const controls = new OrbitControls(camera, canvas);
+controls.target.set(0, 0.22, 0); controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 1.6; controls.maxDistance = 11; controls.autoRotate = true; controls.autoRotateSpeed = 0.55;
+scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x10141c, 0.9));
+const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(3, 5, 2); scene.add(key);
+
+const css = (name, fb) => new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fb);
+const C = { glass: css("--ellipse", "#5fb7c0"), brass: css("--zero", "#e0c068"), beam: css("--even", "#e59a72"), gut: css("--geo", "#9aa8ff"), mem: css("--mark", "#d39bc6") };
+
+const glass = (color, opacity) => new THREE.MeshPhysicalMaterial({ color, transparent: true, opacity, side: THREE.DoubleSide, roughness: 0.18, metalness: 0.35, depthWrite: false });
+const edge = (color, opacity) => new THREE.LineBasicMaterial({ color, transparent: true, opacity });
+
+/* the two bowls */
+function bowl(f) {
+  const pts = []; for (let i = 0; i <= 48; i++) { const r = RM * i / 48; pts.push(new THREE.Vector2(r * U, f(r, 0) * U)); }
+  const g = new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.LatheGeometry(pts, 96), glass(C.glass, 0.2)));
+  [0.25, 0.5, 0.75, 1].forEach(q => {
+    const ring = []; for (let i = 0; i <= 128; i++) { const t = i * Math.PI / 64, r = RM * q; ring.push(new THREE.Vector3(r * Math.cos(t) * U, f(r, 0) * U, r * Math.sin(t) * U)); }
+    g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ring), edge(C.glass, q === 1 ? 0.95 : 0.16)));
+  });
+  return g;
+}
+scene.add(bowl(up), bowl(lo));
+const focus = new THREE.Mesh(new THREE.SphereGeometry(0.012, 16, 12), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+scene.add(focus);
+
+/* the comb of teeth: one small tilted mirror on every odd position, flat on position 1 */
+{
+  const odd = []; for (let k = 1; k <= L; k += 2) odd.push(k, -k);
+  const teeth = new THREE.InstancedMesh(new THREE.BoxGeometry(0.36 * U, 0.05 * U, 2.6 * U), new THREE.MeshStandardMaterial({ color: C.brass, emissive: C.brass, emissiveIntensity: 0.35, metalness: 0.8, roughness: 0.3 }), odd.length);
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), ax = new THREE.Vector3(1, 0, 0), one = new THREE.Vector3(1, 1, 1);
+  odd.forEach((k, i) => {
+    q.setFromAxisAngle(ax, Math.abs(k) === 1 ? 0 : (k > 0 ? -Math.PI / 4 : Math.PI / 4));
+    m.compose(new THREE.Vector3(k * U, YT * U, 0), q, one); teeth.setMatrixAt(i, m);
+  });
+  scene.add(teeth);
+}
+
+/* a curved strip of mirror: curve(u) swept along a straight direction */
+function ribbon(curve, u0, u1, sweep, s0, s1, color) {
+  const n = 40, pos = [], idx = [], rim = [];
+  for (let i = 0; i <= n; i++) {
+    const c = curve(u0 + (u1 - u0) * i / n);
+    for (const s of [s0, s1]) pos.push((c[0] + sweep[0] * s) * U, (c[1] + sweep[1] * s) * U, (c[2] + sweep[2] * s) * U);
+    if (i < n) { const a = 2 * i; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+  }
+  for (let i = 0; i <= n; i++) rim.push(new THREE.Vector3(pos[6 * i], pos[6 * i + 1], pos[6 * i + 2]));
+  for (let i = n; i >= 0; i--) rim.push(new THREE.Vector3(pos[6 * i + 3], pos[6 * i + 4], pos[6 * i + 5]));
+  rim.push(rim[0].clone());
+  const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+  const g = new THREE.Group(); g.add(new THREE.Mesh(geo, glass(color, 0.2)), new THREE.Line(new THREE.BufferGeometry().setFromPoints(rim), edge(color, 0.9)));
+  return g;
+}
+function plate(y, z, color) {
+  const w = L - 1, geo = new THREE.BoxGeometry(w * U, 0.08 * U, 3.2 * U);
+  const g = new THREE.Group(), mesh = new THREE.Mesh(geo, glass(color, 0.26));
+  g.add(mesh, new THREE.LineSegments(new THREE.EdgesGeometry(geo), edge(color, 0.9)));
+  g.position.set((-L - 2 + -3) / 2 * U, y * U, z * U); return g;
+}
+function bench() {
+  const g = new THREE.Group(), HG = 2.6;
+  g.add(ribbon(x => [x, YT, ZF + G1 - (x - AX) ** 2 / (4 * G1)], AX, K + 1.5, [0, 1, 0], -HG, HG, C.gut));
+  g.add(ribbon(x => [x, YT, ZF - G2 + (x - AX) ** 2 / (4 * G2)], -L - 2, AX, [0, 1, 0], -HG, HG, C.gut));
+  g.add(ribbon(y => [0, y, ZG + E1 - (y - B0) ** 2 / (4 * E1)], B0, B0 + 3, [1, 0, 0], -L - 2, -3, C.mem));
+  g.add(ribbon(y => [0, y, ZG - E2 + (y - B0) ** 2 / (4 * E2)], B0 - 2, B0, [1, 0, 0], -L - 2, -3, C.mem));
+  const y1 = B0 - LAM, z1 = D1 - y1, y2 = D2 + z1;
+  const p1 = plate(y1, z1, C.mem); p1.rotation.x = Math.PI / 4;
+  const p2 = plate(y2, z1, C.mem); p2.rotation.x = -Math.PI / 4;
+  const p3 = plate(y2, SMEM, C.mem); p3.rotation.x = Math.PI / 4;
+  g.add(p1, p2, p3);
+  return g;
+}
+const benchA = bench(), benchB = bench(); benchB.rotation.y = Math.PI; scene.add(benchA, benchB);
+
+/* ---------- the ray ---------- */
+const MAXV = 1400;
+const trail = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: C.beam, transparent: true, opacity: 0.55 }));
+trail.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(MAXV * 3), 3)); trail.frustumCulled = false;
+const hot = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: new THREE.Color(1.6, 1.15, 0.8) }));
+hot.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(64 * 3), 3)); hot.frustumCulled = false;
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.02, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(3, 2.2, 1.5) }));
+const flash = new THREE.Mesh(new THREE.SphereGeometry(0.03, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(3, 2.6, 1.4), transparent: true, opacity: 0 }));
+scene.add(trail, hot, head, flash);
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.85, 0.7, 0.2);
+composer.addPass(bloom); composer.addPass(new OutputPass());
+
+/* ---------- playing the examples ---------- */
+const STARTS = [3, 6, 7, 9, 11, 19, 25, 29, 33];
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let path = [], cum = [], total = 0, dist = 0, seq = [], startIdx = 2, pinned = false, paused = false, waitUntil = 0, flashT = 0, lastStep = -1;
+const SPEED = 5.2;
+
+function load(n) {
+  path = buildPath(n); seq = collatz(n); cum = [0]; total = 0;
+  for (let i = 1; i < path.length; i++) { total += path[i].p.distanceTo(path[i - 1].p); cum.push(total); }
+  const a = trail.geometry.attributes.position;
+  path.forEach((q, i) => a.setXYZ(i, q.p.x, q.p.y, q.p.z)); a.needsUpdate = true;
+  dist = reduce ? total : 0; lastStep = -1; waitUntil = 0;
+  $("tape").innerHTML = seq.map(v => `<li class="${v % 2 ? "odd" : ""}">${v}</li>`).join("");
+  [...$("starts").children].forEach(b => b.setAttribute("aria-pressed", String(+b.textContent === n)));
+}
+function showStep(step, kind) {
+  if (step === lastStep) return; lastStep = step;
+  const v = seq[Math.min(step, seq.length - 1)];
+  $("value").textContent = v;
+  $("what").textContent = v === 1 ? "arrived" : v % 2 ? "odd: out to (3n+1)/2" : "even: halve";
+  [...$("tape").children].forEach((li, i) => { li.classList.toggle("done", i < step); li.classList.toggle("cur", i === step); });
+}
+STARTS.forEach(n => { const b = document.createElement("button"); b.type = "button"; b.textContent = n; b.addEventListener("click", () => { pinned = true; startIdx = STARTS.indexOf(n); load(n); }); $("starts").appendChild(b); });
+$("pause").addEventListener("click", e => { paused = !paused; e.currentTarget.setAttribute("aria-pressed", String(paused)); e.currentTarget.textContent = paused ? "Play" : "Pause"; });
+$("spin").addEventListener("click", e => { controls.autoRotate = !controls.autoRotate; e.currentTarget.setAttribute("aria-pressed", String(controls.autoRotate)); });
+if (reduce) { controls.autoRotate = false; $("spin").setAttribute("aria-pressed", "false"); }
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return;
+  renderer.setSize(w, h, false); composer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas); resize();
+
+const clock = new THREE.Clock(), tmp = new THREE.Vector3();
+function frame() {
+  const dt = Math.min(clock.getDelta(), 0.05), now = clock.elapsedTime;
+  if (!paused && path.length && !panel.classList.contains("off")) {
+    if (dist < total) dist = Math.min(total, dist + SPEED * dt);
+    else if (!waitUntil) waitUntil = now + 2.2;
+    else if (now > waitUntil && !reduce) { if (!pinned) startIdx = (startIdx + 1) % STARTS.length; load(STARTS[startIdx]); }
+  }
+  if (path.length) {
+    let i = 1; while (i < path.length - 1 && cum[i] < dist) i++;
+    const f = cum[i] > cum[i - 1] ? Math.min(1, (dist - cum[i - 1]) / (cum[i] - cum[i - 1])) : 1;
+    tmp.lerpVectors(path[i - 1].p, path[i].p, f); head.position.copy(tmp);
+    const a = trail.geometry.attributes.position; a.setXYZ(i, tmp.x, tmp.y, tmp.z);
+    if (i + 1 < path.length) a.setXYZ(i + 1, path[i + 1].p.x, path[i + 1].p.y, path[i + 1].p.z);
+    a.needsUpdate = true; trail.geometry.setDrawRange(0, i + 1);
+    a.setXYZ(i, path[i].p.x, path[i].p.y, path[i].p.z);              /* restore for the next frames */
+    const hb = hot.geometry.attributes.position, j0 = Math.max(0, i - 3); let c = 0;
+    for (let j = j0; j < i; j++) hb.setXYZ(c++, path[j].p.x, path[j].p.y, path[j].p.z);
+    hb.setXYZ(c++, tmp.x, tmp.y, tmp.z); hb.needsUpdate = true; hot.geometry.setDrawRange(0, c);
+    const st = f >= 1 ? path[i].step : path[i - 1].step;
+    if (st !== lastStep && lastStep >= 0) { flash.position.copy(path[i - 1].p); flashT = 1; }
+    showStep(dist >= total ? seq.length - 1 : st, path[i].kind);
+  }
+  if (flashT > 0) { flashT = Math.max(0, flashT - dt * 2.5); flash.material.opacity = flashT; flash.scale.setScalar(1 + (1 - flashT) * 2.2); }
+  if (!panel.classList.contains("off")) { controls.update(); composer.render(); }
+  requestAnimationFrame(frame);
+}
+load(STARTS[startIdx]);
+frame();
+}
+function maybeStart() {
+  if (started || !panel || panel.classList.contains("off")) return;
+  started = true;
+  start().catch(() => { const f = document.getElementById("sm-fail"); if (f) f.style.display = "flex"; });
+}
+if (panel) { new MutationObserver(maybeStart).observe(panel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(maybeStart); }
+</script>
+<div class="panel" id="tab-mirrorpen" role="tabpanel" aria-labelledby="tabbtn-mirrorpen" data-sections="mirrorpen mirrorpen-periods mirrorpen-trap mirrorpen-status">
+<h1 class="tabtitle">The mirror pen</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#mirrorpen">The machine</a></li><li><a href="#mirrorpen-periods">When does the drawing repeat?</a></li><li><a href="#mirrorpen-trap">Which turns keep the pen trapped</a></li><li><a href="#mirrorpen-status">What is checked, and what is open</a></li></ol></nav>
+<section class="wide" id="mirrorpen">
+  <h2>The machine</h2>
+  <p>Another side trip with light and mirrors. A ray is trapped inside a single curved mirror, a ring standing on a table,
+  and bounces for ever. On the table lies a pen. The two are linked by one rule:</p>
+<style>.cp-rule{border-left:2px solid var(--zero);padding:.1rem 0 .1rem 1rem;margin:1.2rem 0;max-width:44rem}
+.cp-stage{position:relative;border:1px solid var(--rule);border-radius:.6rem;overflow:hidden;background:#0d1118;aspect-ratio:16/10;min-height:20rem;margin-top:1rem}
+.cp-stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.cp-stage canvas:active{cursor:grabbing}
+.cp-now{position:absolute;left:1.1rem;top:.7rem;pointer-events:none;line-height:1.1}
+.cp-now b{display:block;font-weight:600;font-size:clamp(2rem,6vw,3.6rem);font-variant-numeric:lining-nums tabular-nums}
+#cp-small{display:block;margin-top:.3rem;font-style:italic;font-size:.95rem;color:var(--muted)}
+.cp-hint{position:absolute;right:1rem;bottom:.7rem;font-size:.8rem;color:var(--muted);pointer-events:none;opacity:.8}
+.cp-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .7rem;margin-top:.9rem;font-size:.95rem}
+.cp-bar>span,.cp-bar label{color:var(--muted)}
+.cp-bar output{min-width:2.6rem;font-weight:600;font-variant-numeric:lining-nums tabular-nums}
+.cp-bar input[type=range]{width:8.5rem;accent-color:var(--ellipse)}
+.cp-bar button{font:inherit;line-height:1.2;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2rem;padding:.2rem .8rem;cursor:pointer;font-variant-numeric:lining-nums}
+.cp-bar button:hover{border-color:var(--ellipse)}
+.cp-bar button:focus-visible,.cp-bar input:focus-visible{outline:2px solid var(--ellipse);outline-offset:2px}
+.cp-bar button[aria-pressed="true"]{border-color:var(--even);color:var(--even)}
+.cp-gap{flex:1}
+.cp-params{display:grid;grid-template-columns:auto minmax(8rem,1fr) auto auto auto;gap:.45rem .7rem;align-items:center;max-width:46rem;margin-top:1rem;font-size:.95rem}
+.cp-params label{color:var(--muted)}
+.cp-params input[type=range]{width:100%;accent-color:var(--ellipse)}
+.cp-params input[type=number]{font:inherit;width:7.5rem;color:var(--ink);background:var(--tint);border:1px solid var(--rule);border-radius:.4rem;padding:.15rem .45rem;font-variant-numeric:lining-nums tabular-nums}
+.cp-params .unit{color:var(--muted);min-width:1.4rem}
+.cp-params .nudge{display:flex;gap:.25rem}
+.cp-params button{font:inherit;line-height:1;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2rem;padding:.2rem .55rem;cursor:pointer}
+.cp-params button:hover{border-color:var(--ellipse)}
+.cp-params input:focus-visible,.cp-params button:focus-visible{outline:2px solid var(--ellipse);outline-offset:2px}
+.cp-note{font-size:.85rem;color:var(--muted);margin-top:.4rem}
+.cp-period{margin:1rem 0 0;padding:.7rem 1rem;border:1px solid var(--rule);border-radius:.5rem;background:var(--tint);max-width:44rem}
+.cp-period b{color:var(--zero);font-weight:600}
+.cp-period .why{display:block;color:var(--muted);font-size:.88rem;margin-top:.3rem}
+.cp-read{margin:.8rem 0 0;color:var(--muted);min-height:1.7rem}
+.cp-chart-wrap{position:relative;border:1px solid var(--rule);border-radius:.6rem;background:#0d1118;margin-top:1rem}
+.cp-chart-wrap canvas{display:block;width:100%;height:22rem;cursor:crosshair}
+.cp-table{border-collapse:collapse;margin:.8rem 0;font-variant-numeric:lining-nums tabular-nums;font-size:.95rem}
+.cp-table th,.cp-table td{border-bottom:1px solid var(--rule);padding:.25rem .9rem;text-align:left}
+.cp-table th{color:var(--muted);font-weight:400}
+.cp-big{font-size:1.15rem}</style>
+<p class="cp-rule">At every bounce, the pen takes one step forward.<br>
+If the bounce lands on the <b>golden part</b> of the mirror, the pen turns first.</p>
+<p>When the mirror is a perfect circle the ray is regular, and the pen repeats one motif for ever. Squash the circle a little and
+the ray drifts: the motifs start to tile, nest and wander. Squash it more and the ray becomes chaotic: the pen still draws the
+same motifs, but strings them together like a walk at random. Nothing here is random, though. Same settings, same drawing.</p>
+
+<div class="cp-stage">
+  <canvas id="cp-canvas" aria-label="Rotating 3D view of the ray bouncing inside a curved mirror, and of the drawing on the table"></canvas>
+  <div class="cp-now"><b id="cp-big">0</b><span id="cp-small"></span></div>
+  <div class="cp-hint">drag to turn, scroll to zoom</div>
+</div>
+<div class="cp-bar"><span>Try</span><span id="cp-presets" style="display:contents"></span>
+  <span class="cp-gap"></span><button type="button" id="cp-slow" aria-pressed="false">Slow motion</button><button type="button" id="cp-restart">Start again</button></div>
+<div class="cp-params" id="cp-params"></div>
+<div class="cp-period" id="cp-period" aria-live="polite"></div>
+<p class="cp-note">Type an exact value, drag the slider, or use − and + for fine steps. The box above says whether the drawing repeats, and after how long.</p>
+<div class="cp-bar"><span>Quick turns</span><span id="cp-angles" style="display:contents"></span></div>
+<p class="cp-read" id="cp-read"></p>
+<p class="status" id="cp-fail" style="display:none">The 3D view could not start. It needs WebGL and a connection to load the three.js library.</p>
+</section>
+<section class="wide" id="mirrorpen-periods">
+  <h2>When does the drawing repeat?</h2>
+  <p>Everything below is for the perfect circle (Squash at 0): then every bounce moves the ray by the same angle around
+  the mirror, twice the launch angle, and the machine can be analysed exactly. With a squashed mirror there is no such rule.</p>
+  <h3>Launch angle a fraction of 180°: the drawing closes</h3>
+  <p>If the launch angle is \(\tfrac pq\) of \(180^\circ\) (in lowest terms), the ray closes after \(q\) bounces: it is a
+  Poncelet polygon inscribed in the circle. Count how many of these \(q\) bounces land on the golden part, say \(m\). After one
+  loop of the ray the pen has turned by \(m\) times its turning angle. Repeat the loop until these turns add up to whole turns,
+  say \(b\) loops: the drawing then closes, after \(q\,b\) bounces. If one loop already gives whole turns, the motif repeats
+  along a straight line and never closes. For example a launch of \(60^\circ\), a golden part of \(30^\circ\) and a turn of
+  \(90^\circ\) give a triangle for the ray, one turn per loop, four loops, and a drawing that closes after 12 bounces.
+  The box under the machine does this count for the current settings.</p>
+  <p>A value typed with decimals is always a fraction, sometimes a large one: a launch of \(68.7539^\circ\) is
+  \(\tfrac{687539}{1\,800\,000}\) of \(180^\circ\), and its ray only closes after 1.8 million bounces.</p>
+  <h3>The golden launch: the drawing is self-similar</h3>
+  <p>The preset <em>Golden circle</em> launches the ray at \(180^\circ/\varphi^2\approx 68.7539^\circ\), where
+  \(\varphi=\tfrac{1+\sqrt5}2\) is the golden ratio, with a golden part of half a step. The ray never closes. But the golden
+  rotation repeats itself at every scale: watch the ray only when it lands on a smaller arc of the mirror, and you see the
+  same rotation again, \(\varphi\) times slower. The numbers of bounces between two visits of these arcs are Fibonacci
+  numbers. Each such zoom is one step of <em>renormalization</em>, and it multiplies time by \(\varphi\).</p>
+  <p>The drawing repeats at a larger scale when three clocks are back to their start at the same step:</p>
+  <ul>
+    <li>the rotation itself, at every step;</li>
+    <li>the edge of the golden part, and the direction in which the ray turns: these come back every 6 steps, because half
+    a step depends on whether the Fibonacci numbers are even or odd (a cycle of 3), and the direction flips at every step
+    (a cycle of 2);</li>
+    <li>the number of turns made by the pen, counted modulo \(q\) when the pen turns by \(\tfrac pq\) of a full turn. These
+    counts follow a Fibonacci-like recursion too, and the Fibonacci numbers modulo \(q\) come back to \(0, 1\) after a fixed
+    number of steps: the Pisano period of \(q\). Modulo 5 it is 20.</li>
+  </ul>
+  <p>For the turn of \(144^\circ=\tfrac25\) of a turn, the three clocks agree after the least common multiple of 6 and
+  20, that is 60 steps. Time is then multiplied by \(\varphi^{60}\); exactly, by the Lucas number
+  \(L_{60}=\varphi^{60}+\varphi^{-60}=3\,461\,452\,808\,002\). Precisely, the period is read on a \(3\times3\) integer matrix,
+  which records how the counts of turns along the three kinds of returning orbits are updated over 6 steps:</p>
+  \[ H=\begin{pmatrix}13&4&4\\8&3&2\\8&2&3\end{pmatrix}. \]
+  <p>The period is \(6\) times the smallest power of \(H\) equal to the identity modulo \(q\). Almost always this is the least
+  common multiple of 6 and the Pisano period of \(q\). For 4 and 8 it is twice that: \(H\) mixes a Fibonacci part
+  with a part of eigenvalue 1, and the half step couples them through a factor 2.</p>
+  <table class="cp-table"><thead><tr><th>Turn of the pen</th><th>Steps</th><th>Repeats after about</th></tr></thead><tbody>
+  <tr><td>\(\tfrac12\) of a turn, \(180^\circ\)</td><td>6</td><td>18 bounces</td></tr>
+  <tr><td>\(\tfrac13\), \(120^\circ\)</td><td>24</td><td>\(1.0\times10^{5}\) bounces</td></tr>
+  <tr><td>\(\tfrac25\), \(144^\circ\)</td><td>60</td><td>\(3.5\times10^{12}\) bounces</td></tr>
+  <tr><td>\(\tfrac7{16}\), \(157.5^\circ\)</td><td>48</td><td>\(1.1\times10^{10}\) bounces</td></tr>
+  <tr><td>\(\tfrac1{49}\), \(\approx7.35^\circ\)</td><td>336</td><td>\(10^{70}\) bounces</td></tr>
+  </tbody></table>
+  <h3>One thousandth of a degree</h3>
+  <p class="cp-big">Now turn the pen by \(144.001^\circ\) instead of \(144^\circ\).</p>
+  <p>As a fraction of a full turn this is \(\tfrac{144\,001}{360\,000}\), and \(360\,000=2^6\cdot3^2\cdot5^4\). The Fibonacci
+  numbers come back modulo \(5^4=625\) after 2500 steps, modulo \(2^6=64\) after 96, modulo 9 after 24. The least common
+  multiple is 60 000, and the factor 2 of the powers of 2 makes it 120 000. The drawing repeats at a larger scale only after
+  \[ \varphi^{120\,000}\approx 10^{25\,079}\ \text{bounces}, \]
+  a number with more than twenty-five thousand digits, against \(\varphi^{60}\approx3.5\times10^{12}\) for \(144^\circ\).
+  Moving the pen by one thousandth of a degree multiplies the number of digits of the period by two thousand.
+  This is also the longest period among the turns that can be typed here (three decimals): every turn whose fraction of a
+  full turn has denominator 360 000, 120 000 or 40 000 reaches it.</p>
+</section>
+<section class="wide" id="mirrorpen-trap">
+  <h2>Which turns keep the pen trapped</h2>
+  <p>With the golden launch and a golden part of half a step, the pen either stays trapped near its start for ever, or
+  walks away like \(n^{\nu}\) after \(n\) bounces. The exponent \(\nu\) is exact: the renormalization above carries, for each
+  kind of returning orbit, the vector it adds to the pen, and over one period this is a \(3\times3\) matrix of complex
+  numbers. Its largest eigenvalue, compared with the growth of time, gives \(\nu\). For \(144^\circ\) the growth factor
+  \(\mu\) of one period satisfies</p>
+  \[ \mu+\frac1\mu=\frac{28679+12825\sqrt5}{2},\qquad \nu=\frac{\ln\mu}{60\ln\varphi}\approx0.3555 .\]
+  <p>For \(72^\circ\), with the same mirror, every eigenvalue that the pen sees has modulus 1, and the pen stays in a small
+  pentagon. The chart shows \(\nu\) for every turn \(\tfrac pq\) of a full turn with \(q\le60\). Gold dots are the turns that
+  keep the pen trapped: \(40^\circ\), \(72^\circ\), \(157.5^\circ\), \(160^\circ\), \(180^\circ\) and a few more. They are rare
+  (24 fractions out of about 550) and follow no visible rule: \(72^\circ\) traps the pen, \(144^\circ\) does not;
+  \(40^\circ\) and \(160^\circ\) do, \(80^\circ\) does not.</p>
+  <div class="cp-chart-wrap"><canvas id="cp-chart" aria-label="Chart of the growth exponent against the turning angle of the pen; gold dots mark the turns that keep the pen trapped"></canvas></div>
+  <p class="cp-note" id="cp-chart-read" aria-live="polite">Point at a dot to read it; click it to load that turn into the machine.</p>
+</section>
+<section class="wide" id="mirrorpen-status">
+  <h2>What is checked, and what is open</h2>
+  <div class="status"><strong>Checked.</strong> The renormalization was computed in exact arithmetic in \(\mathbb Q(\sqrt5)\),
+  and every period in the table was found by running it until the same configuration came back. The exponents were
+  compared with direct simulations of 67 to 134 million bounces: \(40^\circ\), \(72^\circ\), \(157.5^\circ\) and \(160^\circ\)
+  stay within a few dozen steps of the start, while \(80^\circ\), \(90^\circ\), \(120^\circ\) and \(144^\circ\) grow, with slopes
+  close to the predicted ones (\(0.32\) measured against \(0.355\) for \(144^\circ\): the period \(\varphi^{60}\) is far longer than
+  any simulation). The rule "least common multiple of 6 and the Pisano period" was checked against the exact period for
+  \(q\le12\). The closing count for launch angles that are fractions of \(180^\circ\) was checked against a separate simulation.</div>
+  <ul>
+    <li><strong>Where this sits in the literature.</strong> The position of the pen is a <em>twisted Birkhoff sum</em>, and
+    the \(3\times3\) complex matrix is the <em>spectral cocycle</em> of Bufetov and Solomyak (J. Anal. Math., 2020), here for a
+    rotation of the circle. Rajabzadeh and Safaee study exactly these sums for interval exchanges, twisted by a Birkhoff sum
+    as here, and prove that the top exponent is positive for almost every twist. Their papers contain no picture of the
+    sums, and treat neither specific rational twists nor the question of which twists keep the sums bounded.</li>
+    <li><strong>Open.</strong> Which turns trap the pen? The list above is computed one fraction at a time; no arithmetic
+    rule for it is known here. The exponent for \(120^\circ\) comes out as \(0.3333\); whether it is exactly \(\tfrac13\) is not proved.
+    The factor 2 for \(q=4\) and \(8\) is explained only heuristically.</li>
+  </ul>
+  <div class="status"><strong>Status.</strong> As for the Syracuse Machina, this came out of an exploration with numerical
+  checks. Whether the pen-and-mirror picture, or the list of trapping turns, has appeared before has not been fully checked.</div>
+</section>
+</div>
+<script type="module">
+/* ---------- The mirror pen: the 3D view is loaded only when its tab is opened ---------- */
+const panel = document.getElementById("tab-mirrorpen");
+let started = false;
+async function start() {
+const THREE = await import("three");
+const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+const { EffectComposer } = await import("three/addons/postprocessing/EffectComposer.js");
+const { RenderPass } = await import("three/addons/postprocessing/RenderPass.js");
+const { UnrealBloomPass } = await import("three/addons/postprocessing/UnrealBloomPass.js");
+const { OutputPass } = await import("three/addons/postprocessing/OutputPass.js");
+const el = id => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const css = (n, fb) => new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(n).trim() || fb);
+const C = { glass: css("--ellipse", "#5fb7c0"), brass: css("--zero", "#e0c068"), beam: css("--even", "#e59a72") };
+
+const canvas = el("cp-canvas");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); renderer.toneMapping = THREE.ACESFilmicToneMapping;
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x0d1118);
+const camera = new THREE.PerspectiveCamera(36, 1.6, 0.05, 80); camera.position.set(3.2, 5.2, 7.2);
+const controls = new OrbitControls(camera, canvas); controls.target.set(0, -0.35, 0); controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 1.5; controls.maxDistance = 18; controls.autoRotate = !reduce; controls.autoRotateSpeed = 0.3;
+scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x10141c, 0.9));
+const composer = new EffectComposer(renderer); composer.addPass(new RenderPass(scene, camera));
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(256, 256), 0.65, 0.6, 0.25)); composer.addPass(new OutputPass());
+const resize = () => { const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return; renderer.setSize(w, h, false); composer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+new ResizeObserver(resize).observe(canvas); resize();
+
+/* ---------- the billiard: an oval mirror, r = 1 + e cos(2 phi) ---------- */
+let e = 0.02, zone = 0.45, launch = 0.45, turn = 144;
+const R = ph => 1 + e * Math.cos(2 * ph), dR = ph => -2 * e * Math.sin(2 * ph);
+function tangent(ph) { const r = R(ph), d = dR(ph), tx = d * Math.cos(ph) - r * Math.sin(ph), ty = d * Math.sin(ph) + r * Math.cos(ph), n = Math.hypot(tx, ty); return [tx / n, ty / n]; }
+let bp, bd;                                    /* current bounce point and direction (in the plane of the mirror) */
+const PH0 = 0.1;
+function firstRay() { const ph = PH0, t = tangent(ph); bp = [R(ph) * Math.cos(ph), R(ph) * Math.sin(ph)]; bd = [Math.cos(launch) * t[0] - Math.sin(launch) * t[1], Math.cos(launch) * t[1] + Math.sin(launch) * t[0]]; }
+function bounce() {                            /* advance to the next bounce; returns its polar angle in [0, 2 pi) */
+  let lo = 1e-6, hi = 3;
+  for (let i = 0; i < 60; i++) { const m = (lo + hi) / 2, x = bp[0] + m * bd[0], y = bp[1] + m * bd[1]; if (Math.hypot(x, y) - R(Math.atan2(y, x)) < 0) lo = m; else hi = m; }
+  bp = [bp[0] + hi * bd[0], bp[1] + hi * bd[1]]; const ph = Math.atan2(bp[1], bp[0]), t = tangent(ph), k = 2 * (bd[0] * t[0] + bd[1] * t[1]);
+  bd = [k * t[0] - bd[0], k * t[1] - bd[1]]; return (ph + 2 * Math.PI) % (2 * Math.PI);
+}
+
+/* ---------- the mirror in the scene ---------- */
+const MY = 1.15, MH = 0.34, mirror = new THREE.Group(); mirror.position.y = MY; scene.add(mirror);
+function buildMirror() {
+  mirror.children.forEach(o => o.geometry && o.geometry.dispose()); mirror.clear();
+  const wall = (p0, p1, color, op, opE) => {
+    const n = 160, pos = [], idx = [], topL = [], botL = [];
+    for (let i = 0; i <= n; i++) { const ph = p0 + (p1 - p0) * i / n, x = R(ph) * Math.cos(ph), z = -R(ph) * Math.sin(ph); pos.push(x, -MH / 2, z, x, MH / 2, z); botL.push(new THREE.Vector3(x, -MH / 2, z)); topL.push(new THREE.Vector3(x, MH / 2, z)); if (i < n) { const k = 2 * i; idx.push(k, k + 1, k + 2, k + 1, k + 3, k + 2); } }
+    const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); g.setIndex(idx); g.computeVertexNormals();
+    mirror.add(new THREE.Mesh(g, new THREE.MeshPhysicalMaterial({ color, transparent: true, opacity: op, side: THREE.DoubleSide, roughness: 0.18, metalness: 0.4, depthWrite: false, emissive: color, emissiveIntensity: opE })));
+    const em = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9 });
+    mirror.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(topL), em), new THREE.Line(new THREE.BufferGeometry().setFromPoints(botL), em));
+  };
+  wall(zone, 2 * Math.PI, C.glass, 0.14, 0); wall(0, zone, C.brass, 0.4, 0.5);
+}
+const TRAIL = 36, trail = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ vertexColors: true }));
+trail.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array((TRAIL + 1) * 3), 3));
+trail.geometry.setAttribute("color", new THREE.Float32BufferAttribute(new Float32Array((TRAIL + 1) * 3), 3)); trail.frustumCulled = false; trail.position.y = MY; scene.add(trail);
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.03, 16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(3, 2.2, 1.5) })); scene.add(head);
+let hist = [];
+function drawTrail(tip) {
+  const pa = trail.geometry.attributes.position, ca = trail.geometry.attributes.color, pts = tip ? [...hist, tip] : hist, n = pts.length;
+  for (let i = 0; i < n; i++) { const f = Math.pow((i + 1) / n, 2); pa.setXYZ(i, pts[i][0], 0, -pts[i][1]); ca.setXYZ(i, C.beam.r * f, C.beam.g * f, C.beam.b * f); }
+  pa.needsUpdate = ca.needsUpdate = true; trail.geometry.setDrawRange(0, n); const last = pts[n - 1]; head.position.set(last[0], MY, -last[1]);
+}
+
+/* ---------- the table and the pen ---------- */
+const MAXB = 70000, TY = -1.25, SIDE = 4.3;
+{ const g = new THREE.PlaneGeometry(SIDE + 0.5, SIDE + 0.5), t = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x121823, transparent: true, opacity: 0.9 })); t.rotation.x = -Math.PI / 2; t.position.y = TY - 0.01; scene.add(t);
+  const b = new THREE.LineSegments(new THREE.EdgesGeometry(g), new THREE.LineBasicMaterial({ color: C.glass, transparent: true, opacity: 0.35 })); b.rotation.x = -Math.PI / 2; b.position.y = TY - 0.01; scene.add(b); }
+const holder = new THREE.Group(); holder.position.y = TY; scene.add(holder);
+const curve = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: C.beam, transparent: true, opacity: 0.85 }));
+curve.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array((MAXB + 1) * 3), 3)); curve.frustumCulled = false; holder.add(curve);
+const pen = new THREE.Mesh(new THREE.ConeGeometry(0.04, 0.16, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(2.6, 1.9, 1.2) })); pen.rotation.x = Math.PI; scene.add(pen);
+let n = 0, turns = 0, px = 0, pz = 0, dir = 0, box, fitS = 0.3, fitX = 0, fitZ = 0, rate = 3, acc = 0, slow = false, fly = null;
+function penStep(ph) {
+  if (ph < zone) { dir += turn * Math.PI / 180; turns++; }
+  px += Math.cos(dir); pz -= Math.sin(dir); n++;
+  curve.geometry.attributes.position.setXYZ(n, px, 0, pz); curve.geometry.attributes.position.needsUpdate = true; curve.geometry.setDrawRange(0, n + 1);
+  box[0] = Math.min(box[0], px); box[1] = Math.max(box[1], px); box[2] = Math.min(box[2], pz); box[3] = Math.max(box[3], pz);
+}
+function restart() {
+  buildMirror(); firstRay(); hist = [bp.slice()]; n = 0; turns = 0; px = pz = dir = 0; box = [0, 0, 0, 0]; rate = 3; acc = 0; fly = null;
+  curve.geometry.attributes.position.setXYZ(0, 0, 0, 0); curve.geometry.setDrawRange(0, 1); fitS = 0.3; fitX = fitZ = 0; drawTrail(null);
+  syncControls(); el("cp-period").innerHTML = periodReport();
+  [...el("cp-angles").children].forEach(b => b.setAttribute("aria-pressed", String(Math.abs(+b.dataset.a - turn) < 1e-9)));
+  el("cp-read").textContent = e === 0 ? "A perfect circle: every bounce turns the ray by the same amount, so the drawing is perfectly regular."
+    : e < 0.035 ? "A slightly squashed circle: the ray is still orderly but slowly drifts, and the motifs start to tile and nest."
+    : e < 0.075 ? "Squashed further: order and chaos coexist in this mirror. Which one you get depends on the launch angle."
+    : "Strongly squashed: the ray is mostly chaotic. The motifs survive, but the pen wanders between them.";
+}
+const DEG = Math.PI / 180, GOLD_LAUNCH = 180 / ((1 + Math.sqrt(5)) / 2) ** 2;   /* 68.7539...°: one lap = phi^2 bounces */
+/* each setting: how it is shown, its range, its fine step, and how it maps to the machine */
+const PARAMS = [
+  { id: "e", label: "Squash", unit: "", min: 0, max: 0.15, step: 0.0001, fine: 0.0005, dec: 4, get: () => e, set: v => { e = v; } },
+  { id: "z", label: "Golden part", unit: "°", min: 0.01, max: 359.99, step: 0.001, fine: 0.01, dec: 3, get: () => zone / DEG, set: v => { zone = v * DEG; } },
+  { id: "l", label: "Launch angle", unit: "°", min: 0.5, max: 89.5, step: 0.0001, fine: 0.001, dec: 4, get: () => launch / DEG, set: v => { launch = v * DEG; } },
+  { id: "t", label: "Pen turns by", unit: "°", min: 0, max: 360, step: 0.001, fine: 0.01, dec: 3, get: () => turn, set: v => { turn = v; } },
+];
+const clampP = (p, v) => Math.min(p.max, Math.max(p.min, v));
+PARAMS.forEach(p => {
+  const lab = document.createElement("label"); lab.htmlFor = "cp-n-" + p.id; lab.textContent = p.label;
+  const r = document.createElement("input"); r.type = "range"; r.min = p.min; r.max = p.max; r.step = p.step; r.id = "cp-r-" + p.id; r.setAttribute("aria-label", p.label + " slider");
+  const nmb = document.createElement("input"); nmb.type = "number"; nmb.min = p.min; nmb.max = p.max; nmb.step = p.fine; nmb.id = "cp-n-" + p.id;
+  const unit = document.createElement("span"); unit.className = "unit"; unit.textContent = p.unit;
+  const nudge = document.createElement("span"); nudge.className = "nudge";
+  [-1, 1].forEach(sg => { const b = document.createElement("button"); b.type = "button"; b.textContent = sg < 0 ? "−" : "+"; b.setAttribute("aria-label", (sg < 0 ? "Decrease " : "Increase ") + p.label + " by " + p.fine);
+    b.addEventListener("click", () => { p.set(clampP(p, +(p.get() + sg * p.fine).toFixed(p.dec + 2))); mark(""); restart(); }); nudge.appendChild(b); });
+  r.addEventListener("input", () => { p.set(+r.value); mark(""); restart(); });
+  nmb.addEventListener("change", () => { if (nmb.value === "" || isNaN(+nmb.value)) { syncControls(); return; } p.set(clampP(p, +nmb.value)); mark(""); restart(); });
+  el("cp-params").append(lab, r, nmb, unit, nudge); p.r = r; p.n = nmb;
+});
+function syncControls() { PARAMS.forEach(p => { const v = p.get(); p.r.value = v; if (document.activeElement !== p.n) p.n.value = +v.toFixed(p.dec); }); }
+const PRESETS = [["Triangles", 0.05, 0.7, 0.7, 120], ["Hexagons", 0.02, 3.1, 1.1, 60], ["Stars", 0.02, 0.45, 0.45, 144], ["Squares", 0.02, 1.1, 1.0, 90], ["Pentagons", 0.02, 2.0, 1.3, 72], ["Chaos", 0.09, 0.7, 0.7, 120],
+                 ["Golden circle", 0, GOLD_LAUNCH * DEG, GOLD_LAUNCH * DEG, 144]];
+PRESETS.forEach(([name, pe, pz_, pl, pt]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = name; b.addEventListener("click", () => { e = pe; zone = pz_; launch = pl; turn = pt; mark(name); restart(); }); el("cp-presets").appendChild(b); });
+const mark = name => [...el("cp-presets").children].forEach(b => b.setAttribute("aria-pressed", String(b.textContent === name)));
+[40, 60, 72, 90, 120, 144, 157.5, 160].forEach(a => { const b = document.createElement("button"); b.type = "button"; b.dataset.a = a; b.textContent = a + "°"; b.addEventListener("click", () => { turn = a; mark(""); restart(); }); el("cp-angles").appendChild(b); });
+el("cp-slow").addEventListener("click", ev => { slow = !slow; ev.currentTarget.setAttribute("aria-pressed", String(slow)); });
+el("cp-restart").addEventListener("click", restart);
+/* ---------- what is periodic, and after how long ---------- */
+const gcdI = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) [a, b] = [b, a % b]; return a; };
+function exactFraction(x, scale) {            /* x typed with at most log10(scale) decimals -> exact fraction num/den of (x / full) */
+  const v = x * scale; if (Math.abs(v - Math.round(v)) > 1e-6) return null; return Math.round(v);
+}
+const fmtBig = x => x < 1e6 ? Math.round(x).toLocaleString("en-US").replace(/,/g, " ") : x.toExponential(2).replace("e+", " × 10^");
+function orderMod(q) {                         /* order of the golden half-step renormalization matrix modulo q */
+  const H = [[13, 4, 4], [8, 3, 2], [8, 2, 3]]; let P = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+  for (let n = 1; n <= 100000; n++) {
+    const Q = [0, 1, 2].map(i => [0, 1, 2].map(j => ((H[i][0] * P[0][j] + H[i][1] * P[1][j] + H[i][2] * P[2][j]) % q + q) % q)); P = Q;
+    if (P.every((r, i) => r.every((v, j) => v === (i === j ? 1 % q : 0)))) return n;
+  } return null;
+}
+/* exact growth exponents for the golden circle with a half-step golden part, turns p/q of a full turn, q <= 60 (p <= q/2) */
+const NU = {"1/2":0.0,"1/3":0.333,"1/4":0.456,"1/5":0.0,"2/5":0.355,"1/6":0.389,"1/7":0.132,"2/7":0.292,"3/7":0.136,"1/8":0.228,"3/8":0.228,"1/9":0.0,"2/9":0.444,"4/9":0.0,"1/10":0.162,"3/10":0.354,"1/11":0.0,"2/11":0.44,"3/11":0.13,"4/11":0.327,"5/11":0.166,"1/12":0.137,"5/12":0.303,"1/13":0.16,"2/13":0.423,"3/13":0.24,"4/13":0.224,"5/13":0.154,"6/13":0.372,"1/14":0.173,"3/14":0.2,"5/14":0.212,"1/15":0.096,"2/15":0.165,"4/15":0.255,"7/15":0.211,"1/16":0.146,"3/16":0.291,"5/16":0.261,"7/16":0.0,"1/17":0.356,"2/17":0.0,"3/17":0.493,"4/17":0.464,"5/17":0.57,"6/17":0.0,"7/17":0.212,"8/17":0.291,"1/18":0.321,"5/18":0.428,"7/18":0.0,"1/19":0.345,"2/19":0.0,"3/19":0.349,"4/19":0.379,"5/19":0.405,"6/19":0.337,"7/19":0.139,"8/19":0.045,"9/19":0.309,"1/20":0.025,"3/20":0.068,"7/20":0.275,"9/20":0.14,"1/21":0.152,"2/21":0.415,"4/21":0.349,"5/21":0.265,"8/21":0.298,"10/21":0.453,"1/22":0.283,"3/22":0.105,"5/22":0.361,"7/22":0.319,"9/22":0.159,"1/23":0.403,"2/23":0.0,"3/23":0.164,"4/23":0.395,"5/23":0.238,"6/23":0.277,"7/23":0.494,"8/23":0.19,"9/23":0.03,"10/23":0.075,"11/23":0.241,"1/24":0.383,"5/24":0.334,"7/24":0.663,"11/24":0.28,"1/25":0.052,"2/25":0.173,"3/25":0.127,"4/25":0.171,"6/25":0.247,"7/25":0.319,"8/25":0.287,"9/25":0.339,"11/25":0.263,"12/25":0.366,"1/26":0.102,"3/26":0.197,"5/26":0.208,"7/26":0.263,"9/26":0.162,"11/26":0.075,"1/27":0.226,"2/27":0.239,"4/27":0.246,"5/27":0.247,"7/27":0.2,"8/27":0.326,"10/27":0.256,"11/27":0.269,"13/27":0.423,"1/28":0.165,"3/28":0.104,"5/28":0.329,"9/28":0.207,"11/28":0.04,"13/28":0.332,"1/29":0.13,"2/29":0.423,"3/29":0.045,"4/29":0.279,"5/29":0.197,"6/29":0.34,"7/29":0.251,"8/29":0.326,"9/29":0.281,"10/29":0.184,"11/29":0.331,"12/29":0.341,"13/29":0.109,"14/29":0.415,"1/30":0.085,"7/30":0.235,"11/30":0.222,"13/30":0.308,"1/31":0.066,"2/31":0.29,"3/31":0.279,"4/31":0.235,"5/31":0.242,"6/31":0.314,"7/31":0.375,"8/31":0.172,"9/31":0.492,"10/31":0.057,"11/31":0.0,"12/31":0.096,"13/31":0.337,"14/31":0.017,"15/31":0.282,"1/32":0.1,"3/32":0.154,"5/32":0.136,"7/32":0.211,"9/32":0.232,"11/32":0.313,"13/32":0.35,"15/32":0.203,"1/33":0.086,"2/33":0.182,"4/33":0.268,"5/33":0.162,"7/33":0.234,"8/33":0.196,"10/33":0.282,"13/33":0.36,"14/33":0.288,"16/33":0.351,"1/34":0.211,"3/34":0.221,"5/34":0.245,"7/34":0.307,"9/34":0.378,"11/34":0.0,"13/34":0.0,"15/34":0.0,"1/35":0.051,"2/35":0.1,"3/35":0.107,"4/35":0.128,"6/35":0.14,"8/35":0.247,"9/35":0.23,"11/35":0.277,"12/35":0.237,"13/35":0.332,"16/35":0.272,"17/35":0.191,"1/36":0.097,"5/36":0.168,"7/36":0.233,"11/36":0.487,"13/36":0.304,"17/36":0.431,"1/37":0.078,"2/37":0.203,"3/37":0.086,"4/37":0.133,"5/37":0.189,"6/37":0.217,"7/37":0.221,"8/37":0.184,"9/37":0.192,"10/37":0.259,"11/37":0.147,"12/37":0.422,"13/37":0.353,"14/37":0.279,"15/37":0.261,"16/37":0.266,"17/37":0.36,"18/37":0.159,"1/38":0.121,"3/38":0.213,"5/38":0.135,"7/38":0.507,"9/38":0.465,"11/38":0.576,"13/38":0.0,"15/38":0.0,"17/38":0.0,"1/39":0.07,"2/39":0.137,"4/39":0.155,"5/39":0.111,"7/39":0.154,"8/39":0.199,"10/39":0.253,"11/39":0.241,"14/39":0.266,"16/39":0.325,"17/39":0.248,"19/39":0.3,"1/40":0.091,"3/40":0.109,"7/40":0.085,"9/40":0.272,"11/40":0.305,"13/40":0.347,"17/40":0.241,"19/40":0.309,"1/41":0.147,"2/41":0.362,"3/41":0.165,"4/41":0.314,"5/41":0.135,"6/41":0.334,"7/41":0.173,"8/41":0.339,"9/41":0.222,"10/41":0.308,"11/41":0.261,"12/41":0.407,"13/41":0.234,"14/41":0.213,"15/41":0.224,"16/41":0.201,"17/41":0.228,"18/41":0.255,"19/41":0.246,"20/41":0.373,"1/42":0.194,"5/42":0.086,"11/42":0.106,"13/42":0.45,"17/42":0.322,"19/42":0.134,"1/43":0.071,"2/43":0.225,"3/43":0.121,"4/43":0.16,"5/43":0.033,"6/43":0.175,"7/43":0.082,"8/43":0.285,"9/43":0.206,"10/43":0.226,"11/43":0.257,"12/43":0.254,"13/43":0.283,"14/43":0.286,"15/43":0.26,"16/43":0.253,"17/43":0.269,"18/43":0.361,"19/43":0.272,"20/43":0.285,"21/43":0.307,"1/44":0.09,"3/44":0.192,"5/44":0.187,"7/44":0.043,"9/44":0.145,"13/44":0.476,"15/44":0.138,"17/44":0.06,"19/44":0.132,"21/44":0.137,"1/45":0.092,"2/45":0.069,"4/45":0.128,"7/45":0.144,"8/45":0.109,"11/45":0.276,"13/45":0.344,"14/45":0.241,"16/45":0.314,"17/45":0.377,"19/45":0.266,"22/45":0.401,"1/46":0.148,"3/46":0.127,"5/46":0.196,"7/46":0.094,"9/46":0.334,"11/46":0.538,"13/46":0.438,"15/46":0.039,"17/46":0.19,"19/46":0.241,"21/46":0.273,"1/47":0.124,"2/47":0.352,"3/47":0.165,"4/47":0.114,"5/47":0.06,"6/47":0.358,"7/47":0.255,"8/47":0.363,"9/47":0.234,"10/47":0.142,"11/47":0.26,"12/47":0.363,"13/47":0.284,"14/47":0.365,"15/47":0.196,"16/47":0.259,"17/47":0.293,"18/47":0.317,"19/47":0.259,"20/47":0.224,"21/47":0.081,"22/47":0.439,"23/47":0.336,"1/48":0.175,"5/48":0.104,"7/48":0.092,"11/48":0.411,"13/48":0.303,"17/48":0.198,"19/48":0.109,"23/48":0.26,"1/49":0.082,"2/49":0.161,"3/49":0.092,"4/49":0.17,"5/49":0.09,"6/49":0.131,"8/49":0.198,"9/49":0.168,"10/49":0.229,"11/49":0.133,"12/49":0.22,"13/49":0.275,"15/49":0.331,"16/49":0.242,"17/49":0.368,"18/49":0.284,"19/49":0.305,"20/49":0.29,"22/49":0.306,"23/49":0.327,"24/49":0.293,"1/50":0.035,"3/50":0.074,"7/50":0.168,"9/50":0.158,"11/50":0.285,"13/50":0.225,"17/50":0.172,"19/50":0.309,"21/50":0.3,"23/50":0.266,"1/51":0.0,"2/51":0.136,"4/51":0.123,"5/51":0.133,"7/51":0.146,"8/51":0.162,"10/51":0.301,"11/51":0.078,"13/51":0.295,"14/51":0.188,"16/51":0.326,"19/51":0.329,"20/51":0.201,"22/51":0.22,"23/51":0.136,"25/51":0.302,"1/52":0.126,"3/52":0.0,"5/52":0.173,"7/52":0.151,"9/52":0.135,"11/52":0.302,"15/52":0.355,"17/52":0.203,"19/52":0.146,"21/52":0.402,"23/52":0.273,"25/52":0.406,"1/53":0.123,"2/53":0.146,"3/53":0.133,"4/53":0.17,"5/53":0.292,"6/53":0.052,"7/53":0.194,"8/53":0.244,"9/53":0.388,"10/53":0.158,"11/53":0.42,"12/53":0.326,"13/53":0.281,"14/53":0.338,"15/53":0.342,"16/53":0.573,"17/53":0.102,"18/53":0.221,"19/53":0.389,"20/53":0.23,"21/53":0.15,"22/53":0.1,"23/53":0.295,"24/53":0.125,"25/53":0.414,"26/53":0.378,"1/54":0.0,"5/54":0.0,"7/54":0.076,"11/54":0.232,"13/54":0.279,"17/54":0.29,"19/54":0.196,"23/54":0.201,"25/54":0.363,"1/55":0.111,"2/55":0.402,"3/55":0.158,"4/55":0.29,"6/55":0.368,"7/55":0.174,"8/55":0.244,"9/55":0.155,"12/55":0.228,"13/55":0.308,"14/55":0.322,"16/55":0.317,"17/55":0.275,"18/55":0.221,"19/55":0.31,"21/55":0.321,"23/55":0.199,"24/55":0.262,"26/55":0.523,"27/55":0.346,"1/56":0.137,"3/56":0.232,"5/56":0.154,"9/56":0.233,"11/56":0.433,"13/56":0.338,"15/56":0.357,"17/56":0.228,"19/56":0.197,"23/56":0.222,"25/56":0.298,"27/56":0.498,"1/57":0.153,"2/57":0.054,"4/57":0.193,"5/57":0.0,"7/57":0.173,"8/57":0.284,"10/57":0.179,"11/57":0.297,"13/57":0.1,"14/57":0.32,"16/57":0.218,"17/57":0.35,"20/57":0.29,"22/57":0.259,"23/57":0.392,"25/57":0.164,"26/57":0.296,"28/57":0.308,"1/58":0.214,"3/58":0.231,"5/58":0.115,"7/58":0.231,"9/58":0.212,"11/58":0.381,"13/58":0.332,"15/58":0.19,"17/58":0.466,"19/58":0.249,"21/58":0.0,"23/58":0.0,"25/58":0.236,"27/58":0.177,"1/59":0.065,"2/59":0.158,"3/59":0.065,"4/59":0.082,"5/59":0.097,"6/59":0.108,"7/59":0.117,"8/59":0.143,"9/59":0.168,"10/59":0.197,"11/59":0.192,"12/59":0.273,"13/59":0.19,"14/59":0.183,"15/59":0.204,"16/59":0.32,"17/59":0.239,"18/59":0.234,"19/59":0.248,"20/59":0.294,"21/59":0.282,"22/59":0.194,"23/59":0.349,"24/59":0.285,"25/59":0.241,"26/59":0.187,"27/59":0.26,"28/59":0.394,"29/59":0.379,"1/60":0.082,"7/60":0.124,"11/60":0.178,"13/60":0.244,"17/60":0.329,"19/60":0.174,"23/60":0.375,"29/60":0.375};
+function periodReport() {
+  const L = launch / DEG, T = turn, Z = zone / DEG;
+  if (e > 0) return "<b>No exact period to compute.</b><span class='why'>With a squashed mirror the ray is not a rotation any more. Closed paths exist only for special launch angles, and there is no simple rule to find them. Set Squash to 0 for exact answers.</span>";
+  /* the ray: every bounce moves 2 x launch around the mirror */
+  const a = exactFraction(L, 1e4);
+  const turnNum = exactFraction(T, 1e3);
+  let ray, pen = "";
+  if (a !== null) {
+    const den = 180 * 1e4, g = gcdI(a, den), q = den / g;
+    ray = `<b>The ray closes after ${fmtBig(q)} bounce${q > 1 ? "s" : ""}.</b> It goes round the mirror ${a / g} time${a / g > 1 ? "s" : ""} on the way (each bounce moves ${(2 * L).toFixed(4).replace(/\.?0+$/, "")}° around the mirror).`;
+    if (q > 2e6) return ray + "<span class='why'>That is too long to analyse here.</span>";
+    let m = 0, vx = 0, vz = 0, d = 0;
+    for (let k = 1; k <= q; k++) {
+      let ph = (PH0 + k * 2 * launch) % (2 * Math.PI); if (ph < zone) { m++; d += turn * DEG; } vx += Math.cos(d); vz += Math.sin(d);
+    }
+    if (m === 0) pen = "<b>The pen never turns:</b> no bounce of this closed path lands on the golden part, so it draws a straight line.";
+    else if (turnNum === null) pen = `Each loop of the ray lands ${m} time${m > 1 ? "s" : ""} on the golden part. Type the pen's turn with at most 3 decimals to get its period.`;
+    else {
+      const tden = 360 * 1e3, num = m * turnNum, b = tden / gcdI(num, tden);
+      if (b === 1) pen = Math.hypot(vx, vz) < 1e-6 ? `<b>The drawing closes after ${fmtBig(q)} bounces.</b>` : `<b>The drawing never closes:</b> each loop of the ray (${fmtBig(q)} bounces, ${m} turns) brings the pen back to its starting direction, so the same motif repeats along a straight line.`;
+      else pen = `<b>The drawing closes after ${fmtBig(q * b)} bounces</b> (${fmtBig(b)} loops of the ray, ${fmtBig(m * b)} turns of the pen).<span class='why'>Each loop of the ray lands ${m} time${m > 1 ? "s" : ""} on the golden part, so the pen turns by ${m} × ${T}° = ${+(m * T).toFixed(3)}° per loop. It needs ${fmtBig(b)} loops to add up to whole turns, and then the motif closes.</span>`;
+    }
+    return ray + "<br>" + pen;
+  }
+  /* launch not a typed decimal: is it the exact golden value? */
+  const gold = Math.abs(L - GOLD_LAUNCH) < 1e-9;
+  if (!gold) return "<b>The ray never closes.</b><span class='why'>The launch angle is not a fraction of 180°. Exact periods are known here only for the golden launch (preset Golden circle).</span>";
+  let head = "<b>The ray never closes</b> (golden launch: one lap of the mirror takes φ² ≈ 2.618 bounces), <b>but the drawing is self-similar.</b>";
+  if (Math.abs(Z - L) > 1e-6) return head + (Math.abs(Z - 2 * L) < 1e-6 ? "<span class='why'>With the golden part equal to one whole step, the pen only wanders slowly (logarithmically): no fractal.</span>" : "<span class='why'>The scale of repetition is computed here only when the golden part is half a step (equal to the launch angle, as in the preset).</span>");
+  if (turnNum === null) return head + "<span class='why'>Type the pen's turn with at most 3 decimals to get the period.</span>";
+  const tden = 360 * 1e3, q = tden / gcdI(turnNum, tden);
+  if (q === 1) return head + "<span class='why'>The pen's turn is a whole number of turns, so it simply goes straight.</span>";
+  const o = orderMod(q); if (!o) return head;
+  const N = 6 * o, pp = turnNum / gcdI(turnNum, tden), pk = Math.min(pp, q - pp), nu = NU[pk + "/" + q];
+  const growth = nu === undefined ? "" : nu < 1e-4 ? "<br><b>The pen stays trapped for ever</b> in a bounded region (it can only creep outward very slowly)."
+    : `<br><b>The drawing grows like n<sup>${nu.toFixed(3)}</sup></b> after n bounces (exact exponent from the renormalization).`;
+  return head + growth + `<br>The pen's turn is ${pp}/${q} of a full turn. <b>${nu !== undefined && nu < 1e-4 ? "The renormalization comes back" : "The pattern repeats at a larger scale"} every φ<sup>${N}</sup> ≈ ${fmtBig(Math.pow((1 + Math.sqrt(5)) / 2, N))} bounces</b> (${N} renormalization steps).<span class='why'>${N} = 6 × ${o}: the mirror's own pattern comes back every 6 steps, and the count of turns modulo ${q} comes back after ${o} of those.</span>`;
+}
+mark("Stars");
+restart();
+
+
+/* ---------- the chart of exponents (golden circle, golden part = half a step) ---------- */
+const chart = el("cp-chart"), cread = el("cp-chart-read"), pts = [];
+Object.entries(NU).forEach(([k, v]) => { const [p, q] = k.split("/").map(Number); [p, q - p].forEach(pp => pts.push({ p: pp, q, a: 360 * pp / q, nu: v })); });
+let hoverPt = null;
+function drawChart() {
+  const r = window.devicePixelRatio || 1, W = chart.clientWidth, H = chart.clientHeight; if (!W || !H) return;
+  chart.width = W * r; chart.height = H * r; const g = chart.getContext("2d"); g.setTransform(r, 0, 0, r, 0, 0); g.clearRect(0, 0, W, H);
+  const L = 48, R = 14, T = 14, B = 34, X = a => L + (W - L - R) * a / 360, Y = v => T + (H - T - B) * (1 - v / 0.7);
+  const col = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  g.strokeStyle = col("--rule"); g.fillStyle = col("--muted"); g.font = "12px Spectral, Georgia, serif"; g.lineWidth = 1;
+  for (let v = 0; v <= 0.7001; v += 0.1) { g.beginPath(); g.moveTo(L, Y(v)); g.lineTo(W - R, Y(v)); g.stroke(); g.textAlign = "right"; g.fillText(v.toFixed(1), L - 8, Y(v) + 4); }
+  g.textAlign = "center"; for (let a = 0; a <= 360; a += 36) g.fillText(a + "°", X(a), H - 12);
+  pts.forEach(pt => { const trap = pt.nu < 1e-4; g.fillStyle = trap ? col("--zero") : col("--even"); g.globalAlpha = trap ? 1 : 0.75;
+    g.beginPath(); g.arc(X(pt.a), Y(pt.nu), trap ? 4 : Math.max(1.3, 5 / Math.sqrt(pt.q)), 0, 2 * Math.PI); g.fill(); });
+  g.globalAlpha = 1;
+  if (hoverPt) { g.strokeStyle = col("--ink"); g.lineWidth = 1.5; g.beginPath(); g.arc(X(hoverPt.a), Y(hoverPt.nu), 7, 0, 2 * Math.PI); g.stroke(); }
+  chart._X = X; chart._Y = Y;
+}
+function describePt(pt) {
+  const a = +pt.a.toFixed(3);
+  return pt.nu < 1e-4 ? `<b>${a}°</b> (${pt.p}/${pt.q} of a turn): the pen stays trapped. Click to draw it.`
+                      : `<b>${a}°</b> (${pt.p}/${pt.q} of a turn): the drawing grows like n<sup>${pt.nu.toFixed(3)}</sup>. Click to draw it.`;
+}
+chart.addEventListener("mousemove", ev => {
+  if (!chart._X) return; const b = chart.getBoundingClientRect(), x = ev.clientX - b.left, y = ev.clientY - b.top; let best = null, bd = 100;
+  pts.forEach(pt => { const d = Math.hypot(chart._X(pt.a) - x, chart._Y(pt.nu) - y); if (d < bd) { bd = d; best = pt; } });
+  hoverPt = bd < 12 ? best : null; cread.innerHTML = hoverPt ? describePt(hoverPt) : "Point at a dot to read it; click it to load that turn into the machine."; drawChart();
+});
+chart.addEventListener("click", () => {
+  if (!hoverPt) return; e = 0; launch = zone = GOLD_LAUNCH * DEG; turn = +(360 * hoverPt.p / hoverPt.q).toFixed(3); mark(""); restart();
+  el("cp-canvas").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+});
+new ResizeObserver(drawChart).observe(chart); drawChart();
+
+const clock = new THREE.Clock();
+(function frame() {
+  const dt = Math.min(clock.getDelta(), 0.05);
+  if (panel.classList.contains("off")) { requestAnimationFrame(frame); return; }
+  if (n < MAXB) {
+    rate = slow ? 2.5 : Math.min(1200, rate * (1 + dt * 0.6));
+    if (rate < 10 && !reduce) {                 /* slow: watch the ray fly from one bounce to the next */
+      if (!fly) { const from = bp.slice(), ph = bounce(); fly = { from, to: bp.slice(), ph, t: 0 }; }
+      fly.t = Math.min(1, fly.t + rate * dt); drawTrail([fly.from[0] + (fly.to[0] - fly.from[0]) * fly.t, fly.from[1] + (fly.to[1] - fly.from[1]) * fly.t]);
+      if (fly.t >= 1) { hist.push(fly.to); if (hist.length > TRAIL) hist.shift(); penStep(fly.ph); fly = null; }
+    } else {
+      if (fly) { hist.push(fly.to); penStep(fly.ph); fly = null; }
+      acc += rate * dt; while (acc >= 1 && n < MAXB) { acc -= 1; const ph = bounce(); hist.push(bp.slice()); if (hist.length > TRAIL) hist.shift(); penStep(ph); }
+      drawTrail(null);
+    }
+    el("cp-big").textContent = n; el("cp-small").textContent = `bounces. The pen has turned ${turns} time${turns === 1 ? "" : "s"}.`;
+  } else el("cp-small").textContent = `bounces: the pen stops here. It turned ${turns} times.`;
+  /* keep the whole drawing on the table */
+  const s = SIDE / Math.max(box[1] - box[0], box[3] - box[2], 8), k = Math.min(1, dt * 4);
+  fitS += (s - fitS) * k; fitX += ((box[0] + box[1]) / 2 - fitX) * k; fitZ += ((box[2] + box[3]) / 2 - fitZ) * k;
+  holder.scale.set(fitS, 1, fitS); holder.position.set(-fitX * fitS, TY, -fitZ * fitS); pen.position.set((px - fitX) * fitS, TY + 0.085, (pz - fitZ) * fitS);
+  controls.update(); composer.render(); requestAnimationFrame(frame);
+})();
+}
+function maybeStart() {
+  if (started || !panel || panel.classList.contains("off")) return;
+  started = true;
+  start().catch(() => { const f = document.getElementById("cp-fail"); if (f) f.style.display = "block"; });
+}
+if (panel) { new MutationObserver(maybeStart).observe(panel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(maybeStart); }
+</script>
+
+
 
 <footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.</footer>
 </main>
@@ -2982,7 +3730,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 (function () {
   const panels = Array.from(document.querySelectorAll(".panel"));
   const tabs = Array.from(document.querySelectorAll(".tab"));
-  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open"};
+  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-status": "What is checked, and what is open"};
   const tabOf = {};
   panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
   const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
