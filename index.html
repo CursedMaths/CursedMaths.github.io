@@ -3044,9 +3044,9 @@ function maybeStart() {
 }
 if (panel) { new MutationObserver(maybeStart).observe(panel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(maybeStart); }
 </script>
-<div class="panel" id="tab-mirrorpen" role="tabpanel" aria-labelledby="tabbtn-mirrorpen" data-sections="mirrorpen mirrorpen-periods mirrorpen-trap mirrorpen-status">
+<div class="panel" id="tab-mirrorpen" role="tabpanel" aria-labelledby="tabbtn-mirrorpen" data-sections="mirrorpen mirrorpen-periods mirrorpen-trap mirrorpen-cover mirrorpen-disk mirrorpen-status">
 <h1 class="tabtitle">The mirror pen</h1>
-<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#mirrorpen">The machine</a></li><li><a href="#mirrorpen-periods">When does the drawing repeat?</a></li><li><a href="#mirrorpen-trap">Which turns keep the pen trapped</a></li><li><a href="#mirrorpen-status">What is checked, and what is open</a></li></ol></nav>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#mirrorpen">The machine</a></li><li><a href="#mirrorpen-periods">When does the drawing repeat?</a></li><li><a href="#mirrorpen-trap">Which turns keep the pen trapped</a></li><li><a href="#mirrorpen-cover">The surface behind the pen</a></li><li><a href="#mirrorpen-disk">Why some turns trap the pen</a></li><li><a href="#mirrorpen-status">What is checked, and what is open</a></li></ol></nav>
 <section class="wide" id="mirrorpen">
   <h2>The machine</h2>
   <p>Another side trip with light and mirrors. A ray is trapped inside a single curved mirror, a ring standing on a table,
@@ -3179,7 +3179,338 @@ same motifs, but strings them together like a walk at random. Nothing here is ra
   \(40^\circ\) and \(160^\circ\) do, \(80^\circ\) does not.</p>
   <div class="cp-chart-wrap"><canvas id="cp-chart" aria-label="Chart of the growth exponent against the turning angle of the pen; gold dots mark the turns that keep the pen trapped"></canvas></div>
   <p class="cp-note" id="cp-chart-read" aria-live="polite">Point at a dot to read it; click it to load that turn into the machine.</p>
+  <p>The section <a href="#mirrorpen-cover">The surface behind the pen</a> explains where this \(3\times3\) matrix comes from, and why the gold dots are exactly the turns whose trace has size at most 2.</p>
 </section>
+<section class="wide" id="mirrorpen-cover">
+<style>.mc-fig{margin:1.4rem 0 1.2rem;border:1px solid var(--rule);border-radius:.6rem;background:#0d1118;overflow:hidden}
+.mc-stage{position:relative;height:30rem;background:radial-gradient(60% 70% at 50% 45%,#1a2231,#0d1118)}
+.mc-stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.mc-hud{position:absolute;left:.9rem;top:.6rem;font-size:.88rem;color:var(--muted);line-height:1.45;pointer-events:none;font-variant-numeric:lining-nums tabular-nums}
+.mc-hud b{color:var(--ink);font-weight:600}
+.mc-hint{position:absolute;right:.9rem;bottom:.5rem;font-size:.8rem;color:var(--muted);pointer-events:none;opacity:.8}
+.mc-tag{position:absolute;font-size:.9rem;color:var(--ink);pointer-events:none;transform:translate(-50%,-130%);white-space:nowrap;text-shadow:0 1px 3px #000}
+.mc-tag.gold{color:var(--zero)}.mc-tag.pink{color:var(--mark)}
+.mc-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .8rem;padding:.7rem .9rem;border-top:1px solid var(--rule);font-size:.95rem}
+.mc-bar label,.mc-bar>span{color:var(--muted)}
+.mc-bar button,.mc-bar select{font:inherit;line-height:1.2;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2rem;padding:.2rem .8rem;cursor:pointer}
+.mc-bar select{background:var(--tint)}
+.mc-bar button:hover,.mc-bar select:hover{border-color:var(--ellipse)}
+.mc-bar button:focus-visible,.mc-bar select:focus-visible{outline:2px solid var(--ellipse);outline-offset:2px}
+.mc-cap{padding:.7rem .95rem .85rem;font-size:.93rem;color:var(--muted);border-top:1px solid var(--rule)}
+.mc-cap b{color:var(--ink)}
+.mc-split{display:grid;grid-template-columns:1.55fr 1fr}
+.mc-pen{position:relative;border-left:1px solid var(--rule);background:#10151f}
+.mc-pen canvas{position:absolute;inset:0;display:block;width:100%;height:100%}
+.mc-disk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mc-disk .mc-stage{height:25rem}
+.mc-info{padding:1rem 1.1rem;border-left:1px solid var(--rule);font-size:.95rem}
+.mc-info .big{font-size:1.25rem;color:var(--ink)}
+.mc-info dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;margin:.8rem 0;font-variant-numeric:lining-nums tabular-nums}
+.mc-info dt{color:var(--muted)}.mc-info dd{margin:0}
+.mc-pill{display:inline-block;font-size:.85rem;border-radius:2rem;padding:.05rem .65rem;margin-top:.3rem}
+.mc-pill.ell{background:color-mix(in srgb,var(--zero) 22%,transparent);color:var(--zero)}
+.mc-pill.hyp{background:color-mix(in srgb,var(--geo) 22%,transparent);color:var(--geo)}
+.mc-pill.par{background:color-mix(in srgb,var(--mark) 22%,transparent);color:var(--mark)}
+.mc-chart{position:relative;padding:.6rem .4rem .2rem;border-top:1px solid var(--rule)}
+.mc-chart svg{display:block;width:100%;height:auto}
+.mc-tip{position:absolute;pointer-events:none;background:#0d1118;border:1px solid var(--rule);border-radius:.4rem;padding:.3rem .55rem;font-size:.85rem;display:none;white-space:nowrap}
+.mc-table{border-collapse:collapse;margin:.8rem 0;font-size:.95rem;width:100%}
+.mc-table th,.mc-table td{border-bottom:1px solid var(--rule);padding:.4rem .7rem;text-align:left;vertical-align:top}
+.mc-table th{color:var(--muted);font-weight:400}
+.mc-table td:first-child{color:var(--muted)}
+.mc-wrap{overflow-x:auto}
+.mc-refs{font-size:.93rem;padding-left:1.3rem}.mc-refs li{margin:.3rem 0}
+.mc-key{border-left:2px solid var(--zero);padding:.1rem 0 .1rem 1rem;margin:1.2rem 0;max-width:44rem}
+@media (max-width:760px){.mc-split,.mc-disk{grid-template-columns:1fr}.mc-pen{border-left:0;border-top:1px solid var(--rule);height:18rem}.mc-info{border-left:0;border-top:1px solid var(--rule)}.mc-stage{height:24rem}}</style>
+  <h2>The surface behind the pen</h2>
+  <p>The pen only needs one number: how many times the ray has landed on the golden part. When the pen turns by
+  \(\tfrac pq\) of a full turn, only this count modulo \(q\) matters. This count is the sheet number of a covering of the
+  torus with \(q\) sheets, branched at the two ends of the golden part. Everything the pen does can be read on one surface of
+  genus \(q\), and the question "is the pen trapped?" becomes a question about a map of the unit disk.</p>
+
+  <h3>The torus of the ray</h3>
+  <p>In the circular mirror, each bounce moves the point of impact by the same angle, twice the launch angle. Count this move
+  in turns and call it \(\theta\); for the golden launch, \(\theta=1/\varphi^2\approx0.382\). The bounces are the rotation
+  \(x\mapsto x+\theta\) of the circle. Now let time flow between two bounces: take the plane modulo the lattice</p>
+  \[ \Lambda=\mathbb Z\,(1,0)\oplus\mathbb Z\,(-\theta,1),\qquad T=\mathbb R^2/\Lambda , \]
+  <p>and follow the vertical flow. The horizontal circle plays the mirror: start at \(x\), flow for one unit of time, and you
+  are back on the circle at \(x+\theta\). A bounce is a crossing of this circle.</p>
+  <p>This is the same torus as in <a href="#torus">Theorem Y</a>. On the elliptic curve \(E=\mathbb C/(\mathbb Z+\tau\mathbb Z)\),
+  the line of direction \(\omega+\tau\) starting at the real point \(t\) comes back to the real circle at \(t+\omega\), because
+  \(\tau\) is a period. So the Poncelet step is also the first return of a linear flow on the torus. The perfectly circular
+  mirror is the degenerate case, chords tangent to a concentric circle: case (a) of <a href="#theorem-z">Theorem Z</a>, with a
+  cyclic monodromy group.</p>
+
+<div class="mc-fig">
+<div class="mc-split">
+<div class="mc-stage" id="mc-torus"><div class="mc-hud" id="mc-torus-hud"></div><div class="mc-hint">drag to turn, scroll to zoom</div></div>
+<div class="mc-pen" id="mc-penbox1"><canvas id="mc-pen1"></canvas><div class="mc-hud">the drawing of the pen</div></div>
+</div>
+<div class="mc-bar"><button id="mc-torus-play" type="button">Pause</button><button id="mc-torus-step" type="button">One bounce</button><button id="mc-torus-reset" type="button">Start again</button>
+<label for="mc-torus-turn">Turn of the pen</label>
+<select id="mc-torus-turn"><option value="2/5" selected>144° (2/5)</option><option value="1/5">72° (1/5)</option><option value="1/3">120° (1/3)</option><option value="1/4">90° (1/4)</option></select></div>
+<p class="mc-cap"><b>The torus and the drawing, side by side.</b> The silver circle is the mirror, the gold arc is the golden part, of
+length \(\theta/2\), with its two ends \(P\) and \(Q\). The ray is a straight line of slope \(\theta\) on the torus. One lap of the
+ray, from the mirror back to the mirror, is one step of the pen on the right, drawn in the same colour. The colour changes each time
+the ray crosses the golden part: the colour is the heading of the pen. The small compass shows which way the pen steps for each colour.
+Use "One bounce" to follow the two pictures one step at a time.</p>
+</div>
+
+  <h3>How the drawing is read on the torus</h3>
+  <p>The two pictures above are the same object, seen in two ways. Here is the dictionary.</p>
+<div class="mc-wrap"><table class="mc-table">
+<thead><tr><th>on the torus</th><th>on the table</th></tr></thead>
+<tbody>
+<tr><td>one lap of the ray, from the mirror circle back to the mirror circle</td><td>one step of the pen, of length 1</td></tr>
+<tr><td>the lap starts on the golden part</td><td>the pen turns by \(\beta\) before this step</td></tr>
+<tr><td>the colour of the lap: the number of landings on the golden part so far, modulo \(q\)</td><td>the direction of the step: one of \(q\) directions, shown by the compass</td></tr>
+<tr><td>the ray after \(N\) laps</td><td>the pen after \(N\) steps: the sum of \(N\) unit arrows</td></tr>
+<tr><td>the ray comes back very close to its start (after a Fibonacci number of laps)</td><td>the pen has drawn one motif; the next laps follow almost the same path, so the pen draws almost the same motif again, turned by the heading gained in between</td></tr>
+</tbody></table></div>
+  <p class="mc-key">The drawing is the trajectory, unrolled. Forget where each lap sits on the torus, keep only its colour, and lay
+  the laps end to end as unit arrows: two laps of the same colour become two parallel steps.</p>
+  <p>In formulas: if \(k_n\) is the number of landings on the golden part among the first \(n+1\) bounces, the pen after \(N\) steps is at</p>
+  \[ z_N=\sum_{n\lt N}e^{i\beta k_n} . \]
+  <p>This also shows what the torus lacks. A point of the torus knows where the ray is, but not its colour: the ray passes again and
+  again near the same place with different colours. To make the colour part of the position, the torus must be replaced by a
+  surface with \(q\) sheets, one for each colour. This is the surface built below.</p>
+  <p>The count \(k_n\) modulo \(q\), over a rotation of the circle, is a classical object: a finite group extension of an irrational
+  rotation. Veech studied the case \(q=2\) in 1969 and general finite groups in 1975 [V1, V2]; Beck, Chen and Yang recently treated the
+  count modulo \(n\), and note that it can be seen as a straight-line flow on a flat surface [BCY]. The pen adds one thing to this
+  picture: it does not only count, it adds up the arrows.</p>
+
+  <h3>Two points and a slit</h3>
+  <p>The golden part is a segment \([P,Q]\) of the circle. Landing on it means crossing this slit. So everything happens on the torus
+  with two points removed, \(T^\circ=T\setminus\{P,Q\}\), whose first homology group is free of rank 3:</p>
+  \[ H_1(T^\circ;\mathbb Z)=\mathbb Z a\oplus\mathbb Z b\oplus\mathbb Z c , \]
+  <p>where \(a\) and \(b\) are the two circles of the torus, chosen away from the slit, and \(c\) is a small loop around \(P\).
+  Counting the crossings of the slit, with signs, is a linear form</p>
+  \[ \phi:H_1(T^\circ;\mathbb Z)\to\mathbb Z,\qquad \phi(a)=\phi(b)=0,\quad \phi(c)=1 , \]
+  <p>and a loop around \(Q\) counts \(-1\). After \(n\) bounces, the heading of the pen is \(\beta\) times the value of \(\phi\) on the
+  piece of trajectory, where \(\beta\) is the turning angle of the pen.</p>
+
+  <h3>The covering with q sheets</h3>
+  <p>If \(\beta=2\pi p/q\), only \(\phi\) modulo \(q\) matters, and its kernel defines a cyclic covering \(M_q\to T\) with \(q\)
+  sheets. It can be built by hand: take \(q\) copies of the torus, cut each one along \([P,Q]\), and glue the upper lip of copy
+  \(k\) to the lower lip of copy \(k+1\), the last copy going back to the first. Sheet \(k\) is the set of moments when the heading
+  is \(k\beta\).</p>
+  <p>Around \(P\) you climb one floor at each turn, as on the Riemann surface of the logarithm, except that here the staircase
+  closes after \(q\) turns. Around \(Q\) you go down. All the sheets meet at one point above \(P\), and at one point above \(Q\).
+  The Riemann-Hurwitz formula gives the genus:</p>
+  \[ 2g-2 \;=\; q\,(2\cdot1-2)+(q-1)+(q-1)\qquad\Longrightarrow\qquad g=q . \]
+
+<div class="mc-fig">
+<div class="mc-split">
+<div class="mc-stage" id="mc-floors"><div class="mc-hud" id="mc-floors-hud"></div><div class="mc-hint">drag to turn</div></div>
+<div class="mc-pen" id="mc-penbox"><canvas id="mc-pen"></canvas><div class="mc-hud">the drawing of the pen</div></div>
+</div>
+<div class="mc-bar"><button id="mc-floors-play" type="button">Pause</button><button id="mc-floors-reset" type="button">Start again</button>
+<label for="mc-floors-turn">Turn of the pen</label>
+<select id="mc-floors-turn"><option value="2/5" selected>144°, 5 floors</option><option value="1/5">72°, 5 floors (trapped)</option><option value="1/3">120°, 3 floors</option><option value="1/4">90°, 4 floors</option><option value="4/9">160°, 9 floors (trapped)</option></select></div>
+<p class="mc-cap"><b>The covering as a building.</b> Each floor is a copy of the torus, drawn as a square whose opposite sides are
+glued. The golden slit is the same on every floor, and the gold ramps show the gluing: you arrive under the slit on floor \(k\) and
+leave above it on floor \(k+1\). The two pink columns go through \(P\) and \(Q\), where all the floors touch. On the right, the
+drawing of the pen: each step has the colour of the floor where the ray is.</p>
+</div>
+
+  <h3>One surface of genus q</h3>
+  <p>The covering can also be seen in one piece. Take a steering wheel with \(q\) spokes: a hub, \(q\) spokes and a rim. Its
+  surface has genus \(q\). The rotation by \(2\pi/q\) around the axis maps it to itself and fixes only two points, the top and the
+  bottom of the hub. Keep one sector, glue its two sides, and you get a torus with two cone points: this is our covering, with the
+  point above \(P\) at the top of the hub, the point above \(Q\) at the bottom, and the rotation \(\sigma\) moving every sheet up by one.</p>
+  <p>This is the same surface as the building, and not only a look-alike: up to homeomorphism there is only one cyclic covering of
+  order \(q\) of the torus fully branched at two points, because dragging \(P\) once around \(a\) or \(b\) changes \(\phi(b)\) or
+  \(\phi(a)\) by one without changing \(\phi(c)=1\). One warning for reading the picture: the coloured sectors of the wheel and the
+  floors of the building are two different ways of cutting the same surface into \(q\) equal pieces. A floor is the torus cut along
+  the slit only. A sector is the torus cut along a line from \(P\) to \(Q\) and along one closed curve (the cross-section of the rim).
+  Both are correct; the wheel shows the shape, the building shows the motion.</p>
+  <h3>What this surface is for</h3>
+  <p><strong>It is the true state space of the machine.</strong> A point of \(M_q\) is a pair: where the ray is on the torus, and
+  which way the pen is heading. On the torus the motion had a hidden memory (the colour). On \(M_q\) there is no memory left: the
+  motion is again a straight line. Indeed \(M_q\) is flat, being made of \(q\) flat tori glued along slits, except at the two branch
+  points, where the angle around the point is \(q\) full turns instead of one. Such a surface is called a translation surface, and
+  cyclic coverings of this kind are a standard source of examples [FMZ1, EKZ].</p>
+  <p><strong>The pen only sees how the trajectory winds around the handles.</strong> The surface has \(q\) handles (that is the meaning
+  of genus \(q\)), so a closed path on it is described, for our purpose, by \(2q\) winding numbers. The next paragraph shows that the
+  position of the pen is the integral of a closed form along the lifted trajectory, so it depends only on these winding numbers. On
+  the torus there are only two of them, the number of laps and the number of turns around the mirror: far too few to tell where the
+  pen is. The extra handles of \(M_q\) are exactly the room that was missing.</p>
+  <p><strong>The zoom acts on the handles by a matrix.</strong> The golden zoom maps \(M_q\) to itself, hence permutes and combines
+  the winding numbers linearly. Asking whether the pen is trapped becomes a question about the eigenvalues of this matrix. This is the
+  mechanism by which Delecroix, Hubert and Lelievre computed the spreading rate \(\tfrac23\) of the wind-tree billiard: there too, the
+  position in the plane is read on the homology of a covering surface, and the rate is a growth exponent of the renormalization
+  acting on one piece of that homology [DHL].</p>
+  <p>The homology of \(M_q\) splits along the eigenvalues of \(\sigma\), which are the \(q\)-th roots of unity:</p>
+  \[ H_1(M_q;\mathbb C)=\bigoplus_{\zeta^q=1}V_\zeta,\qquad V_1\simeq H_1(T;\mathbb C),\qquad \dim V_\zeta=2\ \ (\zeta\neq1). \]
+  <p>The count is right: \(2+2(q-1)=2q=2g\). In words: among the \(2q\) winding numbers, 2 come from the torus, and the others are
+  grouped in \(q-1\) packets of 2, one packet for each root of unity \(\zeta\neq1\). The pen that turns by \(\beta\) only reads the
+  packet of \(\zeta=e^{i\beta}\): two complex numbers. This is where the pen lives.</p>
+
+<div class="mc-fig">
+<div class="mc-stage" id="mc-wheel"><div class="mc-hud" id="mc-wheel-hud"></div><div class="mc-hint">drag to turn, scroll to zoom</div></div>
+<div class="mc-bar"><label for="mc-wheel-q">Number of sheets</label>
+<select id="mc-wheel-q"><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select>
+<button id="mc-wheel-sigma" type="button">Move every sheet up by one</button><button id="mc-wheel-spin" type="button">Stop turning</button></div>
+<p class="mc-cap"><b>The surface \(M_q\), of genus \(q\).</b> Each colour is a sheet, that is, a heading of the pen. The two gold
+points at the top and at the bottom of the hub lie above \(P\) and \(Q\); they are the only points fixed by \(\sigma\). The small
+white arc near the top is what one loop around \(P\) becomes upstairs: it crosses exactly one sheet. It takes \(q\) loops downstairs
+to make one loop upstairs.</p>
+</div>
+
+  <h3>The pen is an integral on this surface</h3>
+  <p>Put \(\zeta=e^{i\beta}\), and on sheet \(k\) put \(\eta=\zeta^k\,dV\), where \(V\) is the time coordinate of the torus. This form
+  is closed on \(M_q\) minus the two branch points: along the slit, which is horizontal, \(dV\) vanishes on both sides, so the gluing
+  creates no jump. It satisfies \(\sigma^*\eta=\zeta\,\eta\). And one bounce, which lasts one unit of time on sheet \(k\), contributes
+  exactly \(\zeta^k\). Hence</p>
+  \[ z_N=\sum_{n\lt N}\zeta^{\,k_n}=\int_{\gamma_N}\eta , \]
+  <p>where \(\gamma_N\) is the lift to \(M_q\) of the first \(N\) laps: the coloured line of the building. The colour of a lap is the
+  floor it runs on, and \(\eta\) weighs each lap by the arrow of its floor, so the integral adds up exactly the arrows of the dictionary
+  above. When the trajectory comes back close to its start, \(\gamma_N\) is almost a closed path, and the position of the pen is the
+  pairing of \(\eta\) with its homology class: only the component in \(V_\zeta\) counts, up to a bounded term.</p>
+
+  <h3>The zoom is a map of the torus</h3>
+  <p>The golden zoom of the section above is the linear map</p>
+  \[ A=\begin{pmatrix}1&1\\1&0\end{pmatrix},\qquad \det A=-1 , \]
+  <p>which preserves the lattice and stretches the direction of the flow by \(\varphi\). It has two defects. It reverses the
+  orientation: this is the direction of the ray that flips at every step. And it moves \(Q\). To see how, put \(P\) at the origin, so
+  that \(Q=(\theta/2,0)\), since the golden part is half a step. Sliding \(Q\) back along the flow by half a unit of time gives
+  \((\theta/2,-1/2)=-\tfrac12(-\theta,1)\), a half period of the lattice. Modulo 2, \(A\) permutes the three nonzero half periods in
+  a cycle of length 3. The first power that keeps the orientation and brings \(Q\) back to its own flow line (after which \(Q\) can be
+  slid back to its place along that line) is therefore</p>
+  \[ A^6=\begin{pmatrix}13&8\\8&5\end{pmatrix},\qquad \operatorname{tr}A^6=18=L_6 . \]
+  <p>These are the 6 steps of the section above: the cycle of 3 comes from the half periods, the cycle of 2 from the orientation.
+  On \(H_1(T^\circ)\), \(A^6\) acts with eigenvalues \(\varphi^6\), \(\varphi^{-6}\) and \(1\), the last one coming from the loop around
+  \(P\). Its characteristic polynomial is \((x-1)(x^2-18x+1)\), exactly that of the matrix \(H\) above.</p>
+  <p>Finally, a power \(A^{6k}\) lifts to \(M_q\) and commutes with \(\sigma\) as soon as the counts of turns are back to their starting
+  values modulo \(q\), which is the period found above (24 steps for \(120^\circ\), 48 for \(157.5^\circ\), 60 for \(144^\circ\)). The
+  lift \(F\) then acts on each \(V_\zeta\).</p>
+</section>
+
+<section class="wide" id="mirrorpen-disk">
+  <h2>Why some turns trap the pen: a map of the disk</h2>
+  <p>On the eigenspace, in cohomology, the intersection form gives a Hermitian form</p>
+  \[ h(\alpha,\beta)=\frac i2\int_{M_q}\alpha\wedge\bar\beta ,\qquad \alpha,\beta\in H^1(M_q;\mathbb C)_\zeta . \]
+  <p>Its signature is read on the complex structure. The Chevalley-Weil formula, for a base of genus 1 and local monodromies \(+1\)
+  at \(P\) and \(-1\) at \(Q\), gives for \(\zeta=e^{2i\pi j/q}\neq1\) [CW]</p>
+  \[ \dim H^{1,0}_\zeta=\Big\langle\tfrac jq\Big\rangle+\Big\langle-\tfrac jq\Big\rangle=1,\qquad \dim H^{0,1}_\zeta=1 , \]
+  <p>where \(\langle x\rangle\) is the fractional part. So \(h\) has signature \((1,1)\) on every \(V_\zeta\). The lift \(F\) is a
+  homeomorphism that commutes with \(\sigma\), so it preserves \(h\). Divided by the square root of its determinant, it lands in</p>
+  \[ SU(1,1)=\left\{\begin{pmatrix}a&b\\\bar b&\bar a\end{pmatrix}:|a|^2-|b|^2=1\right\},\qquad z\longmapsto\frac{az+b}{\bar bz+\bar a}, \]
+  <p>the group of automorphisms of the unit disk, that is, the Blaschke products of degree 1. Reading the signature of this form to
+  understand the monodromy is the method of McMullen for cyclic coverings of the sphere [McM]; the fact that a renormalization
+  preserving a form of signature \((1,1)\) has exponents \(\pm\lambda\) is the pseudo-unitary case studied by Forni, Matheus and Zorich
+  [FMZ2]. Each turn of the pen therefore makes an automorphism of the disk, and its normalized trace \(t\), a real number, decides
+  everything:</p>
+<div class="mc-wrap"><table class="mc-table">
+<thead><tr><th>trace</th><th>map of the disk</th><th>the pen</th></tr></thead>
+<tbody>
+<tr><td>\(|t|&lt;2\)</td><td>elliptic: a rotation by \(2\arccos(|t|/2)\) around a point inside the disk</td><td>exponent 0: from one zoom to the next the sums turn without growing, and the pen stays near its start (at most a very slow creep)</td></tr>
+<tr><td>\(|t|=2\)</td><td>parabolic</td><td>exponent 0</td></tr>
+<tr><td>\(|t|&gt;2\)</td><td>hyperbolic: a translation by \(2\operatorname{arccosh}(|t|/2)\) along a geodesic</td><td>the pen escapes like \(n^\nu\)</td></tr>
+</tbody></table></div>
+  <p>In the hyperbolic case the eigenvalues are \(\mu\) and \(1/\mu\), with \(\mu+1/\mu=|t|\), and over the same period time is
+  multiplied by \(\Lambda=\varphi^{6k}\), so that</p>
+  \[ \nu=\frac{\ln\mu}{\ln\Lambda} . \]
+  <p>For \(144^\circ\), \(k=10\), \(\Lambda=\varphi^{60}\) and \(t=\tfrac{28679+12825\sqrt5}{2}\): this is the formula of the section
+  above, now read as the trace of an element of \(SU(1,1)\).</p>
+
+<div class="mc-fig">
+<div class="mc-disk">
+<div class="mc-stage" id="mc-diskstage"><canvas id="mc-disk"></canvas></div>
+<div class="mc-info" id="mc-info"></div>
+</div>
+<div class="mc-bar"><label for="mc-disk-turn">Turn of the pen</label>
+<select id="mc-disk-turn"><option value="1/5">72°, trapped</option><option value="1/9">40°, trapped</option><option value="7/16">157.5°, trapped</option><option value="4/9">160°, trapped</option><option value="1/3">120°</option><option value="2/5" selected>144°</option><option value="1/4">90°</option><option value="2/9">80°</option><option value="7/24">105°</option></select>
+<span>or click a dot of the chart below</span></div>
+<div class="mc-chart"><svg id="mc-chart" viewBox="0 0 760 300" role="img" aria-label="Size of the normalized trace against the turn of the pen, for 551 fractions p/q with q at most 60"></svg><div class="mc-tip" id="mc-tip"></div></div>
+<p class="mc-cap"><b>The map of the disk.</b> Above, the automorphism of the disk made by the chosen turn, up to conjugation: the dots
+slide along the curves it preserves. A rotation around a point inside the disk (trapped), or a translation along a geodesic
+(escapes). Below, the size of the trace for the 551 turns \(p/q\le\tfrac12\) with \(q\le60\), on a log scale. The gold band is
+\(|t|\le2\): the dots that fall in it are exactly the turns that trap the pen.</p>
+</div>
+
+  <h3>What the computation shows</h3>
+  <p>The computation was redone without the matrix \(H\): Rauzy-Veech induction [R, V3] in exact arithmetic in \(\mathbb Q(\sqrt5)\), on
+  the exchange of three intervals (the golden part, the rest, the last \(\theta\)), carrying the sums \(\sum\zeta^k\) along the towers.
+  This gives one complex \(3\times3\) matrix per period, the twisted (or spectral) cocycle of [BS, RS1], for each turn
+  \(p/q\le\tfrac12\) with \(q\le60\): 551 fractions.</p>
+  <ul>
+    <li><strong>Same exponents as the section above.</strong> The 551 exponents agree with those used by the chart of the previous
+    section, to the three decimals stored there, and the trapping turns are the same: 24 fractions with \(|t|&lt;2\), including
+    \(40^\circ\), \(72^\circ\), \(157.5^\circ\) and \(160^\circ\), plus \(180^\circ\), where \(|t|=2\) and the covering has only two sheets.</li>
+    <li><strong>The structure \((1,1)\) is visible.</strong> In all 551 cases one eigenvalue has modulus exactly 1, and the other two
+    have moduli \(\mu\) and \(1/\mu\); the normalized trace is real, up to \(10^{-25}\). The eigenvalue of modulus 1 is the zero exponent
+    of the twisted cocycle found by Rajabzadeh and Safaee [RS2] and by Solomyak [S]; the pair \(\mu,1/\mu\) is the part \(V_\zeta\).</li>
+    <li><strong>What the trace test says, and what it does not.</strong> Once the structure \((1,1)\) holds, "exponent 0" and
+    "\(|t|\le2\)" are the same statement, so the gold band of the chart is not an independent check. The independent check is a
+    direct simulation of 20 million bounces. Turns with \(|t|&lt;2\) stay close to the start: the largest distance reached is 19 steps
+    for \(\tfrac6{17}\), 27 for \(\tfrac2{17}\), 30 for \(\tfrac{11}{31}\), 44 for \(\tfrac1{11}\). Turns with a large trace go far:
+    4494 steps for \(\tfrac2{11}\), 5297 for \(\tfrac3{17}\), 71460 for \(\tfrac7{24}\). Just above 2 the growth is too slow to be seen
+    at this length (\(\tfrac{14}{31}\), with \(|t|=2.06\) and \(\nu=0.017\), only reaches 19 steps).</li>
+    <li><strong>\(120^\circ\): the exponent is exactly \(\tfrac13\).</strong> Exact computation in \(\mathbb Z[e^{2i\pi/3}]\): over the
+    period (\(k=4\) blocks, \(\Lambda=\varphi^{24}\)), the part \(V_\zeta\) has characteristic polynomial \(x^2-47x+1\). Since
+    \(47=L_8=\varphi^8+\varphi^{-8}\), we get \(\mu=\varphi^8\) and \(\nu=8/24=\tfrac13\).</li>
+    <li><strong>\(90^\circ\):</strong> \(t=14\), so \(\mu=7+4\sqrt3=(2+\sqrt3)^2\), with \(\Lambda=\varphi^{12}\), and
+    \(\nu=\ln(7+4\sqrt3)/(12\ln\varphi)\approx0.4561\). Here \(\mu\) is not a power of \(\varphi\).</li>
+    <li>Among the 551 turns, the largest exponent is the one of \(105^\circ\) (\(\tfrac7{24}\)), with \(\nu\approx0.663\).</li>
+  </ul>
+
+  <h3>The bridge with the Blaschke products</h3>
+  <p>The two works speak about the same torus and about cyclic coverings of it. They differ in one point only: branching.</p>
+<div class="mc-wrap"><table class="mc-table">
+<thead><tr><th></th><th>Blaschke products and ellipses</th><th>The mirror pen</th></tr></thead>
+<tbody>
+<tr><td>the torus</td><td>the Poncelet curve \(E\) (Theorem Y)</td><td>the suspension of the bounce, the same torus</td></tr>
+<tr><td>the covering</td><td>the isogeny \(E\to E'\) with kernel \(\langle\omega\rangle\), cyclic, unbranched (Theorem L)</td><td>\(M_q\to T\), cyclic, branched at \(P\) and \(Q\)</td></tr>
+<tr><td>genus upstairs</td><td>1</td><td>\(q\)</td></tr>
+<tr><td>group</td><td>cyclic or dihedral monodromy (Theorem Z)</td><td>the group of sheets \(\mathbb Z/q\)</td></tr>
+<tr><td>new homology</td><td>none: \(V_\zeta=0\) for \(\zeta\neq1\)</td><td>\(V_\zeta\) of dimension 2, signature \((1,1)\)</td></tr>
+<tr><td>the disk</td><td>\(B\) acts on the unit disk</td><td>each turn gives an automorphism of the disk</td></tr>
+<tr><td>rigid case</td><td>case (a): the vertices are the orbits of an elliptic automorphism</td><td>trapped pen: the automorphism is elliptic</td></tr>
+</tbody></table></div>
+  <p>On a torus, the Chevalley-Weil formula [CW] says that \(\dim V_\zeta\) is the number of branch points where \(\zeta\) acts
+  nontrivially. With no branching we are in the world of isogenies, the world of Theorem Z: nothing new appears, and the surface
+  upstairs is again a torus. With two points, we are in the world of the pen.</p>
+  <p><strong>Why the list of trapping turns follows no visible rule.</strong> With \(N\ge2\) branch points of local monodromies
+  \(a_i\) (and \(\sum a_i\equiv0\)), \(\dim H^{1,0}_\zeta=\sum_i\langle ja_i/q\rangle\) is a sum of \(N\) numbers strictly between 0
+  and 1 that is an integer, so it lies between 1 and \(N-1\): over a torus the signature is never definite. When it is definite (this
+  happens for some coverings of the sphere [McM]), the whole group acts by
+  isometries of a Euclidean space and trapping is automatic. Here \(SU(1,1)\) contains both elliptic and hyperbolic elements, and
+  trapping is a property of the element \(F\) alone, one turn at a time. This explains why there is no simple rule; it is not a rule.</p>
+
+  <h3>Next steps</h3>
+  <ul>
+    <li><strong>A formula for \(t\).</strong> The trace is that of a product of \(k\) blocks. The golden launch recalls the Fibonacci
+    trace map of quasicrystals [KKT], \(x_{n+1}=x_nx_{n-1}-x_{n-2}\): the trapping turns would be bounded orbits of such a map. This is a
+    working conjecture, not a result.</li>
+    <li><strong>The factor 2 for \(q=4\) and \(8\).</strong> \(\det(A^6-I)=2-18=-16=-2^4\), so \(A^6\) has 16 fixed points on the
+    torus. The factor 2 probably comes from there; this is still to be checked.</li>
+    <li><strong>Several golden parts.</strong> With \(N\) arcs and different turns, \(V_\zeta\) has dimension \(N\) and signature
+    \((s,N-s)\). For \(s=1\) the map acts on a complex hyperbolic ball, and the question "trapped or not" is asked in the same way.</li>
+    <li><strong>Other launches.</strong> Every quadratic irrational launch gives another matrix \(A\) and the same framework.</li>
+  </ul>
+
+  <h3>References for these two sections</h3>
+  <ul class="mc-refs">
+    <li>[BCY] J. Beck, W. W. L. Chen, Y. Yang, <em>New Kronecker-Weyl type equidistribution results and diophantine approximation</em>, <a href="https://arxiv.org/abs/2106.14001">arXiv:2106.14001</a>.</li>
+    <li>[BS] A. I. Bufetov, B. Solomyak, <em>A spectral cocycle for substitution systems and translation flows</em>, J. Anal. Math. 141 (2020), 165-205, <a href="https://arxiv.org/abs/1802.04783">arXiv:1802.04783</a>.</li>
+    <li>[CW] C. Chevalley, A. Weil, <em>Uber das Verhalten der Integrale 1. Gattung bei Automorphismen des Funktionenkorpers</em>, Abh. Math. Sem. Univ. Hamburg 10 (1934), 358-361.</li>
+    <li>[DHL] V. Delecroix, P. Hubert, S. Lelievre, <em>Diffusion for the periodic wind-tree model</em>, Ann. Sci. Ec. Norm. Sup. 47 (2014), 1085-1110, <a href="https://arxiv.org/abs/1107.1810">arXiv:1107.1810</a>.</li>
+    <li>[EKZ] A. Eskin, M. Kontsevich, A. Zorich, <em>Lyapunov spectrum of square-tiled cyclic covers</em>, <a href="https://arxiv.org/abs/1007.5330">arXiv:1007.5330</a>.</li>
+    <li>[FMZ1] G. Forni, C. Matheus, A. Zorich, <em>Square-tiled cyclic covers</em>, J. Mod. Dyn. 5 (2011), 285-318, <a href="https://doi.org/10.3934/jmd.2011.5.285">doi:10.3934/jmd.2011.5.285</a>.</li>
+    <li>[FMZ2] G. Forni, C. Matheus, A. Zorich, <em>Zero Lyapunov exponents of the Hodge bundle</em>, Comment. Math. Helv. 89 (2014), 489-535, <a href="https://arxiv.org/abs/1201.6075">arXiv:1201.6075</a>.</li>
+    <li>[KKT] M. Kohmoto, L. P. Kadanoff, C. Tang, <em>Localization problem in one dimension: mapping and escape</em>, Phys. Rev. Lett. 50 (1983), 1870-1872.</li>
+    <li>[McM] C. T. McMullen, <em>Braid groups and Hodge theory</em>, Math. Ann. 355 (2013), 893-946, <a href="https://doi.org/10.1007/s00208-012-0804-2">doi:10.1007/s00208-012-0804-2</a>.</li>
+    <li>[R] G. Rauzy, <em>Echanges d'intervalles et transformations induites</em>, Acta Arith. 34 (1979), 315-328.</li>
+    <li>[RS1] H. Rajabzadeh, P. Safaee, <em>Nondegeneracy of the spectrum of the twisted cocycle for interval exchange transformations</em>, <a href="https://arxiv.org/abs/2309.05175">arXiv:2309.05175</a>.</li>
+    <li>[RS2] H. Rajabzadeh, P. Safaee, <em>Twisted cocycle for interval exchange transformations: invariant structures and Lyapunov spectrum</em>, <a href="https://arxiv.org/abs/2501.16824">arXiv:2501.16824</a>.</li>
+    <li>[S] B. Solomyak, <em>On the Lyapunov spectrum of the twisted cocycle for substitutions</em>, Studia Math. 286 (2026), <a href="https://arxiv.org/abs/2502.14308">arXiv:2502.14308</a>.</li>
+    <li>[V1] W. A. Veech, <em>Strict ergodicity in zero dimensional dynamical systems and the Kronecker-Weyl theorem mod 2</em>, Trans. Amer. Math. Soc. 140 (1969), 1-33.</li>
+    <li>[V2] W. A. Veech, <em>Finite group extensions of irrational rotations</em>, Israel J. Math. 21 (1975), 240-259, <a href="https://doi.org/10.1007/BF02760801">doi:10.1007/BF02760801</a>.</li>
+    <li>[V3] W. A. Veech, <em>Gauss measures for transformations on the space of interval exchange maps</em>, Ann. of Math. 115 (1982), 201-242.</li>
+  </ul>
+</section>
+
 <section class="wide" id="mirrorpen-status">
   <h2>What is checked, and what is open</h2>
   <div class="status"><strong>Checked.</strong> The renormalization was computed in exact arithmetic in \(\mathbb Q(\sqrt5)\),
@@ -3188,15 +3519,26 @@ same motifs, but strings them together like a walk at random. Nothing here is ra
   stay within a few dozen steps of the start, while \(80^\circ\), \(90^\circ\), \(120^\circ\) and \(144^\circ\) grow, with slopes
   close to the predicted ones (\(0.32\) measured against \(0.355\) for \(144^\circ\): the period \(\varphi^{60}\) is far longer than
   any simulation). The rule "least common multiple of 6 and the Pisano period" was checked against the exact period for
-  \(q\le12\). The closing count for launch angles that are fractions of \(180^\circ\) was checked against a separate simulation.</div>
+  \(q\le12\). The closing count for launch angles that are fractions of \(180^\circ\) was checked against a separate simulation.
+  A separate Rauzy-Veech computation in exact arithmetic, on the 551 turns \(p/q\le\tfrac12\) with \(q\le60\), gives the same
+  exponents and the same trapping turns, and shows the structure of signature \((1,1)\) in every case; ten of these turns were also
+  compared with direct simulations of 20 million bounces. The exponent for \(120^\circ\) was computed exactly: it is \(\tfrac13\).
+  Not checked against a written reference: the application of the Chevalley-Weil formula to this covering, done by hand.</div>
   <ul>
     <li><strong>Where this sits in the literature.</strong> The position of the pen is a <em>twisted Birkhoff sum</em>, and
     the \(3\times3\) complex matrix is the <em>spectral cocycle</em> of Bufetov and Solomyak (J. Anal. Math., 2020), here for a
     rotation of the circle. Rajabzadeh and Safaee study exactly these sums for interval exchanges, twisted by a Birkhoff sum
     as here, and prove that the top exponent is positive for almost every twist. Their papers contain no picture of the
     sums, and treat neither specific rational twists nor the question of which twists keep the sums bounded.</li>
-    <li><strong>Open.</strong> Which turns trap the pen? The list above is computed one fraction at a time; no arithmetic
-    rule for it is known here. The exponent for \(120^\circ\) comes out as \(0.3333\); whether it is exactly \(\tfrac13\) is not proved.
+    <li><strong>The covering.</strong> None of the tools is new. The heading of the pen is a finite group extension of a rotation
+    (Veech, 1969 and 1975). The cyclic covering, its eigenspaces and their Hermitian form are classical (Chevalley and Weil, 1934).
+    Using the signature to understand the monodromy is the idea of McMullen, <em>Braid groups and Hodge theory</em> (2013), for
+    coverings of the sphere, and reading a growth rate on the homology of a covering surface is the method of Delecroix, Hubert
+    and Lelievre for the wind-tree billiard (2014). Full references are at the end of the section on the disk. What may be new is
+    the combination: the pen, its list of trapping turns, and the test by the trace for a torus with two branch points.</li>
+    <li><strong>Open.</strong> Which turns trap the pen? The section on the disk explains the list: a turn traps the pen exactly
+    when its map of the disk is a rotation, that is when the size of its trace is at most 2. But the trace is still computed one
+    fraction at a time, and no arithmetic rule for it is known here.
     The factor 2 for \(q=4\) and \(8\) is explained only heuristically.</li>
   </ul>
   <div class="status"><strong>Status.</strong> As for the Syracuse Machina, this came out of an exploration with numerical
@@ -3466,6 +3808,452 @@ function maybeStart() {
 }
 if (panel) { new MutationObserver(maybeStart).observe(panel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(maybeStart); }
 </script>
+<script type="module">
+/* ---------- The surface behind the pen: 3D views, loaded only when the tab is opened ---------- */
+const mcPanel = document.getElementById("tab-mirrorpen");
+let mcStarted = false;
+async function mcStart() {
+const THREE = await import("three");
+const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+const { LineSegmentsGeometry } = await import("three/addons/lines/LineSegmentsGeometry.js");
+const { LineMaterial } = await import("three/addons/lines/LineMaterial.js");
+const { LineSegments2 } = await import("three/addons/lines/LineSegments2.js");
+const CHART=[[1,2,0.301,0.0,1,2.0],[1,3,1.6721,0.3333,0,47.0],[1,4,1.1461,0.4561,0,14.0],[1,5,-0.1462,0.0,1,0.714094],[2,5,4.4576,0.3555,0,28678.285906],[1,6,1.9494,0.3886,0,89.0],[1,7,1.3226,0.1317,0,21.017214],[2,7,2.9299,0.2921,0,850.952938],[3,7,1.3623,0.1357,0,23.029848],[1,8,1.1461,0.2281,0,14.0],[3,8,1.1461,0.2281,0,14.0],[1,9,0.1658,0.0,1,1.465011],[2,9,2.2261,0.4438,0,168.292839],[4,9,0.2507,0.0,1,1.781059],[1,10,2.0298,0.1619,0,107.091768],[3,10,4.4413,0.3542,0,27621.908232],[1,11,0.1908,-0.0,1,1.551815],[2,11,2.7557,0.4395,0,569.744988],[3,11,0.8255,0.1301,0,6.691331],[4,11,2.0526,0.3274,0,112.887527],[5,11,1.0469,0.1664,0,11.140661],[1,12,0.7035,0.1367,0,5.052559],[5,12,1.5192,0.3028,0,33.052559],[1,13,2.8061,0.1598,0,639.918842],[2,13,7.4337,0.4235,0,null],[3,13,4.2142,0.2401,0,16376.797427],[4,13,3.9323,0.224,0,8557.429372],[5,13,2.7011,0.1539,0,502.483888],[6,13,6.5317,0.3721,0,null],[1,14,1.7383,0.1733,0,54.743566],[3,14,2.0036,0.1997,0,100.833186],[5,14,2.13,0.2123,0,134.91038],[1,15,2.4038,0.0959,0,253.409177],[2,15,4.127,0.1646,0,13397.951576],[4,15,6.406,0.2554,0,null],[7,15,5.2888,0.2109,0,194444.40972],[1,16,1.4644,0.1459,0,29.130767],[3,16,2.9142,0.2905,0,820.660448],[5,16,2.62,0.2612,0,416.907228],[7,16,0.1934,0.0,1,1.56106],[1,17,2.6804,0.3563,0,479.096902],[2,17,0.2109,0.0,1,1.625115],[3,17,3.7057,0.4925,0,5077.94706],[4,17,3.4927,0.4642,0,3109.392274],[5,17,4.2915,0.5704,0,19566.774776],[6,17,-0.7304,0.0,1,0.186022],[7,17,1.5952,0.212,0,39.370296],[8,17,2.1875,0.2908,0,154.009203],[1,18,1.6124,0.3214,0,40.961905],[5,18,2.1466,0.428,0,140.138897],[7,18,0.0417,0.0,1,1.100803],[1,19,1.2992,0.3451,0,19.917091],[2,19,0.1599,0.0,1,1.445174],[3,19,1.3144,0.3491,0,20.625803],[4,19,1.4258,0.3789,0,26.658303],[5,19,1.5239,0.405,0,33.412539],[6,19,1.2703,0.3373,0,18.633191],[7,19,0.5604,0.139,0,3.633944],[8,19,0.3338,0.0454,0,2.156706],[9,19,1.1628,0.3086,0,14.549283],[1,20,0.4056,0.025,0,2.544649],[3,20,0.8635,0.0682,0,7.302581],[7,20,3.4455,0.2748,0,2789.304047],[9,20,1.7524,0.1397,0,56.543183],[1,21,1.5234,0.1518,0,33.375615],[2,21,4.1592,0.4146,0,14427.062842],[4,21,3.4997,0.3489,0,3160.329841],[5,21,2.657,0.2649,0,453.958879],[8,21,2.9932,0.2984,0,984.466983],[10,21,4.5451,0.4531,0,35083.80584],[1,22,1.775,0.2831,0,59.564768],[3,22,0.6775,0.1048,0,4.759131],[5,22,2.2663,0.3615,0,184.638723],[7,22,1.9985,0.3188,0,99.661451],[9,22,0.999,0.1586,0,9.976276],[1,23,4.0444,0.4032,0,11076.007888],[2,23,-0.482,0.0,1,0.329576],[3,23,1.6431,0.1638,0,43.963776],[4,23,3.9614,0.3949,0,9148.714353],[5,23,2.39,0.2382,0,245.453672],[6,23,2.7806,0.2772,0,603.373941],[7,23,4.9572,0.4942,0,90613.817641],[8,23,1.9032,0.1897,0,80.019344],[9,23,0.3959,0.0297,0,2.488221],[10,23,0.7697,0.0754,0,5.884346],[11,23,2.4153,0.2408,0,260.168198],[1,24,1.9225,0.3833,0,83.662174],[5,24,1.6776,0.3344,0,47.597541],[7,24,3.3262,0.6632,0,2119.240638],[11,24,1.4065,0.2803,0,25.499646],[1,25,3.2805,0.0523,0,1907.47905],[2,25,10.8726,0.1734,0,null],[3,25,7.9856,0.1274,0,null],[4,25,10.7446,0.1714,0,null],[6,25,15.4782,0.2469,0,null],[7,25,19.9776,0.3186,0,null],[8,25,17.9788,0.2868,0,null],[9,25,21.2828,0.3395,0,null],[11,25,16.4972,0.2631,0,null],[12,25,22.9579,0.3662,0,null],[1,26,1.7841,0.1016,0,60.8277],[3,26,3.4582,0.197,0,2872.267591],[5,26,3.6562,0.2083,0,4530.705443],[7,26,4.6237,0.2634,0,42042.648258],[9,26,2.8391,0.1617,0,690.424659],[11,26,1.3248,0.0754,0,21.12635],[1,27,3.4062,0.2264,0,2548.009216],[2,27,3.5901,0.2386,0,3891.15296],[4,27,3.7029,0.2461,0,5045.322118],[5,27,3.7235,0.2475,0,5290.734635],[7,27,3.0128,0.2002,0,1029.977047],[8,27,4.9024,0.3258,0,79869.598429],[10,27,3.8494,0.2558,0,7070.034367],[11,27,4.052,0.2693,0,11272.217739],[13,27,6.3655,0.423,0,null],[1,28,1.6531,0.1648,0,44.988282],[3,28,1.0499,0.1043,0,11.217453],[5,28,3.3001,0.329,0,1995.576926],[9,28,2.0739,0.2067,0,118.561439],[11,28,0.4632,0.0398,0,2.90512],[13,28,3.3269,0.3317,0,2122.995926],[1,29,1.1408,0.1297,0,13.830129],[2,29,3.7105,0.4227,0,5133.937889],[3,29,0.4616,0.0452,0,2.894865],[4,29,2.4512,0.2793,0,282.600554],[5,29,1.7332,0.1974,0,54.099487],[6,29,2.9866,0.3403,0,969.650857],[7,29,2.2043,0.2511,0,160.05252],[8,29,2.8601,0.3258,0,724.546731],[9,29,2.4663,0.281,0,292.629437],[10,29,1.6174,0.1842,0,41.436219],[11,29,2.9037,0.3308,0,801.047131],[12,29,2.9942,0.3411,0,986.710791],[13,29,0.9588,0.1086,0,9.094772],[14,29,3.6391,0.4146,0,4356.548445],[1,30,2.136,0.0852,0,136.783164],[7,30,5.8948,0.2351,0,784846.627499],[11,30,5.5723,0.2222,0,373527.018403],[13,30,7.7359,0.3085,0,null],[1,31,0.4753,0.0663,0,2.987701],[2,31,1.8161,0.2896,0,65.478294],[3,31,1.7515,0.2793,0,56.428475],[4,31,1.4756,0.2353,0,29.895115],[5,31,1.5195,0.2423,0,33.075811],[6,31,1.9704,0.3143,0,93.402603],[7,31,2.3498,0.3748,0,223.767728],[8,31,1.0784,0.1715,0,11.979246],[9,31,3.0837,0.4918,0,1212.434576],[10,31,0.4348,0.0572,0,2.721517],[11,31,0.1569,0.0,1,1.435191],[12,31,0.6283,0.096,0,4.24949],[13,31,2.1124,0.3369,0,129.525647],[14,31,0.3139,0.0169,0,2.060033],[15,31,1.766,0.2817,0,58.343934],[1,32,2.012,0.1003,0,102.790364],[3,32,3.0928,0.1542,0,1238.337972],[5,32,2.7196,0.1356,0,524.351679],[7,32,4.2255,0.2106,0,16805.830441],[9,32,4.6464,0.2316,0,44298.095473],[11,32,6.2859,0.3133,0,null],[13,32,7.0217,0.35,0,null],[15,32,4.0815,0.2034,0,12065.250564],[1,33,2.1637,0.0863,0,145.79593],[2,33,4.5577,0.1817,0,36118.331927],[4,33,6.7155,0.2678,0,null],[5,33,4.0511,0.1615,0,11249.590743],[7,33,5.8735,0.2342,0,747265.519737],[8,33,4.9085,0.1957,0,80993.982464],[10,33,7.0796,0.2823,0,null],[13,33,9.0174,0.3596,0,null],[14,33,7.2326,0.2884,0,null],[16,33,8.811,0.3513,0,null],[1,34,1.5888,0.2111,0,38.797435],[3,34,1.6646,0.2212,0,46.19379],[5,34,1.8466,0.2454,0,70.23766],[7,34,2.3115,0.3072,0,204.878428],[9,34,2.8402,0.3775,0,692.132308],[11,34,0.2454,0.0,1,1.759657],[13,34,-0.1086,0.0,1,0.778807],[15,34,0.0243,0.0,1,1.057444],[1,35,2.5779,0.0514,0,378.372823],[2,35,4.9925,0.0995,0,98287.874911],[3,35,5.3629,0.1069,0,230645.76921],[4,35,6.3973,0.1275,0,null],[6,35,7.0415,0.1404,0,null],[8,35,12.4059,0.2473,0,null],[9,35,11.5195,0.2297,0,null],[11,35,13.9053,0.2772,0,null],[12,35,11.8768,0.2368,0,null],[13,35,16.6486,0.3319,0,null],[16,35,13.6633,0.2724,0,null],[17,35,9.5582,0.1906,0,null],[1,36,0.5286,0.0966,0,3.377917],[5,36,0.8526,0.1682,0,7.121881],[7,36,1.1723,0.2333,0,14.869343],[11,36,2.4404,0.4866,0,275.707224],[13,36,1.5271,0.3044,0,33.660993],[17,36,2.1622,0.4311,0,145.262642],[1,37,3.737,0.0784,0,5457.240837],[2,37,9.6629,0.2028,0,null],[3,37,4.0887,0.0858,0,12264.99299],[4,37,6.3565,0.1334,0,null],[5,37,8.9934,0.1887,0,null],[6,37,10.3191,0.2166,0,null],[7,37,10.5361,0.2211,0,null],[8,37,8.7708,0.1841,0,null],[9,37,9.1637,0.1923,0,null],[10,37,12.3301,0.2588,0,null],[11,37,6.9928,0.1468,0,null],[12,37,20.1171,0.4222,0,null],[13,37,16.8166,0.3529,0,null],[14,37,13.3119,0.2794,0,null],[15,37,12.4141,0.2605,0,null],[16,37,12.6627,0.2657,0,null],[17,37,17.1725,0.3604,0,null],[18,37,7.5846,0.1592,0,null],[1,38,0.5049,0.1208,0,3.198199],[3,38,0.8126,0.2132,0,6.495904],[5,38,0.5487,0.1353,0,3.53773],[7,38,1.9082,0.5073,0,80.954225],[9,38,1.7509,0.4654,0,56.344857],[11,38,2.1652,0.5756,0,146.28169],[13,38,-0.6149,0.0,1,0.242708],[15,38,0.0787,0.0,1,1.198566],[17,38,0.2313,0.0,1,1.703395],[1,39,2.4433,0.0696,0,277.552383],[2,39,4.8169,0.1372,0,65605.750245],[4,39,5.4278,0.1546,0,267768.712945],[5,39,3.9095,0.1113,0,8118.258822],[7,39,5.39,0.1535,0,245467.253333],[8,39,6.9955,0.1992,0,null],[10,39,8.8858,0.2531,0,null],[11,39,8.4695,0.2412,0,null],[14,39,9.3509,0.2663,0,null],[16,39,11.4064,0.3249,0,null],[17,39,8.6952,0.2477,0,null],[19,39,10.5485,0.3004,0,null],[1,40,2.2787,0.0909,0,189.990301],[3,40,2.7384,0.1092,0,547.537048],[7,40,2.1318,0.085,0,135.444449],[9,40,6.8155,0.2718,0,null],[11,40,7.6368,0.3045,0,null],[13,40,8.7128,0.3474,0,null],[17,40,6.0351,0.2406,0,null],[19,40,7.7583,0.3094,0,null],[1,41,3.6753,0.1466,0,4734.31342],[2,41,9.0773,0.362,0,null],[3,41,4.1492,0.1654,0,14099.297293],[4,41,7.8715,0.3139,0,null],[5,41,3.3823,0.1349,0,2411.682109],[6,41,8.3785,0.3341,0,null],[7,41,4.3361,0.1729,0,21682.789834],[8,41,8.4921,0.3386,0,null],[9,41,5.5743,0.2223,0,375227.199549],[10,41,7.7249,0.308,0,null],[11,41,6.535,0.2606,0,null],[12,41,10.2189,0.4075,0,null],[13,41,5.8627,0.2338,0,729017.423779],[14,41,5.3498,0.2133,0,223765.59843],[15,41,5.6075,0.2236,0,405010.31347],[16,41,5.0431,0.2011,0,110440.641825],[17,41,5.7082,0.2276,0,510690.142426],[18,41,6.3922,0.2549,0,null],[19,41,6.1657,0.2459,0,null],[20,41,9.3531,0.373,0,null],[1,42,1.9431,0.1937,0,87.726671],[5,42,0.8665,0.0856,0,7.35348],[11,42,1.0689,0.1062,0,11.718728],[13,42,4.5167,0.4503,0,32863.804489],[17,42,3.2274,0.3217,0,1687.944683],[19,42,1.3446,0.134,0,22.110594],[1,43,3.9422,0.0715,0,8753.814038],[2,43,12.3874,0.2245,0,null],[3,43,6.6608,0.1207,0,null],[4,43,8.8463,0.1603,0,null],[5,43,1.8424,0.0334,0,69.564082],[6,43,9.6361,0.1747,0,null],[7,43,4.5403,0.0823,0,34699.720821],[8,43,15.7011,0.2846,0,null],[9,43,11.3466,0.2057,0,null],[10,43,12.4941,0.2265,0,null],[11,43,14.1678,0.2568,0,null],[12,43,14.0203,0.2541,0,null],[13,43,15.625,0.2832,0,null],[14,43,15.7691,0.2858,0,null],[15,43,14.367,0.2604,0,null],[16,43,13.9316,0.2525,0,null],[17,43,14.8532,0.2692,0,null],[18,43,19.942,0.3614,0,null],[19,43,14.9972,0.2718,0,null],[20,43,15.7485,0.2854,0,null],[21,43,16.949,0.3072,0,null],[1,44,1.137,0.0905,0,13.709093],[3,44,2.4071,0.192,0,255.343266],[5,44,2.3466,0.1871,0,222.129224],[7,44,0.5742,0.043,0,3.751284],[9,44,1.8174,0.1449,0,65.676175],[13,44,5.9702,0.4761,0,933777.027888],[15,44,1.7249,0.1375,0,53.079417],[17,44,0.7681,0.0602,0,5.862546],[19,44,1.6613,0.1325,0,45.850241],[21,44,1.7178,0.137,0,52.216712],[1,45,2.3027,0.0918,0,200.74783],[2,45,1.724,0.0687,0,52.964884],[4,45,3.2165,0.1283,0,1646.312263],[7,45,3.6009,0.1436,0,3989.726591],[8,45,2.7353,0.1091,0,543.581069],[11,45,6.9199,0.2759,0,null],[13,45,8.6384,0.3445,0,null],[14,45,6.0465,0.2411,0,null],[16,45,7.8629,0.3135,0,null],[17,45,9.4422,0.3765,0,null],[19,45,6.6715,0.266,0,null],[22,45,10.0527,0.4008,0,null],[1,46,1.4837,0.1479,0,30.457178],[3,46,1.2732,0.1268,0,18.760014],[5,46,1.9649,0.1959,0,92.243677],[7,46,0.9498,0.0941,0,8.908774],[9,46,3.3546,0.3344,0,2262.681133],[11,46,5.3983,0.5381,0,250185.981815],[13,46,4.3954,0.4382,0,24855.476434],[15,46,0.4572,0.0389,0,2.865447],[17,46,1.9068,0.1901,0,80.681412],[19,46,2.4132,0.2406,0,258.950999],[21,46,2.7346,0.2726,0,542.810664],[1,47,2.4793,0.1236,0,301.486926],[2,47,7.0672,0.3523,0,null],[3,47,3.3038,0.1647,0,2012.601463],[4,47,2.2774,0.1135,0,189.407599],[5,47,1.2011,0.0598,0,15.890686],[6,47,7.1838,0.3581,0,null],[7,47,5.1124,0.2548,0,129552.525485],[8,47,7.2803,0.3629,0,null],[9,47,4.6953,0.234,0,49574.622365],[10,47,2.8527,0.1422,0,712.358384],[11,47,5.2214,0.2603,0,166504.678214],[12,47,7.2816,0.3629,0,null],[13,47,5.688,0.2835,0,487472.68445],[14,47,7.3329,0.3655,0,null],[15,47,3.9233,0.1956,0,8381.774093],[16,47,5.1885,0.2586,0,154364.125007],[17,47,5.8728,0.2927,0,746035.967116],[18,47,6.3694,0.3175,0,null],[19,47,5.1908,0.2587,0,155176.309895],[20,47,4.4878,0.2237,0,30746.611996],[21,47,1.6307,0.0813,0,42.7302],[22,47,8.8166,0.4395,0,null],[23,47,6.7402,0.336,0,null],[1,48,1.751,0.1745,0,56.367177],[5,48,1.0457,0.1039,0,11.108548],[7,48,0.9276,0.0919,0,8.46492],[11,48,4.1246,0.4112,0,13323.388428],[13,48,3.041,0.3032,0,1099.064462],[17,48,1.9882,0.1982,0,97.319792],[19,48,1.0993,0.1093,0,12.570299],[23,48,2.6104,0.2602,0,407.716374],[1,49,5.786,0.0824,0,610993.50911],[2,49,11.2857,0.1607,0,null],[3,49,6.4422,0.0917,0,null],[4,49,11.92,0.1698,0,null],[5,49,6.3048,0.0898,0,null],[6,49,9.1999,0.131,0,null],[8,49,13.8941,0.1979,0,null],[9,49,11.774,0.1677,0,null],[10,49,16.0675,0.2288,0,null],[11,49,9.3286,0.1328,0,null],[12,49,15.4443,0.2199,0,null],[13,49,19.2893,0.2747,0,null],[15,49,23.2363,0.3309,0,null],[16,49,16.9643,0.2416,0,null],[17,49,25.8572,0.3682,0,null],[18,49,19.9389,0.2839,0,null],[19,49,21.4449,0.3054,0,null],[20,49,20.3912,0.2904,0,null],[22,49,21.519,0.3065,0,null],[23,49,22.9635,0.327,0,null],[24,49,20.5875,0.2932,0,null],[1,50,2.2134,0.0353,0,163.469795],[3,50,4.6084,0.0735,0,40585.927157],[7,50,10.5181,0.1678,0,null],[9,50,9.8756,0.1575,0,null],[11,50,17.8513,0.2847,0,null],[13,50,14.1372,0.2255,0,null],[17,50,10.809,0.1724,0,null],[19,50,19.3687,0.3089,0,null],[21,50,18.8127,0.3001,0,null],[23,50,16.6793,0.266,0,null],[1,51,0.1506,0.0,1,1.41455],[2,51,2.0409,0.1356,0,109.881349],[4,51,1.8537,0.1232,0,71.394935],[5,51,2.0037,0.1332,0,100.861838],[7,51,2.1972,0.146,0,157.459648],[8,51,2.4401,0.1622,0,275.508277],[10,51,4.526,0.3008,0,33577.544554],[11,51,1.1692,0.0776,0,14.764445],[13,51,4.4461,0.2955,0,27933.335394],[14,51,2.8355,0.1884,0,684.631957],[16,51,4.912,0.3264,0,81665.361791],[19,51,4.952,0.3291,0,89528.959346],[20,51,3.0316,0.2015,0,1075.517791],[22,51,3.3083,0.2199,0,2033.982353],[23,51,2.044,0.1358,0,110.667733],[25,51,4.5399,0.3017,0,34665.022873],[1,52,2.2174,0.1263,0,164.962091],[3,52,0.2474,0.0,1,1.767624],[5,52,3.0362,0.173,0,1087.037544],[7,52,2.658,0.1514,0,454.955853],[9,52,2.3723,0.1351,0,235.686662],[11,52,5.3097,0.3025,0,204049.486227],[15,52,6.2356,0.3552,0,null],[17,52,3.5707,0.2034,0,3721.737794],[19,52,2.5581,0.1457,0,361.509229],[21,52,7.0488,0.4015,0,null],[23,52,4.7895,0.2728,0,61583.24423],[25,52,7.1201,0.4056,0,null],[1,53,2.7785,0.1231,0,600.475307],[2,53,3.2994,0.1462,0,1992.32543],[3,53,2.9944,0.1327,0,987.20457],[4,53,3.8267,0.1695,0,6709.797988],[5,53,6.5874,0.2919,0,null],[6,53,1.1649,0.0515,0,14.620007],[7,53,4.3686,0.1936,0,23365.441102],[8,53,5.5073,0.244,0,321586.051638],[9,53,8.7636,0.3883,0,null],[10,53,3.5743,0.1584,0,3752.410734],[11,53,9.4782,0.4199,0,null],[12,53,7.3488,0.3256,0,null],[13,53,6.3321,0.2805,0,null],[14,53,7.6379,0.3384,0,null],[15,53,7.728,0.3424,0,null],[16,53,12.9248,0.5726,0,null],[17,53,2.3111,0.1024,0,204.670667],[18,53,4.9879,0.221,0,97258.289913],[19,53,8.7892,0.3894,0,null],[20,53,5.1987,0.2303,0,158012.346848],[21,53,3.386,0.15,0,2431.970865],[22,53,2.2501,0.0997,0,177.860599],[23,53,6.6553,0.2949,0,null],[24,53,2.8114,0.1246,0,647.775793],[25,53,9.3475,0.4141,0,null],[26,53,8.5423,0.3785,0,null],[1,54,-0.0772,0.0,1,0.837085],[5,54,-0.2566,0.0,1,0.553922],[7,54,1.1444,0.0759,0,13.943737],[11,54,3.4945,0.2322,0,3122.353109],[13,54,4.2023,0.2793,0,15931.851653],[17,54,4.3682,0.2903,0,23345.169653],[19,54,2.9506,0.1961,0,892.533443],[23,54,3.0187,0.2006,0,1043.939864],[25,54,5.4575,0.3627,0,286760.69258],[1,55,1.3975,0.1114,0,24.973918],[2,55,5.0395,0.4019,0,109530.226875],[3,55,1.9757,0.1576,0,94.551882],[4,55,3.6359,0.29,0,4324.619592],[6,55,4.6139,0.368,0,41106.518838],[7,55,2.1847,0.1742,0,153.017633],[8,55,3.0551,0.2436,0,1135.163426],[9,55,1.9414,0.1548,0,87.367802],[12,55,2.8623,0.2283,0,728.248781],[13,55,3.8584,0.3077,0,7217.06945],[14,55,4.0432,0.3224,0,11046.062402],[16,55,3.9749,0.317,0,9438.984536],[17,55,3.4539,0.2754,0,2843.546937],[18,55,2.7679,0.2207,0,586.04007],[19,55,3.8902,0.3102,0,7766.393944],[21,55,4.0191,0.3205,0,10450.556759],[23,55,2.5006,0.1994,0,316.697379],[24,55,3.2811,0.2617,0,1910.319214],[26,55,6.555,0.5228,0,null],[27,55,4.341,0.3462,0,21930.240128],[1,56,1.3737,0.1369,0,23.643741],[3,56,2.3257,0.2318,0,211.708379],[5,56,1.5438,0.1539,0,34.97971],[9,56,2.3366,0.2329,0,217.094139],[11,56,4.3391,0.4326,0,21833.683992],[13,56,3.3895,0.3379,0,2452.04617],[15,56,3.5789,0.3568,0,3792.200644],[17,56,2.2828,0.2276,0,191.799828],[19,56,1.9743,0.1968,0,94.26067],[23,56,2.2239,0.2217,0,167.472766],[25,56,2.9855,0.2976,0,967.203875],[27,56,4.9959,0.498,0,99066.752645],[1,57,2.2996,0.1528,0,199.337816],[2,57,0.8183,0.0537,0,6.581445],[4,57,2.9023,0.1929,0,798.536597],[5,57,-0.0691,0.0,1,0.852966],[7,57,2.5975,0.1726,0,395.779954],[8,57,4.2725,0.2839,0,18726.589779],[10,57,2.6955,0.1791,0,495.976697],[11,57,4.4692,0.297,0,29459.196291],[13,57,1.4981,0.0995,0,31.487366],[14,57,4.8147,0.32,0,65269.069933],[16,57,3.2769,0.2178,0,1892.044233],[17,57,5.2656,0.3499,0,184339.256639],[20,57,4.3607,0.2898,0,22946.350028],[22,57,3.9015,0.2593,0,7970.371926],[23,57,5.904,0.3924,0,801615.538174],[25,57,2.4681,0.164,0,293.837392],[26,57,4.452,0.2959,0,28316.973586],[28,57,4.6407,0.3084,0,43720.962364],[1,58,1.8786,0.214,0,75.619662],[3,58,2.0314,0.2314,0,107.506196],[5,58,1.0122,0.1148,0,10.283814],[7,58,2.0316,0.2315,0,107.544081],[9,58,1.8652,0.2125,0,73.312712],[11,58,3.3478,0.3814,0,2227.648272],[13,58,2.9182,0.3325,0,828.296021],[15,58,1.6705,0.1903,0,46.829717],[17,58,4.0864,0.4656,0,12200.336279],[19,58,2.1852,0.249,0,153.174694],[21,58,0.1908,0.0,1,1.551503],[23,58,0.1903,0.0,1,1.54989],[25,58,2.074,0.2363,0,118.577362],[27,58,1.555,0.1771,0,35.895507],[1,59,2.3804,0.0655,0,240.130326],[2,59,5.7618,0.1584,0,577789.572551],[3,59,2.365,0.065,0,231.751399],[4,59,2.9841,0.0821,0,963.964455],[5,59,3.5426,0.0974,0,3488.344311],[6,59,3.9107,0.1075,0,8140.696678],[7,59,4.2563,0.117,0,18041.015613],[8,59,5.1825,0.1425,0,152222.381664],[9,59,6.1025,0.1678,0,null],[10,59,7.1694,0.1972,0,null],[11,59,6.9828,0.192,0,null],[12,59,9.919,0.2728,0,null],[13,59,6.9125,0.1901,0,null],[14,59,6.658,0.1831,0,null],[15,59,7.4121,0.2038,0,null],[16,59,11.6532,0.3205,0,null],[17,59,8.6732,0.2385,0,null],[18,59,8.5219,0.2344,0,null],[19,59,9.0312,0.2484,0,null],[20,59,10.6759,0.2936,0,null],[21,59,10.2442,0.2817,0,null],[22,59,7.0375,0.1935,0,null],[23,59,12.6853,0.3488,0,null],[24,59,10.3601,0.2849,0,null],[25,59,8.7736,0.2413,0,null],[26,59,6.8179,0.1875,0,null],[27,59,9.47,0.2604,0,null],[28,59,14.318,0.3937,0,null],[29,59,13.7995,0.3795,0,null],[1,60,2.0683,0.0825,0,117.032037],[7,60,3.1211,0.1245,0,1321.586356],[11,60,4.4521,0.1775,0,28323.093453],[13,60,6.1221,0.2441,0,null],[17,60,8.2456,0.3288,0,null],[19,60,4.3528,0.1736,0,22529.470079],[23,60,9.3929,0.3745,0,null],[29,60,9.412,0.3753,0,null]];
+const PHI=(1+Math.sqrt(5))/2, THETA=2-PHI;
+const PAL=['#5fb7c0','#e0c068','#d39bc6','#9aa8ff','#e59a72','#8fcf8a','#b9a3e3','#cdb68c','#6fd3e0'];
+const REDUCED=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const mod=(a,b)=>((a%b)+b)%b;
+function frac(s){const [p,q]=s.split('/').map(Number);return {p,q};}
+// golden arc: centred at U=0, of length THETA/2
+const inGold=x=>{const u=mod(x+THETA/4,1);return u<THETA/2;};
+
+function makeScene(stage,camPos){
+  const r=new THREE.WebGLRenderer({antialias:true,alpha:true});
+  r.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  stage.prepend(r.domElement);
+  const scene=new THREE.Scene();
+  const cam=new THREE.PerspectiveCamera(38,1,0.05,100);
+  cam.position.set(...camPos);
+  const ctl=new OrbitControls(cam,r.domElement);
+  ctl.enableDamping=true;ctl.dampingFactor=0.08;
+  scene.add(new THREE.HemisphereLight(0xcfe6ff,0x1a1420,2.2));
+  const d1=new THREE.DirectionalLight(0xffffff,2.6);d1.position.set(4,6,5);scene.add(d1);
+  const d2=new THREE.DirectionalLight(0x88aaff,1.0);d2.position.set(-5,-2,-4);scene.add(d2);
+  const o={r,scene,cam,ctl,stage,visible:true,tags:[]};
+  const resize=()=>{const w=stage.clientWidth,h=stage.clientHeight;r.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();};
+  new ResizeObserver(resize).observe(stage);resize();
+  new IntersectionObserver(es=>{o.visible=es[0].isIntersecting;},{threshold:0.02}).observe(stage);
+  o.tag=(text,cls)=>{const d=document.createElement('div');d.className='mc-tag '+(cls||'');d.innerHTML=text;stage.appendChild(d);const t={el:d,pos:new THREE.Vector3()};o.tags.push(t);return t;};
+  o.render=()=>{ctl.update();r.render(scene,cam);
+    const w=stage.clientWidth,h=stage.clientHeight;
+    for(const t of o.tags){const v=t.pos.clone().project(cam);const hide=v.z>1||t.hidden;t.el.style.display=hide?'none':'block';t.el.style.left=((v.x+1)/2*w)+'px';t.el.style.top=((1-v.y)/2*h)+'px';}};
+  return o;
+}
+function glowSphere(color,rad){
+  const g=new THREE.Group();
+  g.add(new THREE.Mesh(new THREE.SphereGeometry(rad,24,16),new THREE.MeshStandardMaterial({color,emissive:color,emissiveIntensity:0.7,roughness:0.3})));
+  g.add(new THREE.Mesh(new THREE.SphereGeometry(rad*2.2,24,16),new THREE.MeshBasicMaterial({color,transparent:true,opacity:0.16,depthWrite:false})));
+  return g;
+}
+
+/* shared: the drawing of the pen, with a compass of the q step directions */
+function penPainter(canvas,box){
+  const ctx=canvas.getContext('2d');
+  function size(){const d=Math.min(devicePixelRatio,2),w=Math.round(box.clientWidth*d),h=Math.round(box.clientHeight*d);if(canvas.width!==w)canvas.width=w;if(canvas.height!==h)canvas.height=h;}
+  new ResizeObserver(size).observe(box);size();
+  return function(pts,cols,nShown,p,q){
+    const w=canvas.width,h=canvas.height,d=Math.min(devicePixelRatio,2);ctx.clearRect(0,0,w,h);
+    let mnx=1e9,mny=1e9,mxx=-1e9,mxy=-1e9;for(const [a,b] of pts){mnx=Math.min(mnx,a);mxx=Math.max(mxx,a);mny=Math.min(mny,b);mxy=Math.max(mxy,b);}
+    const cr=30*d,top=34*d,bot=2*cr+44*d;
+    const sc=Math.min(w*0.8/Math.max(1e-6,mxx-mnx),(h-top-bot)/Math.max(1e-6,mxy-mny));
+    const ox=w/2-sc*(mnx+mxx)/2,oy=top+(h-top-bot)/2+sc*(mny+mxy)/2;
+    ctx.lineCap='round';ctx.lineWidth=Math.max(1.2,d*1.4);
+    const n=Math.min(nShown,cols.length);
+    for(let i=0;i<n;i++){ctx.strokeStyle=cols[i];ctx.beginPath();ctx.moveTo(ox+sc*pts[i][0],oy-sc*pts[i][1]);ctx.lineTo(ox+sc*pts[i+1][0],oy-sc*pts[i+1][1]);ctx.stroke();}
+    if(n>0){const i=n-1;ctx.lineWidth=d*3.4;ctx.strokeStyle=cols[i];ctx.beginPath();ctx.moveTo(ox+sc*pts[i][0],oy-sc*pts[i][1]);ctx.lineTo(ox+sc*pts[i+1][0],oy-sc*pts[i+1][1]);ctx.stroke();}
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(ox+sc*pts[n][0],oy-sc*pts[n][1],3.2*d,0,7);ctx.fill();
+    /* compass */
+    const cx=cr+18*d,cy=h-cr-16*d,beta=2*Math.PI*p/q,cur=n>0?cols[n-1]:null;
+    ctx.fillStyle='#a3abba';ctx.font=`italic ${12.5*d}px Spectral, Georgia, serif`;ctx.fillText('one colour, one direction',cx-cr,cy-cr-8*d);
+    for(let k=0;k<q;k++){const a=k*beta,col=PAL[k%PAL.length],ex=cx+cr*Math.cos(a),ey=cy-cr*Math.sin(a);
+      ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=(col===cur?3.2:1.6)*d;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(ex,ey);ctx.stroke();
+      const hl=6*d;ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-hl*Math.cos(a-0.45),ey+hl*Math.sin(a-0.45));ctx.lineTo(ex-hl*Math.cos(a+0.45),ey+hl*Math.sin(a+0.45));ctx.closePath();ctx.fill();}
+  };
+}
+
+/* ---------------- Figure 1: the torus ---------------- */
+(function(){
+  const stage=document.getElementById('mc-torus');
+  const S=makeScene(stage,[0,4.3,7.1]);
+  const R=1.55,r=0.62;
+  const P=(U,V,e=0)=>{const a=2*Math.PI*U,b=2*Math.PI*V,rr=r+e;return new THREE.Vector3((R+rr*Math.cos(a))*Math.cos(b),rr*Math.sin(a),(R+rr*Math.cos(a))*Math.sin(b));};
+  // surface
+  const tg=new THREE.TorusGeometry(R,r,64,160);tg.rotateX(Math.PI/2);
+  S.scene.add(new THREE.Mesh(tg,new THREE.MeshPhysicalMaterial({color:0x223049,roughness:0.35,metalness:0.1,transparent:true,opacity:0.55,side:THREE.DoubleSide,depthWrite:false,clearcoat:0.6})));
+  // grid lines
+  const gridMat=new THREE.LineBasicMaterial({color:0x3a4762,transparent:true,opacity:0.55});
+  for(let i=0;i<24;i++){const pts=[];for(let j=0;j<=96;j++)pts.push(P(j/96,i/24,0.002));S.scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),gridMat));}
+  for(let i=0;i<12;i++){const pts=[];for(let j=0;j<=160;j++)pts.push(P(i/12,j/160,0.002));S.scene.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),gridMat));}
+  // mirror: circle V=0
+  class Curve extends THREE.Curve{constructor(f){super();this.f=f;}getPoint(t){return this.f(t);}}
+  S.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new Curve(t=>P(t,0,0.004)),160,0.018,8,true),new THREE.MeshStandardMaterial({color:0xdfe6f2,emissive:0x50586a,roughness:0.3,metalness:0.4})));
+  S.scene.add(new THREE.Mesh(new THREE.TubeGeometry(new Curve(t=>P(-THETA/4+t*THETA/2,0,0.01)),48,0.04,10,false),new THREE.MeshStandardMaterial({color:0xe0c068,emissive:0x8a6a10,emissiveIntensity:0.8,roughness:0.3})));
+  const pP=glowSphere(0xd39bc6,0.05),pQ=glowSphere(0xd39bc6,0.05);
+  pP.position.copy(P(-THETA/4,0,0.01));pQ.position.copy(P(THETA/4,0,0.01));S.scene.add(pP,pQ);
+  const tP=S.tag('P','pink'),tQ=S.tag('Q','pink');tP.pos.copy(P(-THETA/4-0.02,0,0.12));tQ.pos.copy(P(THETA/4+0.02,0,0.12));
+  const tM=S.tag('the mirror');tM.pos.copy(P(0.5,0,0.15));
+  const tG=S.tag('golden part','gold');tG.pos.copy(P(0,0.02,0.32));
+  // trajectory
+  const NB=60,SPB=40,x0=0.31;
+  let line,geo,colors,nPts=NB*SPB+1,q=5,hits=[];
+  const runner=glowSphere(0xffffff,0.035);S.scene.add(runner);
+  const flash=new THREE.Mesh(new THREE.TorusGeometry(0.12,0.012,8,40),new THREE.MeshBasicMaterial({color:0xe0c068,transparent:true,opacity:0}));S.scene.add(flash);
+  const RAD=6;let p=2,penPts=[],penCols=[];
+  const paint1=penPainter(document.getElementById('mc-pen1'),document.getElementById('mc-penbox1'));
+  function build(){
+    if(line){S.scene.remove(line);geo.dispose();}
+    hits=[];const floorAt=[];let k=0,x=x0,zx=0,zy=0;penPts=[[0,0]];penCols=[];const beta=2*Math.PI*p/q;
+    for(let n=0;n<NB;n++){if(inGold(x)){k++;hits.push(n);}floorAt.push(k);zx+=Math.cos(k*beta);zy+=Math.sin(k*beta);penPts.push([zx,zy]);penCols.push(PAL[mod(k,q)]);x+=THETA;}
+    const curve=new Curve(u=>{const T=u*NB;return P(x0+THETA*T,T,0.02);});
+    geo=new THREE.TubeGeometry(curve,NB*SPB,0.017,RAD,false);
+    const nv=geo.attributes.position.count;colors=new Float32Array(nv*3);const c=new THREE.Color();
+    for(let i=0;i<=NB*SPB;i++){const n=Math.min(NB-1,Math.floor(i/SPB));c.set(PAL[mod(floorAt[n],q)]);for(let j=0;j<=RAD;j++){colors.set([c.r,c.g,c.b],3*(i*(RAD+1)+j));}}
+    geo.setAttribute('color',new THREE.BufferAttribute(colors,3));
+    line=new THREE.Mesh(geo,new THREE.MeshStandardMaterial({vertexColors:true,emissive:0x222222,roughness:0.35}));S.scene.add(line);
+  }
+  const sel=document.getElementById('mc-torus-turn');
+  let T=0,playing=!REDUCED,last=performance.now();
+  function setTurn(){({p,q}=frac(sel.value));build();T=REDUCED?NB-0.001:8;}
+  sel.onchange=setTurn;setTurn();
+  const btn=document.getElementById('mc-torus-play');btn.textContent=playing?'Pause':'Play';
+  btn.onclick=()=>{playing=!playing;btn.textContent=playing?'Pause':'Play';};
+  document.getElementById('mc-torus-reset').onclick=()=>{T=0;playing=true;btn.textContent='Pause';};
+  document.getElementById('mc-torus-step').onclick=()=>{playing=false;btn.textContent='Play';T=Math.floor(T+0.002)+0.999;if(T>=NB)T=0.999;};
+  const hud=document.getElementById('mc-torus-hud');
+  function frame(now){
+    const dt=Math.min(0.05,(now-last)/1000);last=now;
+    if(S.visible){
+      if(playing){T+=dt*0.9;if(T>=NB){T=0;}}
+      const i=Math.min(NB*SPB,Math.floor(T*SPB));geo.setDrawRange(0,i*RAD*6);
+      const n=Math.floor(T),t=T-n;runner.position.copy(P(x0+THETA*T,t,0.02));
+      const m=hits.filter(h=>h<=n).length;
+      const lastHit=hits.filter(h=>h<=n).pop();
+      if(lastHit===n&&t<0.6){flash.material.opacity=0.9*(1-t/0.6);flash.position.copy(P(x0+THETA*n,0,0.012));flash.lookAt(P(x0+THETA*n,0.05,0.012));flash.scale.setScalar(1+t*2);}else flash.material.opacity=0;
+      hud.innerHTML=`lap <b>${n+1}</b>, step <b>${n+1}</b> of the pen<br>landings on the golden part <b>${m}</b><br>heading of the pen: <b>${m}</b> turns of <b>${Math.round(360*p/q*10)/10}°</b><br>colour <b>${mod(m,q)}</b> out of ${q}`;
+      paint1(penPts,penCols,n+1,p,q);
+      S.render();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------------- Figure 2: the building ---------------- */
+(function(){
+  const stage=document.getElementById('mc-floors');
+  const S=makeScene(stage,[4.2,3.6,4.4]);
+  S.ctl.target.set(0,1.0,0);
+  const W=2.4,GAP=0.52;
+  let group=null,segGeo,segPos=[],lineMat=null,segCount=0,q=5,p=2,penPts=[],penCols=[],stepIdx=[];
+  const NB=220,SPB=24,x0=0.31;
+  const runner=glowSphere(0xffffff,0.03);S.scene.add(runner);
+  const tags=[S.tag('P','pink'),S.tag('Q','pink'),S.tag('golden slit','gold'),S.tag('ground floor')];
+  const cU=u=>mod(u+0.5,1)-0.5;
+  const pt=(U,V,k)=>new THREE.Vector3(W*cU(U),k*GAP,W*V);
+  function build(){
+    if(group){S.scene.remove(group);group.traverse(o=>{if(o.geometry)o.geometry.dispose();});}
+    group=new THREE.Group();S.scene.add(group);
+    for(let k=0;k<q;k++){
+      const c=new THREE.Color(PAL[k%PAL.length]);
+      const plate=new THREE.Mesh(new THREE.PlaneGeometry(W,W),new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:0.07,side:THREE.DoubleSide,depthWrite:false}));
+      plate.rotation.x=-Math.PI/2;plate.position.y=k*GAP;group.add(plate);
+      const e=new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.PlaneGeometry(W,W)),new THREE.LineBasicMaterial({color:c,transparent:true,opacity:0.55}));
+      e.rotation.x=-Math.PI/2;e.position.y=k*GAP;group.add(e);
+      // the mirror (line V=0), dashed
+      const mg=new THREE.BufferGeometry().setFromPoints([pt(-0.5,0,k),pt(0.4999,0,k)]);
+      const ml=new THREE.Line(mg,new THREE.LineDashedMaterial({color:0xdfe6f2,dashSize:0.06,gapSize:0.05,transparent:true,opacity:0.6}));ml.computeLineDistances();group.add(ml);
+      // slit
+      group.add(new THREE.Mesh(new THREE.BoxGeometry(W*THETA/2,0.012,0.022),new THREE.MeshStandardMaterial({color:0xe0c068,emissive:0x8a6a10,emissiveIntensity:0.9})).translateY(k*GAP));
+      // ramp to the next floor
+      if(k<q-1){
+        const a=-W*THETA/4,b=W*THETA/4,y0=k*GAP,y1=(k+1)*GAP,d=0.16;
+        const g=new THREE.BufferGeometry();
+        g.setAttribute('position',new THREE.Float32BufferAttribute([a,y0,-d, b,y0,-d, b,y1,d, a,y0,-d, b,y1,d, a,y1,d],3));g.computeVertexNormals();
+        group.add(new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xe0c068,transparent:true,opacity:0.22,side:THREE.DoubleSide,depthWrite:false})));
+        const eg=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a,y0,-d),new THREE.Vector3(a,y1,d),new THREE.Vector3(b,y0,-d),new THREE.Vector3(b,y1,d)]);
+        group.add(new THREE.LineSegments(eg,new THREE.LineBasicMaterial({color:0xe0c068,transparent:true,opacity:0.5})));
+      }
+    }
+    // branch columns
+    for(const u of [-THETA/4,THETA/4]){
+      const col=new THREE.Mesh(new THREE.CylinderGeometry(0.014,0.014,(q-1)*GAP+0.3,10),new THREE.MeshBasicMaterial({color:0xd39bc6,transparent:true,opacity:0.85}));
+      col.position.set(W*u,(q-1)*GAP/2,0);group.add(col);
+      for(let k=0;k<q;k++){const s=glowSphere(0xd39bc6,0.03);s.position.set(W*u,k*GAP,0);group.add(s);}
+    }
+    // the last floor goes back to the first
+    const rg=new THREE.BufferGeometry().setFromPoints(new THREE.CatmullRomCurve3([new THREE.Vector3(W*THETA/4+0.05,(q-1)*GAP,0.18),new THREE.Vector3(W*0.42,(q-1)*GAP/2,0.55),new THREE.Vector3(W*THETA/4+0.05,0,-0.18)]).getPoints(60));
+    const rl=new THREE.Line(rg,new THREE.LineDashedMaterial({color:0xe0c068,dashSize:0.05,gapSize:0.05,transparent:true,opacity:0.7}));rl.computeLineDistances();group.add(rl);
+    tags[0].pos.set(W*-THETA/4-0.08,(q-1)*GAP+0.25,0);tags[1].pos.set(W*THETA/4+0.08,(q-1)*GAP+0.25,0);
+    tags[2].pos.set(0,-0.05,0.25);tags[3].pos.set(-W/2,0,W/2);
+    // trajectory
+    const pos=[],col=[];penPts=[[0,0]];penCols=[];stepIdx=[];
+    let k=0,x=x0,zx=0,zy=0;const c=new THREE.Color();
+    const beta=2*Math.PI*p/q;
+    for(let n=0;n<NB;n++){
+      if(inGold(x)){
+        // climb to the next floor
+        const kk=k+1;c.set(PAL[mod(kk,q)]);
+        if(mod(kk,q)!==0){const A=pt(x,0,mod(k,q)),B=pt(x,0,mod(kk,q));pos.push(A.x,A.y,A.z,B.x,B.y,B.z);col.push(c.r,c.g,c.b,c.r,c.g,c.b);}
+        k=kk;
+      }
+      c.set(PAL[mod(k,q)]);
+      stepIdx.push(pos.length/6);
+      let prev=null;
+      for(let s=0;s<=SPB;s++){
+        const t=s/SPB;const U=x+THETA*t;let V=mod(t+0.5,1)-0.5;if(s===SPB)V=-1e-6;
+        const v=pt(U,V,mod(k,q));
+        if(prev&&prev.distanceTo(v)<W*0.4){pos.push(prev.x,prev.y,prev.z,v.x,v.y,v.z);col.push(c.r,c.g,c.b,c.r,c.g,c.b);}
+        prev=v;
+      }
+      zx+=Math.cos(k*beta);zy+=Math.sin(k*beta);penPts.push([zx,zy]);penCols.push(PAL[mod(k,q)]);
+      x+=THETA;
+    }
+    stepIdx.push(pos.length/6);
+    segPos=pos;segGeo=new LineSegmentsGeometry();segGeo.setPositions(pos);segGeo.setColors(col);
+    segCount=pos.length/6;
+    lineMat=new LineMaterial({vertexColors:true,linewidth:2.6});lineMat.resolution.set(stage.clientWidth,stage.clientHeight);
+    group.add(new LineSegments2(segGeo,lineMat));
+    S.ctl.target.set(0,(q-1)*GAP/2,0);
+    const dist=4.6+q*0.35;S.cam.position.set(dist*0.72,(q-1)*GAP/2+dist*0.55,dist*0.75);
+  }
+  const drawPenShared=penPainter(document.getElementById('mc-pen'),document.getElementById('mc-penbox'));
+  const drawPen=n=>drawPenShared(penPts,penCols,n,p,q);
+  const sel=document.getElementById('mc-floors-turn');
+  let T=0,playing=!REDUCED,last=performance.now();
+  function setTurn(){({p,q}=frac(sel.value));build();T=REDUCED?NB-0.001:60;}
+  sel.onchange=setTurn;setTurn();
+  const btn=document.getElementById('mc-floors-play');btn.textContent=playing?'Pause':'Play';
+  btn.onclick=()=>{playing=!playing;btn.textContent=playing?'Pause':'Play';};
+  document.getElementById('mc-floors-reset').onclick=()=>{T=0;playing=true;btn.textContent='Pause';};
+  const hud=document.getElementById('mc-floors-hud');
+  function frame(now){
+    const dt=Math.min(0.05,(now-last)/1000);last=now;
+    if(S.visible){
+      if(playing){T+=dt*2.2;if(T>=NB)T=0;}
+      const n=Math.floor(T),t=T-n;
+      const a=stepIdx[n],b=stepIdx[n+1];const shown=Math.max(1,Math.floor(a+(b-a)*t));segGeo.instanceCount=shown;
+      if(lineMat)lineMat.resolution.set(stage.clientWidth,stage.clientHeight);
+      const i=(shown-1)*6;runner.position.set(segPos[i+3],segPos[i+4],segPos[i+5]);
+      hud.innerHTML=`${q} floors, turn of ${Math.round(3600*p/q)/10}°<br>bounce <b>${n}</b>`;
+      drawPen(n+1);
+      S.render();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------------- Figure 3: the wheel of genus q ---------------- */
+(function(){
+  const stage=document.getElementById('mc-wheel');
+  const S=makeScene(stage,[0,3.3,5.4]);
+  S.ctl.autoRotate=!REDUCED;S.ctl.autoRotateSpeed=0.7;
+  const RH=0.62,RR=1.75,rr=0.26,RS=0.17,K=0.16;
+  const smin=(a,b)=>{const h=Math.max(K-Math.abs(a-b),0)/K;return Math.min(a,b)-h*h*K*0.25;};
+  function field(q){
+    const dirs=[];for(let k=0;k<q;k++){const a=2*Math.PI*k/q;dirs.push([Math.cos(a),Math.sin(a)]);}
+    return (x,y,z)=>{
+      let d=Math.hypot(x,y,z)-RH;
+      const rad=Math.hypot(x,z);d=smin(d,Math.hypot(rad-RR,y)-rr);
+      for(const [cx,cz] of dirs){let t=(x*cx+z*cz);t=Math.max(0,Math.min(RR,t));d=smin(d,Math.hypot(x-t*cx,y,z-t*cz)-RS);}
+      return d;
+    };
+  }
+  // marching tetrahedra
+  function polygonize(f,b,nx,ny,nz){
+    const [x0,x1,y0,y1,z0,z1]=b,dx=(x1-x0)/nx,dy=(y1-y0)/ny,dz=(z1-z0)/nz;
+    const NX=nx+1,NY=ny+1,NZ=nz+1,vals=new Float32Array(NX*NY*NZ);
+    const id=(i,j,k)=>(i*NY+j)*NZ+k;
+    for(let i=0;i<NX;i++)for(let j=0;j<NY;j++)for(let k=0;k<NZ;k++)vals[id(i,j,k)]=f(x0+i*dx,y0+j*dy,z0+k*dz);
+    const verts=[],idxs=[],map=new Map();
+    const C=[[0,0,0],[1,0,0],[1,1,0],[0,1,0],[0,0,1],[1,0,1],[1,1,1],[0,1,1]];
+    const TET=[[0,5,1,6],[0,1,2,6],[0,2,3,6],[0,3,7,6],[0,7,4,6],[0,4,5,6]];
+    function ev(ga,gb){const key=ga<gb?ga*1e7+gb:gb*1e7+ga;let v=map.get(key);if(v!==undefined)return v;
+      const va=vals[ga],vb=vals[gb],t=va/(va-vb);
+      const ia=Math.floor(ga/(NY*NZ)),ja=Math.floor(ga/NZ)%NY,ka=ga%NZ,ib=Math.floor(gb/(NY*NZ)),jb=Math.floor(gb/NZ)%NY,kb=gb%NZ;
+      verts.push(x0+(ia+(ib-ia)*t)*dx,y0+(ja+(jb-ja)*t)*dy,z0+(ka+(kb-ka)*t)*dz);v=verts.length/3-1;map.set(key,v);return v;}
+    function tri(a,b,c){idxs.push(a,b,c);}
+    for(let i=0;i<nx;i++)for(let j=0;j<ny;j++)for(let k=0;k<nz;k++){
+      const g=C.map(c=>id(i+c[0],j+c[1],k+c[2]));
+      for(const T of TET){
+        const v=T.map(t=>g[t]);const ins=v.map(gg=>vals[gg]<0);const n=ins.filter(Boolean).length;
+        if(n===0||n===4)continue;
+        if(n===1||n===3){const o=ins.indexOf(n===1);const others=[0,1,2,3].filter(x=>x!==o);tri(ev(v[o],v[others[0]]),ev(v[o],v[others[1]]),ev(v[o],v[others[2]]));}
+        else{const a=[0,1,2,3].filter(x=>ins[x]),bb=[0,1,2,3].filter(x=>!ins[x]);
+          const p1=ev(v[a[0]],v[bb[0]]),p2=ev(v[a[0]],v[bb[1]]),p3=ev(v[a[1]],v[bb[1]]),p4=ev(v[a[1]],v[bb[0]]);tri(p1,p2,p3);tri(p1,p3,p4);}
+      }
+    }
+    // normales par gradient, orientation par gradient
+    const nrm=new Float32Array(verts.length),e=1e-3;
+    for(let i=0;i<verts.length;i+=3){const x=verts[i],y=verts[i+1],z=verts[i+2];
+      let gx=f(x+e,y,z)-f(x-e,y,z),gy=f(x,y+e,z)-f(x,y-e,z),gz=f(x,y,z+e)-f(x,y,z-e);const l=Math.hypot(gx,gy,gz)||1;nrm[i]=gx/l;nrm[i+1]=gy/l;nrm[i+2]=gz/l;}
+    for(let t=0;t<idxs.length;t+=3){const [a,b,c]=[idxs[t],idxs[t+1],idxs[t+2]];
+      const A=new THREE.Vector3().fromArray(verts,3*a),B=new THREE.Vector3().fromArray(verts,3*b),Cc=new THREE.Vector3().fromArray(verts,3*c);
+      const nn=B.sub(A).cross(Cc.sub(A));const g=new THREE.Vector3(nrm[3*a]+nrm[3*b]+nrm[3*c],nrm[3*a+1]+nrm[3*b+1]+nrm[3*c+1],nrm[3*a+2]+nrm[3*b+2]+nrm[3*c+2]);
+      if(nn.dot(g)<0){idxs[t+1]=c;idxs[t+2]=b;}}
+    const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));geo.setAttribute('normal',new THREE.BufferAttribute(nrm,3));geo.setIndex(idxs);return geo;
+  }
+  const palU=PAL.map(c=>new THREE.Color(c));
+  const mat=new THREE.MeshStandardMaterial({roughness:0.42,metalness:0.08});
+  mat.onBeforeCompile=sh=>{
+    sh.uniforms.uQ={value:5};sh.uniforms.uPal={value:palU};mat.userData.sh=sh;
+    sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nvarying vec3 vP;').replace('#include <begin_vertex>','#include <begin_vertex>\nvP=position;');
+    sh.fragmentShader=sh.fragmentShader.replace('#include <common>','#include <common>\nvarying vec3 vP;uniform float uQ;uniform vec3 uPal[9];')
+      .replace('vec4 diffuseColor = vec4( diffuse, opacity );',`
+        float ang=atan(vP.z,vP.x);float sec=6.2831853/uQ;
+        float s=floor(mod(ang+sec*0.5+12.566370,6.2831853)/sec);
+        vec3 col=uPal[0];
+        for(int i=0;i<9;i++){if(float(i)==s)col=uPal[i];}
+        float rad=length(vP.xz);
+        float rel=mod(ang+sec*0.5+12.566370,sec);float dd=min(rel,sec-rel)*max(rad,0.05);
+        col=mix(col*0.35,col,smoothstep(0.006,0.022,dd));
+        vec4 diffuseColor=vec4(col,opacity);`);
+  };
+  let mesh=null,q=5,arc=null,arcDot=null;
+  const pT=glowSphere(0xe0c068,0.045),pB=glowSphere(0xe0c068,0.045);pT.position.set(0,RH+0.005,0);pB.position.set(0,-RH-0.005,0);
+  const spin=new THREE.Group();S.scene.add(spin);spin.add(pT,pB);
+  const tT=S.tag('above P','gold'),tB=S.tag('above Q','gold');tT.pos.set(0,RH+0.16,0);tB.pos.set(0,-RH-0.08,0);tB.el.style.transform='translate(-50%,40%)';
+  const hud=document.getElementById('mc-wheel-hud');
+  function build(){
+    if(mesh){spin.remove(mesh);mesh.geometry.dispose();}
+    if(arc){spin.remove(arc);arc.geometry.dispose();}
+    const f=field(q);
+    const geo=polygonize(f,[-2.15,2.15,-0.72,0.72,-2.15,2.15],92,32,92);
+    mesh=new THREE.Mesh(geo,mat);spin.add(mesh);
+    if(mat.userData.sh)mat.userData.sh.uniforms.uQ.value=q;
+    mat.needsUpdate=true;
+    // lift of one loop around P: one sector, on the hub, around the pole
+    const pol=0.42,sec=2*Math.PI/q,pts=[];
+    for(let i=0;i<=40;i++){const a=-sec/2+sec*i/40;const rr0=RH+0.012;pts.push(new THREE.Vector3(rr0*Math.sin(pol)*Math.cos(a),rr0*Math.cos(pol),rr0*Math.sin(pol)*Math.sin(a)));}
+    arc=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),40,0.012,8,false),new THREE.MeshBasicMaterial({color:0xffffff}));spin.add(arc);
+    hud.innerHTML=`genus <b>${q}</b>, ${q} sheets<br>one sheet up: a rotation by ${Math.round(3600/q)/10}°`;
+  }
+  
+  const qs=document.getElementById('mc-wheel-q');
+  qs.onchange=()=>{q=+qs.value;build();};
+  build();
+  let anim=null;
+  document.getElementById('mc-wheel-sigma').onclick=()=>{if(anim)return;anim={t0:performance.now(),from:spin.rotation.y,to:spin.rotation.y-2*Math.PI/q};};
+  const sb=document.getElementById('mc-wheel-spin');sb.textContent=S.ctl.autoRotate?'Stop turning':'Turn the view';
+  sb.onclick=()=>{S.ctl.autoRotate=!S.ctl.autoRotate;sb.textContent=S.ctl.autoRotate?'Stop turning':'Turn the view';};
+  function frame(now){
+    if(S.visible){
+      if(mat.userData.sh)mat.userData.sh.uniforms.uQ.value=q;
+      if(anim){const u=Math.min(1,(now-anim.t0)/900),e=u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;spin.rotation.y=anim.from+(anim.to-anim.from)*e;if(u>=1)anim=null;}
+      S.render();
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+
+/* ---------------- Figure 4: the disk and the chart ---------------- */
+(function(){
+  const cv=document.getElementById('mc-disk'),st=document.getElementById('mc-diskstage'),ctx=cv.getContext('2d');
+  const info=document.getElementById('mc-info');
+  let cur=null;
+  function size(){const d=Math.min(devicePixelRatio,2);cv.width=st.clientWidth*d;cv.height=st.clientHeight*d;}
+  new ResizeObserver(size).observe(st);size();
+  const byPQ={};for(const r of CHART)byPQ[r[0]+'/'+r[1]]=r;
+  const fmt=x=>{if(x<1e6)return x<10?x.toFixed(4):x<1e4?x.toFixed(2):Math.round(x).toLocaleString('en-US');const d=Math.floor(Math.log10(x))+1;return 'a number with '+d+' digits';};
+  function select(key){
+    const r=byPQ[key];if(!r)return;
+    const [p,q,lt,nu,trap,traw]=r;const t=traw!=null?traw:Math.pow(10,lt);
+    cur={p,q,t,nu,trap,type:t<2-1e-9?'ell':(Math.abs(t-2)<1e-9?'par':'hyp')};
+    if(cur.type==='ell')cur.alpha=2*Math.acos(t/2);else if(cur.type==='hyp')cur.ell=2*Math.acosh(t/2);
+    const deg=Math.round(3600*p/q)/10;
+    const pill=cur.type==='ell'?'<span class="mc-pill ell">elliptic, the pen is trapped</span>':cur.type==='par'?'<span class="mc-pill par">parabolic</span>':'<span class="mc-pill hyp">hyperbolic, the pen escapes</span>';
+    info.innerHTML=`<div class="big">${deg}°, that is ${p}/${q} of a turn</div>${pill}
+      <dl><dt>size of the trace</dt><dd>${fmt(t)}</dd>
+      ${cur.type==='ell'?`<dt>rotation</dt><dd>${(cur.alpha*180/Math.PI).toFixed(2)}° per period</dd>`:''}
+      ${cur.type==='hyp'?`<dt>translation</dt><dd>${cur.ell.toFixed(3)} per period</dd><dt>exponent</dt><dd>${nu.toFixed(4)}</dd>`:''}
+      <dt>sheets</dt><dd>${q}</dd></dl>
+      <p style="color:var(--muted);margin:0">${cur.type==='ell'?'The fixed point is inside the disk: the twisted sums turn around it, and the pen stays in a bounded region.':cur.type==='hyp'?'Two fixed points on the circle: everything is pushed from one to the other, and the distance travelled sets the speed at which the pen escapes.':'One fixed point, on the circle.'}</p>`;
+    const dsel=document.getElementById('mc-disk-turn');if([...dsel.options].some(o=>o.value===key))dsel.value=key;
+    drawChart();
+  }
+  // Möbius helpers on complex numbers [re,im]
+  const cm=(a,b)=>[a[0]*b[0]-a[1]*b[1],a[0]*b[1]+a[1]*b[0]],cd=(a,b)=>{const d=b[0]*b[0]+b[1]*b[1];return [(a[0]*b[0]+a[1]*b[1])/d,(a[1]*b[0]-a[0]*b[1])/d];},ca=(a,b)=>[a[0]+b[0],a[1]+b[1]];
+  const C0=[0.28,0.18];const conj=c=>[c[0],-c[1]];
+  const toD=w=>cd(ca(w,C0),ca([1,0],cm(conj(C0),w)));      // conjugation: centre -> C0
+  const rot=[Math.cos(0.5),Math.sin(0.5)];
+  let phase=0,last=performance.now();
+  function draw(now){
+    const dt=Math.min(0.05,(now-last)/1000);last=now;if(!REDUCED)phase+=dt*0.12;
+    const w=cv.width,h=cv.height,R=Math.min(w,h)*0.43,cx=w/2,cy=h/2,dpr=Math.min(devicePixelRatio,2);
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#141b27';ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.fill();
+    ctx.strokeStyle='#5fb7c0';ctx.lineWidth=1.5*dpr;ctx.beginPath();ctx.arc(cx,cy,R,0,7);ctx.stroke();
+    if(!cur){requestAnimationFrame(draw);return;}
+    const P=z=>[cx+R*z[0],cy-R*z[1]];
+    const curves=[],pts=[];
+    if(cur.type==='ell'){
+      for(const r of [0.15,0.3,0.45,0.6,0.73,0.85,0.93]){const c=[];for(let i=0;i<=120;i++){const a=2*Math.PI*i/120;c.push(toD([r*Math.cos(a),r*Math.sin(a)]));}curves.push(c);
+        for(let j=0;j<6;j++){const a=2*Math.PI*j/6+r*3+phase*cur.alpha;pts.push(toD([r*Math.cos(a),r*Math.sin(a)]));}}
+      const f=toD([0,0]);pts.fixed=[f];
+    }else{
+      const L=cur.type==='hyp'?cur.ell:1;const sp=Math.min(1.2,L)/1.0;
+      const tr=(z,s)=>{const c=Math.cosh(s/2),sh=Math.sinh(s/2);return cd(ca([c*z[0],c*z[1]],[sh,0]),ca([sh*z[0],sh*z[1]],[c,0]));};
+      for(const y of [-0.85,-0.6,-0.35,-0.12,0,0.12,0.35,0.6,0.85]){
+        // hypercycle through ±1 passing through i*y : image of the curve {tr(iy, s)}
+        const c=[];for(let i=-60;i<=60;i++)c.push(cm(rot,tr([0,y],i/10)));curves.push(c);
+        for(let j=0;j<5;j++){const s=((phase*sp*2+j*1.6+y*2)%8)-4;pts.push(cm(rot,tr([0,y],s)));}
+      }
+      pts.fixed=[cm(rot,[1,0]),cm(rot,[-1,0])];
+    }
+    ctx.lineWidth=1*dpr;
+    curves.forEach((c,i)=>{ctx.strokeStyle=cur.type==='ell'?'rgba(224,192,104,0.38)':'rgba(154,168,255,0.38)';ctx.beginPath();c.forEach((z,k)=>{const [x,y]=P(z);k?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();});
+    if(cur.type!=='ell'){ctx.strokeStyle='rgba(154,168,255,0.9)';ctx.lineWidth=1.8*dpr;const [a,b]=pts.fixed;ctx.beginPath();ctx.moveTo(...P(a));ctx.lineTo(...P(b));ctx.stroke();}
+    for(const z of pts){const [x,y]=P(z);const m=1-Math.hypot(z[0],z[1]);ctx.fillStyle='#e6e9ef';ctx.globalAlpha=Math.max(0.15,Math.min(1,m*4));ctx.beginPath();ctx.arc(x,y,2.6*dpr,0,7);ctx.fill();}
+    ctx.globalAlpha=1;
+    for(const z of pts.fixed){const [x,y]=P(z);ctx.fillStyle=cur.type==='ell'?'#e0c068':'#9aa8ff';ctx.beginPath();ctx.arc(x,y,5*dpr,0,7);ctx.fill();}
+    ctx.fillStyle='#a3abba';ctx.font=`italic ${13*dpr}px Spectral, Georgia, serif`;ctx.fillText('the unit disk, up to conjugation',12*dpr,h-12*dpr);
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+  // chart
+  const svg=document.getElementById('mc-chart'),tip=document.getElementById('mc-tip');
+  const X0=56,X1=740,Y0=20,Y1=262,ymin=-1,ymax=6.2;
+  const sx=d=>X0+(X1-X0)*d/180,sy=v=>Y1-(Y1-Y0)*(Math.min(v,ymax)-ymin)/(ymax-ymin);
+  function drawChart(){
+    let s=`<rect x="${X0}" y="${sy(Math.log10(2))}" width="${X1-X0}" height="${sy(ymin)-sy(Math.log10(2))}" fill="rgba(224,192,104,0.12)"/>`;
+    for(const v of [-1,0,1,2,3,4,5,6]){s+=`<line x1="${X0}" x2="${X1}" y1="${sy(v)}" y2="${sy(v)}" stroke="#2c3342" stroke-width="1"/><text x="${X0-8}" y="${sy(v)+4}" fill="#a3abba" font-size="12" text-anchor="end">${v===0?'1':'10'+(v===1?'':'<tspan dy="-5" font-size="9">'+v+'</tspan>')}</text>`;}
+    s+=`<line x1="${X0}" x2="${X1}" y1="${sy(Math.log10(2))}" y2="${sy(Math.log10(2))}" stroke="#e0c068" stroke-dasharray="4 3"/><text x="${X1}" y="${sy(Math.log10(2))-5}" fill="#e0c068" font-size="11" text-anchor="end">size 2</text>`;
+    for(const d of [0,30,60,90,120,150,180])s+=`<text x="${sx(d)}" y="${Y1+18}" fill="#a3abba" font-size="11" text-anchor="middle">${d}°</text>`;
+    s+=`<text x="${X0}" y="12" fill="#a3abba" font-size="12">size of the normalized trace, log scale (above one million, the dots sit on the top edge)</text>`;
+    s+=`<text x="${X1}" y="${Y1+34}" fill="#a3abba" font-size="11" text-anchor="end">turn of the pen</text>`;
+    for(const r of CHART){const [p,q,lt,nu,trap]=r;const d=360*p/q;const sel=cur&&cur.p===p&&cur.q===q;
+      s+=`<circle data-k="${p}/${q}" cx="${sx(d).toFixed(1)}" cy="${sy(lt).toFixed(1)}" r="${sel?6:(trap?3.6:2.4)}" fill="${trap?'#e0c068':'#9aa8ff'}" fill-opacity="${trap?1:0.55}" ${sel?'stroke="#fff" stroke-width="1.5"':''} style="cursor:pointer"/>`;}
+    svg.innerHTML=s;
+  }
+  svg.addEventListener('mousemove',e=>{const c=e.target.closest('circle');if(!c){tip.style.display='none';return;}const r=byPQ[c.dataset.k];const d=Math.round(3600*r[0]/r[1])/10;
+    tip.innerHTML=`${r[0]}/${r[1]}, ${d}°, trace ${fmt(r[5]!=null?r[5]:Math.pow(10,r[2]))}, ${r[4]?'trapped':'exponent '+r[3].toFixed(3)}`;
+    const b=svg.parentElement.getBoundingClientRect();tip.style.display='block';tip.style.left=(e.clientX-b.left+12)+'px';tip.style.top=(e.clientY-b.top-30)+'px';});
+  svg.addEventListener('mouseleave',()=>tip.style.display='none');
+  svg.addEventListener('click',e=>{const c=e.target.closest('circle');if(c)select(c.dataset.k);});
+  const ds=document.getElementById('mc-disk-turn');ds.onchange=()=>select(ds.value);
+  select('2/5');
+})();
+
+}
+function mcMaybeStart() {
+  if (mcStarted || !mcPanel || mcPanel.classList.contains("off")) return;
+  mcStarted = true;
+  mcStart().catch(e => { console.error(e); });
+}
+if (mcPanel) { new MutationObserver(mcMaybeStart).observe(mcPanel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(mcMaybeStart); }
+</script>
+
 
 
 
@@ -3749,7 +4537,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 (function () {
   const panels = Array.from(document.querySelectorAll(".panel"));
   const tabs = Array.from(document.querySelectorAll(".tab"));
-  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-status": "What is checked, and what is open"};
+  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-cover": "The surface behind the pen", "mirrorpen-disk": "Why some turns trap the pen", "mirrorpen-status": "What is checked, and what is open"};
   const tabOf = {};
   panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
   const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
