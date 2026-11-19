@@ -193,7 +193,7 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   <ol id="toc-list"></ol>
 </nav>
 <main>
-<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a><a role="tab" class="tab" id="tabbtn-machina" href="#tab-machina" data-tab="machina" aria-controls="tab-machina">Syracuse Machina</a><a role="tab" class="tab" id="tabbtn-mirrorpen" href="#tab-mirrorpen" data-tab="mirrorpen" aria-controls="tab-mirrorpen">The mirror pen</a></div></nav>
+<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a><a role="tab" class="tab" id="tabbtn-machina" href="#tab-machina" data-tab="machina" aria-controls="tab-machina">Syracuse Machina</a><a role="tab" class="tab" id="tabbtn-machina2" href="#tab-machina2" data-tab="machina2" aria-controls="tab-machina2">2-adic Machina</a><a role="tab" class="tab" id="tabbtn-mirrorpen" href="#tab-mirrorpen" data-tab="mirrorpen" aria-controls="tab-mirrorpen">The mirror pen</a><a role="tab" class="tab" id="tabbtn-galois" href="#tab-galois" data-tab="galois" aria-controls="tab-galois">Galois logic</a></div></nav>
 <div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="theorem-z idea map paper">
 <div class="hero">
   <div>
@@ -2701,9 +2701,9 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   admettent des caustiques, Bull. SMF 123 (1995). C. Fierobe, Only quadrics have pseudo-caustics (2023).</p>
 </section>
 </div>
-<div class="panel" id="tab-machina" role="tabpanel" aria-labelledby="tabbtn-machina" data-sections="machina machina-how machina-status">
+<div class="panel" id="tab-machina" role="tabpanel" aria-labelledby="tabbtn-machina" data-sections="machina machina-how machina-status syr-poly syr-climb syr-loops syr-fields-status">
 <h1 class="tabtitle">Syracuse Machina</h1>
-<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#machina">The machine</a></li><li><a href="#machina-how">How it works</a></li><li><a href="#machina-status">What is checked, and the limits</a></li></ol></nav><section class="wide" id="machina">
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#machina">The machine</a></li><li><a href="#machina-how">How it works</a></li><li><a href="#machina-status">What is checked, and the limits</a></li><li><a href="#syr-poly">The same sequence, hidden in a polynomial</a></li><li><a href="#syr-climb">Changing the numbers you are allowed to use</a></li><li><a href="#syr-loops">Each number system has its own loops</a></li><li><a href="#syr-fields-status">What is checked here, and the limits</a></li></ol></nav><section class="wide" id="machina">
   <h2>The machine</h2>
   <p>This tab is a side trip, far from Blaschke products. The Syracuse sequence (also called the Collatz or
   \(3n+1\) sequence) starts from a positive integer and repeats one rule: if the number is even, halve it; if it is
@@ -2811,6 +2811,263 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   not from the literature. It is known in principle that systems of mirrors can carry out computations; whether this
   particular machine has been described before has not been checked.</div>
 </section>
+<section class="wide" id="syr-poly">
+  <h2>The same sequence, hidden in a polynomial</h2>
+  <p>Here is a second way to meet the Syracuse sequence, with no mirrors at all. It came out of the
+  <a href="#tab-galois">Galois logic</a> tab, and it is an exploration, not a result.</p>
+  <p>Take the current number \(u\) and write the equation \(x^u+1=0\). Ask two questions about it.</p>
+  <ul>
+    <li><strong>How many solutions are ordinary real numbers?</strong></li>
+    <li><strong>Into how many pieces does \(x^u+1\) break</strong> when it is factored as far as possible, using real
+    numbers only?</li>
+  </ul>
+  <p>The next number is then: <em>the number of pieces, plus \(u\) times the number of real solutions</em>.</p>
+  <p>To see what this gives, draw the solutions. With complex numbers allowed, \(x^u+1=0\) always has exactly \(u\)
+  solutions, and they sit at the corners of a regular polygon. The real solutions are the corners that lie on the
+  horizontal line. The other corners come in pairs, one above the line and its mirror image below, and each pair
+  makes one piece.</p>
+  <figure style="max-width:44rem;margin:1.2rem 0">
+    <svg viewBox="0 0 680 270" role="img" aria-label="The solutions of x^u + 1 = 0 for u = 3, 5 and 8, drawn as polygons on a circle. Mirror pairs are joined by a dashed line.">
+      <g fill="none" stroke="var(--rule)" stroke-width="1.2">
+        <circle cx="120" cy="110" r="70"/><circle cx="340" cy="110" r="70"/><circle cx="560" cy="110" r="70"/>
+        <line x1="30" y1="110" x2="210" y2="110"/><line x1="250" y1="110" x2="430" y2="110"/><line x1="470" y1="110" x2="650" y2="110"/>
+      </g>
+      <g stroke="var(--ellipse)" stroke-width="1.2" stroke-dasharray="4 4" fill="none">
+        <line x1="155" y1="49.4" x2="155" y2="170.6"/>
+        <line x1="396.6" y1="68.9" x2="396.6" y2="151.1"/><line x1="318.4" y1="43.4" x2="318.4" y2="176.6"/>
+        <line x1="624.7" y1="83.2" x2="624.7" y2="136.8"/><line x1="586.8" y1="45.3" x2="586.8" y2="174.7"/><line x1="533.2" y1="45.3" x2="533.2" y2="174.7"/><line x1="495.3" y1="83.2" x2="495.3" y2="136.8"/>
+      </g>
+      <g fill="var(--ellipse)">
+        <circle cx="155" cy="49.4" r="6"/><circle cx="155" cy="170.6" r="6"/>
+        <circle cx="396.6" cy="68.9" r="6"/><circle cx="396.6" cy="151.1" r="6"/><circle cx="318.4" cy="43.4" r="6"/><circle cx="318.4" cy="176.6" r="6"/>
+        <circle cx="624.7" cy="83.2" r="6"/><circle cx="624.7" cy="136.8" r="6"/><circle cx="586.8" cy="45.3" r="6"/><circle cx="586.8" cy="174.7" r="6"/><circle cx="533.2" cy="45.3" r="6"/><circle cx="533.2" cy="174.7" r="6"/><circle cx="495.3" cy="83.2" r="6"/><circle cx="495.3" cy="136.8" r="6"/>
+      </g>
+      <g fill="var(--zero)"><rect x="43" y="103" width="14" height="14"/><rect x="263" y="103" width="14" height="14"/></g>
+      <g fill="var(--ink)" font-family="Spectral,Georgia,serif" font-size="17" text-anchor="middle">
+        <text x="120" y="218">u = 3</text><text x="340" y="218">u = 5</text><text x="560" y="218">u = 8</text>
+      </g>
+      <g fill="var(--muted)" font-family="Spectral,Georgia,serif" font-size="14.5" text-anchor="middle">
+        <text x="120" y="242">2 pieces, 1 real solution</text><text x="340" y="242">3 pieces, 1 real solution</text><text x="560" y="242">4 pieces, no real solution</text>
+        <text x="120" y="262">2 + 3 = 5</text><text x="340" y="262">3 + 5 = 8</text><text x="560" y="262">4 + 0 = 4</text>
+      </g>
+    </svg>
+    <figcaption>The solutions of \(x^u+1=0\). Round dots: solutions that come in mirror pairs. Square: the real
+    solution, which is \(-1\) and exists only when \(u\) is odd.</figcaption>
+  </figure>
+  <p>When \(u\) is even, no corner lies on the line: there are \(u/2\) pairs, no real solution, and the next number
+  is \(u/2\). When \(u\) is odd, exactly one corner lies on the line: there are \((u+1)/2\) pieces and one real
+  solution, so the next number is \((u+1)/2+u\), which is \((3u+1)/2\). This is the Syracuse rule, in the same
+  form as the machine above. From 7 it gives 7, 11, 17, 26, 13, 20, 10, 5, 8, 4, 2, 1.</p>
+  <p>What is pleasant here is what the rule does <em>not</em> say. It never mentions even or odd, nor 2, nor 3. Even
+  and odd appear because a mirror symmetry acting on an odd number of points has to leave one of them in place. The
+  2 is there because the corners go by pairs.</p>
+</section>
+
+<section class="wide" id="syr-climb">
+  <h2>Changing the numbers you are allowed to use</h2>
+  <p>How far a polynomial breaks depends on which numbers you allow yourself. With fractions only, \(x^2-2\) does
+  not break. Allow \(\sqrt2\) and it breaks into \((x-\sqrt2)(x+\sqrt2)\). So the rule of the previous section
+  gives a different sequence for each choice of allowed numbers. Mathematicians call such a choice a
+  <em>field</em>; here it will be called a number system.</p>
+  <p><strong>With fractions only</strong>, the rule can be said without any polynomial:</p>
+  <ul>
+    <li>if \(u\) is odd, add to \(u\) its number of divisors;</li>
+    <li>if \(u\) is even, the next number is the number of odd divisors of \(u\).</li>
+  </ul>
+  <p>From 7 this gives 7, 9, 12, 2, 1. An odd number climbs slowly, and the first even number collapses to something
+  tiny. This looks nothing like Syracuse.</p>
+  <p><strong>Allowing more numbers</strong> makes \(x^u+1\) break into more pieces, and the only effect on the rule
+  is that some divisors now count twice, or more. With \(\sqrt3\) allowed, for instance, when \(u\) is even its odd
+  divisors that are multiples of 3 count double, and nothing else changes.</p>
+  <p>Now keep adding real numbers, and watch the sequence. The explorer below lets you pick a number system and a
+  start. The second line is always the true Syracuse sequence, for comparison.</p>
+<style>
+.sf{margin:1.2rem 0;max-width:52rem}
+.sf-bar{display:flex;flex-wrap:wrap;gap:.6rem 1rem;align-items:center;font-size:.95rem}
+.sf-bar label{color:var(--muted)}
+.sf-bar select,.sf-bar input{font:inherit;font-size:.95rem;color:var(--ink);background:var(--tint);border:1px solid var(--rule);border-radius:4px;padding:.25rem .5rem}
+.sf-bar input{width:6rem}
+.sf-row{margin-top:.9rem}
+.sf-row h4{margin:0 0 .2rem;font-size:.92rem;font-weight:400;color:var(--muted)}
+.sf-tape{display:flex;flex-wrap:wrap;gap:.15rem .55rem;margin:0;padding:0;list-style:none;font-variant-numeric:lining-nums tabular-nums;font-size:1.02rem;min-height:1.7rem}
+.sf-tape li{color:var(--ink)}
+.sf-tape li.odd{color:var(--zero)}
+.sf-tape li.same{text-decoration:underline;text-decoration-color:var(--ellipse);text-underline-offset:4px}
+.sf-tape li.loop{color:var(--mark)}
+.sf-note{color:var(--muted);font-size:.9rem;margin:.6rem 0 0;min-height:1.4rem}
+</style>
+<div class="sf" id="sf-root">
+  <div class="sf-bar">
+    <label for="sf-field">Numbers allowed</label>
+    <select id="sf-field"></select>
+    <label for="sf-start">Start from</label>
+    <input id="sf-start" type="number" min="1" max="9999" value="7">
+  </div>
+  <div class="sf-row"><h4 id="sf-name">With these numbers</h4><ol class="sf-tape" id="sf-tape"></ol></div>
+  <div class="sf-row"><h4>Syracuse, for comparison</h4><ol class="sf-tape" id="sf-syr"></ol></div>
+  <p class="sf-note" id="sf-note"></p>
+  <ul class="sm-key">
+    <li><i style="background:var(--zero)"></i>odd numbers</li>
+    <li><i style="background:var(--ellipse)"></i>underlined: same beginning as Syracuse</li>
+    <li><i style="background:var(--mark)"></i>the loop the sequence falls into</li>
+  </ul>
+</div>
+  <p>Going down the list of real number systems, the sequence from 7 changes like this.</p>
+  <table>
+    <tr><th>Numbers allowed</th><th>Sequence from 7</th></tr>
+    <tr><td>fractions only</td><td>7, 9, 12, 2, 1</td></tr>
+    <tr><td>fractions and \(\sqrt2\)</td><td>7, 9, 12, 4, 2, 1</td></tr>
+    <tr><td>cosines of the multiples of 3 degrees</td><td>7, 9, 12, 6, 3, 5, 8, 2, 1</td></tr>
+    <tr><td>cosines of the multiples of 3/7 of a degree</td><td>7, 11, 13, 15, 23, 25, 30, 15, and it loops</td></tr>
+    <tr><td>a much larger system of cosines</td><td>7, 11, 17, 19, 21, 32, 2, 1</td></tr>
+    <tr><td>all real numbers</td><td>7, 11, 17, 26, 13, 20, 10, 5, 8, 4, 2, 1</td></tr>
+  </table>
+  <p>The terms settle one after the other. The reason is simple to state: <strong>a real number system gives the
+  Syracuse step at \(u\) exactly when it contains the cosine of the angle of 180 degrees divided by \(u\)</strong>.
+  With that cosine available, every mirror pair of corners becomes a piece of its own; without it, several pairs stay
+  glued together and the count comes out smaller. A small system knows the Syracuse rule for a few values of \(u\), a
+  larger one for more, and the real numbers for all of them.</p>
+  <div class="formula">
+    <p><strong>The same thing as one formula.</strong> Write \(D(u)\) for the integers \(d\) that divide \(2u\)
+    without dividing \(u\). The polynomial \(x^u+1\) is the product of the cyclotomic polynomials \(\Phi_d\) for
+    \(d\) in \(D(u)\), and a field \(K\) breaks \(\Phi_d\) into \(w_K(d)\) pieces of equal degree. Then the next
+    number is</p>
+    <p>\[T_K(u)\;=\;\sum_{d\in D(u)} w_K(d)\;+\;u\cdot\!\!\sum_{\substack{d\in D(u)\\ w_K(d)=\varphi(d)}}\!\!\varphi(d),
+    \qquad w_K(d)=[\,K\cap\mathbb{Q}(\zeta_d):\mathbb{Q}\,].\]</p>
+    <p>The field only enters through the weights \(w_K(d)\), which lie between 1 and \(\varphi(d)\). With
+    \(w=1\) everywhere this is \(\mathbb{Q}\); with \(w=\varphi(d)/2\) it is \(\mathbb{R}\), and since the
+    \(\varphi(d)\) for \(d\) in \(D(u)\) add up to \(u\), the sum is \(u/2\): the Syracuse step. With
+    \(w=\varphi(d)\) it is \(\mathbb{C}\), and the rule becomes \(u(u+1)\). For a finite field with \(p\) elements,
+    \(w(d)\) is \(\varphi(d)\) divided by the order of \(p\) modulo \(d\).</p>
+  </div>
+  <p>Two more facts hold for every real number system. An odd number is always followed by a larger one, and an even
+  number by one at most half as large. And at each step, Syracuse is the largest value any of them can give: it is
+  the sequence at the top of the ladder.</p>
+</section>
+
+<section class="wide" id="syr-loops">
+  <h2>Each number system has its own loops</h2>
+  <p>The Syracuse conjecture says that every start ends in the loop 1, 2, 1, 2 (written 1, 4, 2, 1 in the usual
+  count). On the way up the ladder, other loops appear and disappear.</p>
+  <p><strong>With \(\sqrt3\): the loop 3, 5, 7, 9, 12.</strong> The numbers 3, 5 and 7 are prime, with two divisors
+  each, so the sequence goes 3, 5, 7, 9. The number 9 has three divisors and gives 12. With fractions only, 12 falls
+  to 2. With \(\sqrt3\) allowed, one piece of \(x^{12}+1\) breaks in two, because of the identity</p>
+  <p>\[x^8-x^4+1=(x^4-\sqrt3\,x^2+1)\,(x^4+\sqrt3\,x^2+1),\]</p>
+  <p>and 12 falls to 3 instead. The loop closes. About a third of the starts up to 20 000 end there, the others
+  on 1, 2. Among the square roots tried (all whole numbers up to 47), only \(\sqrt3\) and \(\sqrt6\) create a
+  second loop.</p>
+  <p><strong>With \(i\), the square root of \(-1\): the loop 2, 6, 16.</strong> Once \(i\) is allowed, the equation
+  \(x^2+1=0\) has two solutions. The number 2 no longer falls to 1: it goes to 6, then 16, then back to 2. The usual
+  final loop of Syracuse exists exactly in the number systems where \(-1\) has no square root.</p>
+  <p><strong>A stowaway: the loop 15, 23, 25, 30.</strong> It shows up early on the ladder and survives for a long
+  time. Two of its steps are true Syracuse steps (15 to 23, and 30 to 15); the other two are steps of the
+  "fractions only" kind. It lasts until the system contains the cosines that belong to 23 and to 25, and then it
+  breaks. This is general: every loop that is not a Syracuse loop breaks at some height. Said the other way round,
+  <em>the loops of Syracuse are the loops that survive all the way up</em>.</p>
+  <p><strong>Clock arithmetic.</strong> The same rule can be played with the remainders modulo a prime number
+  \(p\) in place of the real numbers. Each prime then has its own sequence and its own loops, and which loops it has
+  depends only on simple remainders of \(p\): for instance, the loop 1, 2 exists exactly when \(p\) leaves remainder 3
+  when divided by 4. The primes that are one less than a multiple of many numbers behave like the real numbers. With
+  \(p\) = 2 299 491 022 150 529 556 148 799, the rule gives the Syracuse step for every \(u\) up to 53.</p>
+</section>
+
+<section class="wide" id="syr-fields-status">
+  <h2>What is checked here, and the limits</h2>
+  <div class="status"><strong>Checked.</strong> The rule on the real numbers was compared with the Syracuse rule for
+  every \(u\) up to 5000. The short descriptions for fractions, \(\sqrt2\), \(\sqrt3\), \(\sqrt5\) and \(i\) were
+  compared with a true factorisation of \(x^u+1\) by computer for \(u\) up to 18, and with one general formula up
+  to 3000. The loops and their shares come from the starts 1 to 20 000. With fractions only, every start up to
+  3 000 000 ends on 1, 2.</div>
+  <ul>
+    <li><strong>It proves nothing about Syracuse.</strong> On the real numbers the rule <em>is</em> the Syracuse
+    rule, so the conjecture is exactly as hard as before. The polynomial only says the same thing in other words.</li>
+    <li><strong>The polynomial was chosen.</strong> \(x^u+1\) works because it has as few real solutions as a
+    polynomial can have. With \(x^u-1\), the same rule gives a sequence that only grows.</li>
+    <li><strong>The smaller systems have their own open questions.</strong> With fractions only, everything ends on
+    1, 2 provided the odd climb "add the number of divisors" always meets a perfect square. Every start tried does,
+    but no proof is given here.</li>
+    <li><strong>Only part of a number system matters.</strong> What counts is which cosines and sines of whole
+    fractions of a turn it contains. Adding the cube root of 2, for example, changes nothing.</li>
+  </ul>
+  <div class="status"><strong>Status.</strong> This is an exploration with numerical checks, not a piece of research.
+  The ingredients are classical: the way \(x^u+1\) factors has been understood since the nineteenth century
+  (cyclotomic polynomials), and counting pieces as orbits of a symmetry is standard Galois theory. Whether this
+  particular way of meeting the Syracuse sequence has been written down before has not been checked seriously.</div>
+</section>
+<script>
+/* ---------- Syracuse from x^u + 1 over different number systems ---------- */
+(function () {
+  "use strict";
+  const sel = document.getElementById("sf-field");
+  if (!sel) return;
+  const gcd = (a, b) => { while (b) { [a, b] = [b, a % b]; } return a; };
+  function phi(n) { let r = n; for (let p = 2; p * p <= n; p++) if (n % p === 0) { while (n % p === 0) n /= p; r -= r / p; } if (n > 1) r -= r / n; return r; }
+  function divisors(n) { const a = []; for (let d = 1; d * d <= n; d++) if (n % d === 0) { a.push(d); if (d * d !== n) a.push(n / d); } return a; }
+  const cos = m => d => { const g = gcd(d, m); return g <= 2 ? 1 : phi(g) / 2; };
+  const fields = [
+    ["fractions only", d => 1],
+    ["fractions and √2", d => d % 8 === 0 ? 2 : 1],
+    ["fractions and √3", d => d % 12 === 0 ? 2 : 1],
+    ["fractions and √5", d => d % 5 === 0 ? 2 : 1],
+    ["fractions and i, the square root of −1", d => d % 4 === 0 ? 2 : 1],
+    ["cosines of the multiples of 15 degrees", cos(24)],
+    ["cosines of the multiples of 3 degrees", cos(120)],
+    ["cosines of the multiples of 3/7 of a degree", cos(840)],
+    ["a much larger system of cosines", cos(27720)],
+    ["a huge system of cosines", cos(720720)],
+    ["all real numbers (Syracuse)", d => d <= 2 ? 1 : phi(d) / 2],
+    ["all complex numbers", d => phi(d)]
+  ];
+  fields.forEach((f, i) => { const o = document.createElement("option"); o.value = i; o.textContent = f[0]; sel.appendChild(o); });
+  sel.value = 0;
+  /* one step: pieces + u * solutions, where d runs over the divisors of 2u that do not divide u */
+  function step(u, w) {
+    let pieces = 0, sols = 0;
+    for (const d of divisors(2 * u)) { if (u % d === 0) continue; const k = w(d), p = phi(d); pieces += k; if (k === p) sols += p; }
+    return pieces + u * sols;
+  }
+  const syr = u => u % 2 ? (3 * u + 1) / 2 : u / 2;
+  function run(u, f, max) {
+    const seq = [u], seen = new Map([[u, 0]]);
+    let loopAt = -1, big = false;
+    while (seq.length < max) {
+      u = f(u);
+      if (u > 1e11) { big = true; break; }
+      if (seen.has(u)) { loopAt = seen.get(u); break; }
+      seen.set(u, seq.length); seq.push(u);
+    }
+    return { seq, loopAt, big };
+  }
+  function draw(ol, r, other) {
+    ol.innerHTML = "";
+    let same = true;
+    r.seq.forEach((v, i) => {
+      const li = document.createElement("li");
+      if (other && (i >= other.length || other[i] !== v)) same = false;
+      li.className = (v % 2 ? "odd " : "") + (other && same && i > 0 ? "same " : "") + (r.loopAt >= 0 && i >= r.loopAt ? "loop" : "");
+      li.textContent = v.toLocaleString("en").replace(/,/g, " ") + (i < r.seq.length - 1 ? "," : "");
+      ol.appendChild(li);
+    });
+  }
+  function update() {
+    let s = Math.floor(Number(document.getElementById("sf-start").value));
+    if (!(s >= 1)) s = 1; if (s > 9999) s = 9999;
+    const f = fields[sel.value];
+    const a = run(s, u => step(u, f[1]), 400), b = run(s, syr, 400);
+    document.getElementById("sf-name").textContent = "With " + f[0];
+    draw(document.getElementById("sf-tape"), a, b.seq);
+    draw(document.getElementById("sf-syr"), b, null);
+    const note = document.getElementById("sf-note");
+    if (a.big) note.textContent = "The numbers become too large to follow: the sequence runs away.";
+    else if (a.loopAt === 0) note.textContent = "This start is already on a loop: " + a.seq.join(", ") + ", and back to " + a.seq[0] + ".";
+    else if (a.loopAt > 0) note.textContent = "Loop reached after " + a.loopAt + " step" + (a.loopAt === 1 ? "" : "s") + ": " + a.seq.slice(a.loopAt).join(", ") + ".";
+    else note.textContent = "No loop within 400 steps.";
+  }
+  sel.addEventListener("change", update);
+  document.getElementById("sf-start").addEventListener("input", update);
+  update();
+})();
+</script>
 </div>
 <script type="importmap">
 {"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
@@ -4257,6 +4514,917 @@ if (mcPanel) { new MutationObserver(mcMaybeStart).observe(mcPanel, { attributes:
 
 
 
+<div class="panel" id="tab-machina2" role="tabpanel" aria-labelledby="tabbtn-machina2" data-sections="adic adic-shards adic-how adic-infinite adic-status">
+<h1 class="tabtitle">2-adic Machina</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#adic">The machine</a></li><li><a href="#adic-shards">The shattered mirror</a></li><li><a href="#adic-how">How it works</a></li><li><a href="#adic-infinite">With infinitely many shards</a></li><li><a href="#adic-status">What is checked, and the limits</a></li></ol></nav><section class="wide am-sec" id="adic">
+  <h2>The machine</h2>
+  <p>A variant of the <a href="#machina">Syracuse Machina</a>. There, the current number is the distance of the ray to the
+  axis, and every odd number needs its own tooth. Here the number is written in binary, backwards, and read as a point of the
+  Cantor set. This change of writing is enough for a single edge to read the parity. In exchange, the step
+  \(n \mapsto (3n+1)/2\) needs a mirror broken into smaller and smaller shards: a fractal mirror.</p>
+<style>
+.am{--beam:var(--even);margin:1.2rem 0}
+.am-stage{position:relative;border:1px solid var(--rule);border-radius:.6rem;overflow:hidden;background:#0d1118;aspect-ratio:16/10;min-height:22rem}
+.am-stage canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:none}
+.am-stage canvas:active{cursor:grabbing}
+.am-now{position:absolute;left:1.1rem;top:.8rem;right:1rem;pointer-events:none;line-height:1}
+.am-now b{display:block;font-weight:600;font-size:clamp(2.4rem,7vw,4.4rem);color:var(--ink);font-variant-numeric:lining-nums tabular-nums}
+.am-now span{display:block;margin-top:.45rem;font-style:italic;font-size:.95rem;color:var(--muted);line-height:1.4;max-width:34rem}
+.am-now code{font-family:inherit;font-style:normal;color:var(--zero);letter-spacing:.06em}
+.am-hint{position:absolute;right:1rem;bottom:.7rem;font-size:.8rem;color:var(--muted);pointer-events:none;opacity:.8}
+.am-fail{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:2rem;text-align:center;color:var(--muted)}
+.am-tape{display:flex;flex-wrap:wrap;gap:.1rem .5rem;margin:.9rem 0 0;padding:0;list-style:none;font-variant-numeric:lining-nums tabular-nums;font-size:.98rem;color:var(--muted);min-height:1.8rem}
+.am-tape li{margin:0}
+.am-tape li.done{color:color-mix(in srgb,var(--ink) 60%,transparent)}
+.am-tape li.cur{color:var(--beam);font-weight:600}
+.am-tape li.odd{text-decoration:underline;text-decoration-color:var(--zero);text-underline-offset:4px}
+.am-bar{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .55rem;margin-top:.9rem;font-size:.95rem}
+.am-bar>span{color:var(--muted)}
+.am-bar .gap{flex:1}
+.am button,.am input{font:inherit;line-height:1.2;color:var(--ink);background:transparent;border:1px solid var(--rule);border-radius:2rem;padding:.2rem .8rem;font-variant-numeric:lining-nums}
+.am button{cursor:pointer}
+.am input{width:5.2rem;border-radius:.4rem}
+.am button:hover{border-color:var(--ellipse)}
+.am button:focus-visible,.am input:focus-visible{outline:2px solid var(--ellipse);outline-offset:2px}
+.am button[aria-pressed="true"]{border-color:var(--beam);color:var(--beam)}
+.am-key{display:flex;flex-wrap:wrap;gap:.3rem 1.3rem;margin:1rem 0 0;padding:0;list-style:none;font-size:.88rem;color:var(--muted)}
+.am-key li{margin:0}
+.am-key i{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.45rem;vertical-align:-.02rem}
+.am-map{display:grid;grid-template-columns:minmax(0,26rem) minmax(0,1fr);gap:1.2rem;align-items:start;margin-top:1rem}
+.am-map canvas{width:100%;aspect-ratio:1;border:1px solid var(--rule);border-radius:.5rem;background:#0d1118}
+.am-map p{font-size:.95rem;color:var(--muted);margin-top:0}
+@media (max-width:44rem){.am-map{grid-template-columns:1fr}}
+.am-sec table{border-collapse:collapse;font-variant-numeric:lining-nums tabular-nums;margin:.8rem 0}
+.am-sec th,.am-sec td{padding:.25rem .7rem;border:1px solid var(--rule);font-size:.95rem;text-align:left}
+.am-sec th{color:var(--muted);font-weight:400}
+</style>
+<div class="am" id="am-root">
+  <div class="am-stage">
+    <canvas id="am-canvas" aria-label="Rotating 3D view of the 2-adic machine, with a ray of light following the Syracuse sequence"></canvas>
+    <div class="am-now"><b id="am-value">27</b><span id="am-what"></span><span id="am-addr"></span></div>
+    <div class="am-hint">drag to turn, scroll to zoom</div>
+    <div class="am-fail" id="am-fail">The 3D view could not start. It needs WebGL and a connection to load the three.js library.</div>
+  </div>
+  <ol class="am-tape" id="am-tape" aria-label="The numbers read on the ray; underlined: the odd steps"></ol>
+  <div class="am-bar">
+    <span>Start from</span><span id="am-starts" style="display:contents"></span>
+    <label><input id="am-input" type="number" min="-99" max="99" step="1" value="27" aria-label="Starting number, from -99 to 99"></label>
+    <button type="button" id="am-go">Run</button>
+    <span class="gap"></span>
+    <button type="button" id="am-shards" aria-pressed="false">Show the shards</button>
+    <button type="button" id="am-rise" hidden>Back up</button>
+    <button type="button" id="am-dive" hidden>Dive ×3</button>
+    <span id="am-divelab"></span>
+    <button type="button" id="am-fast" aria-pressed="false">Faster</button>
+    <button type="button" id="am-pause" aria-pressed="false">Pause</button>
+    <button type="button" id="am-spin" aria-pressed="true">Rotate</button>
+  </div>
+  <p class="am-tip" style="font-size:.88rem;color:var(--muted);margin:.6rem 0 0">“Show the shards” flies to the output row of the shattered mirror. “Dive ×3” goes one level down into the piece the ray went through: at each level the colours are dealt again, as in the magnifier below, and the output row is always mixed.</p>
+  <ul class="am-key">
+    <li><i style="background:var(--zero)"></i>the parity edge, and the shattered mirror</li>
+    <li><i style="background:var(--geo)"></i>pairs that multiply the position by 3</li>
+    <li><i style="background:var(--mark)"></i>memory pairs</li>
+    <li><i style="background:var(--ellipse)"></i>periscope on the even side</li>
+  </ul>
+</div>
+<h3 style="margin-top:2rem">The state map</h3>
+<div class="am-map">
+  <canvas id="am-plot" width="720" height="720" aria-label="State map: the position of the number across, the memory upwards, on the Cantor dust"></canvas>
+  <p>The full state of the ray has two coordinates: across, the position that encodes the number; upwards, the memory, the
+  sideways offset that remembers where the ray came from. Both live on the Cantor set, so the state lives on the Cantor dust of
+  the square. Even steps are on the left, odd steps on the right; an even step sends the memory into the lower band, an odd
+  step into the upper one. This is the baker's map: stretch one way, squeeze the other.</p>
+</div>
+</section>
+
+<section class="wide am-sec" id="adic-shards">
+  <h2>The shattered mirror</h2>
+  <p>Above, one piece of the input row of the shattered mirror, cut into sub-pieces coloured from left to right. Below, where
+  each of them is sent: they all land in a single piece of the same size, but in a different order. The more one magnifies,
+  the smaller the pieces, and the mixing never goes away. This is why no part of this mirror can be smooth. In the 3D view the
+  same colours are painted on the shards: the input row is a regular gradient, the output row is mixed at every scale.</p>
+  <div class="am-bar" style="margin-top:.4rem"><span>magnification</span>
+    <input id="am-level" type="range" min="0" max="14" step="1" value="0" style="width:16rem;border:none;padding:0" aria-label="Magnification level">
+    <span id="am-levlab"></span></div>
+  <canvas id="am-loupe" width="1100" height="430" style="width:100%;max-width:56rem;border:1px solid var(--rule);border-radius:.5rem;background:#0d1118;margin-top:.6rem" aria-label="Magnifier: one piece of the shattered mirror and its image"></canvas>
+</section>
+
+<section class="am-sec" id="adic-how">
+  <h2>How it works</h2>
+  <p><strong>Writing the number backwards.</strong> Write \(n\) in binary with the units digit first, replace every 1 by a 2, and
+  read the result as a number between 0 and 1 written in base 3. This is a point of the Cantor set. For instance, 1 gives
+  \(0.2_3 = 2/3\), 2 gives \(0.02_3 = 2/9\), and 27, which reads 11011 backwards, gives \(0.22022_3\). Negative integers have
+  infinitely many 1s on the left: \(-1\), made of 1s only, sits at the right end, at 1. This is the picture, inside the real
+  numbers, of the 2-adic integers: the Cantor set is a faithful copy of them.</p>
+  <p><strong>One edge for the parity.</strong> The first digit is the parity. Even numbers are in the left third, odd numbers
+  in the right third, and nothing is ever in the middle third. A single bent mirror whose edge runs through the middle of that gap
+  sends the even numbers one way and the odd numbers the other. No ray ever comes close to the edge.</p>
+  <p><strong>Halving is multiplying the position by 3.</strong> For an even number, \(n/2\) erases the first digit, and in base 3
+  erasing the first digit is multiplying by 3. This is a pair of parabolic gutters, as in the Syracuse Machina; a periscope of
+  two flat mirrors then puts the ray back in place.</p>
+  <p><strong>The odd step and the shattered mirror.</strong> For \(n = 2y+1\), \((3n+1)/2 = 3y+2\). The machine first erases the
+  first digit with the same kind of pair, which gives \(y\). What remains is \(y \mapsto 3y+2\). This map preserves 2-adic
+  distances: two numbers with the same first \(k\) digits have images with the same first \(k\) digits. So it sends each small
+  piece of the Cantor set onto another piece of the same size. But it mixes these pieces, and no interval, however small, is
+  sent in order: no smooth mirror can do it. It takes a shattered periscope, in which each piece has its own pair of flat
+  shards that shifts it by the right amount. The shards split again at every scale, and the true mirror has infinitely many.</p>
+  <p><strong>The memory.</strong> As in the Syracuse Machina, two numbers can have the same successor (5 and 16 both give 8), so
+  the ray carries a sideways offset. A pair of mirrors divides it by 3 and puts it in the lower band after an even step, or in
+  the upper band after an odd step. The base-3 digits of the memory are therefore the past parities, the most recent first. The
+  entry mirrors at the bottom are arranged by thirds of the memory: the memory itself is a point of the Cantor set.</p>
+</section>
+
+<section class="am-sec" id="adic-infinite">
+  <h2>With infinitely many shards</h2>
+  <p>With infinitely many shards, the machine accepts every infinite sequence of binary digits, that is, every 2-adic integer,
+  not only the ordinary integers. For instance \(1/3\) is \(\dots 0101011\) in 2-adic form; it is odd and
+  \((3 \cdot \tfrac13 + 1)/2 = 1\), so a ray started at the position of \(1/3\) lands on the position of 1 and then turns on the
+  circuit 1, 2. In the same way \(-1/3\) goes straight to 0.</p>
+  <p>On the 2-adic integers this dynamics is well understood: it extends continuously, it preserves the natural measure and it
+  is strongly mixing. Above all, it is conjugate to the shift, which simply erases the first digit: the parity sequence of a
+  2-adic integer determines it completely (Lagarias, 1985; Bernstein and Lagarias, 1996). In the infinite machine the ray thus
+  does exactly what the simplest chaotic system does, and the Syracuse conjecture becomes a question about very special points
+  of the Cantor set: those with finitely many nonzero digits.</p>
+  <p>Note what the ideal mirror has to be. Around the position of an integer \(y\) there are infinitely many other integers
+  (\(y+2, y+4, y+8, \dots\)), each asking for a slightly different shift, so no flat shard of positive width is exact near any
+  integer. At level \(d\) the shards cover a fraction \((2/3)^d\) of the row: in the limit the mirror is a Cantor dust of points
+  with zero total area. It reflects exactly the rays that matter, and almost every other ray would go straight through.</p>
+  <table>
+    <tr><th>known circuits</th><th>positions</th></tr>
+    <tr><td>\(0\)</td><td>the left end, 0</td></tr>
+    <tr><td>\(-1\)</td><td>the right end, 1</td></tr>
+    <tr><td>\(1, 2\)</td><td>\(2/3\) and \(2/9\)</td></tr>
+    <tr><td>\(-5, -7, -10\)</td><td>three points near the right end</td></tr>
+    <tr><td>\(-17, -25, \dots, -34\)</td><td>eleven points</td></tr>
+  </table>
+</section>
+
+<section class="am-sec" id="adic-status">
+  <h2>What is checked, and the limits</h2>
+  <p class="status"><strong>Checked.</strong> The whole machine was traced bounce by bounce in Python, with the law of reflection on
+  every mirror (parabolic gutters, flat mirrors, and the 16,384 shards) and 126-digit arithmetic. The 199 starts from −99 to 99
+  were each followed to their circuit and a few more turns. At every pass the position of the ray is that of \(T(n)\) and the
+  memory is the expected one, to within \(10^{-83}\). In this tab the positions are computed in exact fractions through the effect
+  of each pair of mirrors, and the number shown is read from the position of the ray, by decoding its base-3 digits.</p>
+  <ul>
+    <li><strong>A depth instead of a size.</strong> The Syracuse Machina is limited by its size, this one by its depth. It has
+    16,384 shards, pieces of size \(3^{-14}\), and it computes correctly as long as the odd numbers it meets stay between −16,383
+    and 16,383. The true machine would have infinitely many shards; the 3D view draws them down to level 11.</li>
+    <li><strong>It does not take 2-adic integers.</strong> The ray of \(1/3\) is handled exactly only by the infinite mirror. With 14
+    levels, the error made on a number with infinitely many digits shows in its 15th digit, then moves up one digit per step.</li>
+    <li><strong>The angles open here too.</strong> The memory pair squeezes the beam by 3, so it opens its angles by 3 at every turn.
+    The tracing showed it: with only 16 digits, the memory goes off track after a few dozen turns. As for the Syracuse Machina, the
+    machine is exact on paper only.</li>
+    <li><strong>It proves nothing.</strong> “Every ray started from a positive integer ends on the circuit 1, 2” is the Syracuse
+    conjecture, word for word.</li>
+  </ul>
+</section>
+<script type="module">
+/* ---------- 2-adic Machina: the 3D view is loaded only when its tab is opened ---------- */
+const amPanel = document.getElementById("tab-machina2");
+let amStarted = false;
+async function amStart() {
+const panel = amPanel;
+const THREE = await import("three");
+const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+const { EffectComposer } = await import("three/addons/postprocessing/EffectComposer.js");
+const { RenderPass } = await import("three/addons/postprocessing/RenderPass.js");
+const { UnrealBloomPass } = await import("three/addons/postprocessing/UnrealBloomPass.js");
+const { OutputPass } = await import("three/addons/postprocessing/OutputPass.js");
+
+const $ = id => document.getElementById("am-" + id);
+
+/* ================= exact arithmetic on Cantor coordinates: p / 3^k with BigInt ================= */
+const B = BigInt, POW3 = [1n]; const P3 = k => { while (POW3.length <= k) POW3.push(POW3[POW3.length - 1] * 3n); return POW3[k]; };
+const fr = (p, k) => { p = B(p); while (k > 0 && p % 3n === 0n) { p /= 3n; k--; } return { p, k }; };
+const fadd = (a, b) => { const k = Math.max(a.k, b.k); return fr(a.p * P3(k - a.k) + b.p * P3(k - b.k), k); };
+const fsub = (a, b) => fadd(a, { p: -b.p, k: b.k });
+const fmul3 = a => a.k > 0 ? fr(a.p, a.k - 1) : fr(a.p * 3n, 0);
+const fdiv3 = a => fr(a.p, a.k + 1);
+const fnum = a => a.k === 0 ? Number(a.p) : Number((a.p << 64n) / P3(a.k)) / 2 ** 64;
+const NB = 48;
+function cant(m) {           /* Cantor coordinate of the 2-adic integer m (a BigInt, possibly negative) */
+  const M = 1n << B(NB); let r = ((m % M) + M) % M, p = 0n;
+  for (let j = 0; j < NB; j++) if ((r >> B(j)) & 1n) p += 2n * P3(NB - 1 - j);
+  if (m < 0n) p += 1n;
+  return fr(p, NB);
+}
+/* read the digits back: returns {bits, neg} or null if the point is not on the Cantor set */
+function decode(a, maxd = 400) {
+  let x = a; const bits = [];
+  for (let j = 0; j < maxd; j++) {
+    if (x.p === 0n) return { bits, neg: false };
+    if (x.p === P3(x.k)) return { bits, neg: true };            /* x = 1 = 0.222… : only ones from here */
+    x = fmul3(x); const two = P3(x.k) * 2n, one = P3(x.k);
+    if (x.p >= two) { bits.push(1); x = fr(x.p - two, x.k); }
+    else if (x.p <= one) bits.push(0);
+    else return null;
+  }
+  return null;
+}
+const value = d => { let v = 0n; d.bits.forEach((b, j) => { if (b) v += 1n << B(j); }); return d.neg ? v - (1n << B(d.bits.length)) : v; };
+/* the shattered pair: depth-14 facets, each shifting its piece by an exact amount */
+const KD = 14, FCACHE = new Map();
+function facetShift(s) {
+  const d = decode(s, 60); let q = 0n;
+  for (let j = 0; j < KD; j++) { const b = j < d.bits.length ? d.bits[j] : (d.neg ? 1 : 0); if (b) q |= 1n << B(j); }
+  const key = q.toString(); if (FCACHE.has(key)) return FCACHE.get(key);
+  const r = (q >> B(KD - 1)) & 1n ? q - (1n << B(KD)) : q;      /* the facet's integer: its 14 digits, then its last digit repeated */
+  const delta = fsub(cant(3n * r + 2n), cant(r));
+  FCACHE.set(key, delta); return delta;
+}
+/* one turn of the light: what the mirrors do to the position u and the memory v */
+const TWO3 = fr(2, 1);
+function turn(st) {
+  const odd = fmul3(st.u).p >= 2n * P3(fmul3(st.u).k);
+  if (!odd) return { u: fmul3(st.u), v: fdiv3(st.v), odd };
+  const s = fsub(fmul3(st.u), fr(2, 0));
+  return { u: fadd(s, facetShift(s)), v: fadd(fdiv3(st.v), TWO3), odd, s };
+}
+
+/* ================= geometry (verified in Python) ================= */
+const L = 60, Dx = 75;
+const GEO = {"stages": {"E1": {"a": [3, 1], "b": [75, 1], "C": 130, "off": 115.36538461538461, "w0": 0, "w1": 20, "side": 1, "axis": "x", "ext": [39, 101]}, "E2": {"a": [1, 3], "b": [290, 3], "C": 100, "off": 161.48076923076923, "w0": 40, "w1": 100, "side": 1, "axis": "y", "ext": [74, 136]}, "E3": {"a": [1, 1], "b": [-75, 1], "C": 85, "off": 259.83371040723983, "w0": 75, "w1": 135, "side": 1, "axis": "x", "ext": [109, 131]}, "O1": {"a": [3, 1], "b": [-45, 1], "C": 130, "off": 72.28846153846155, "w0": 40, "w1": 60, "side": -1, "axis": "x", "ext": [39, 101]}, "O2": {"a": [1, 3], "b": [290, 3], "C": 100, "off": 112.25000000000001, "w0": 40, "w1": 100, "side": -1, "axis": "y", "ext": [74, 136]}}, "T_E": 277.83371040723983, "T_O": 286.25, "SD": 268.25, "HD": 120.0};
+const ST = {};
+for (const [k, p] of Object.entries(GEO.stages)) {
+  const a = p.a[0] / p.a[1], b = p.b[0] / p.b[1], C = p.C;
+  const G = w => b * w + (a - 1) * w * w / 2, g = w => a * w + b, h = w => (C * C - (g(w) - w) ** 2) / (2 * C);
+  const S1 = w => p.off + (G(w) - G(p.w0)) / C;
+  ST[k] = { ...p, g, S1, S2: w => S1(w) - h(w) };
+}
+const { T_E, T_O, SD, HD } = GEO;
+/* world point for a stage: lateral coordinate w (along x or y), depth s along the branch, the other coordinate fixed */
+function P(k, w, s, other) { const st = ST[k], z = st.side * s; return st.axis === "x" ? [w, other, z] : [other, w, z]; }
+/* the bounce points of one turn, from the state before it */
+function turnPath(st, nx) {
+  const X = L * fnum(st.u), Z = L * fnum(st.v), pts = [];
+  if (!nx.odd) {
+    const h = 40 + Z, x1 = 3 * X + 75, h1 = ST.E2.g(h), x2 = x1 - 75;
+    pts.push([X, h, Z], P("E1", X, ST.E1.S1(X), h), P("E1", x1, ST.E1.S2(X), h), P("E2", h, ST.E2.S1(h), x1), P("E2", h1, ST.E2.S2(h), x1),
+      P("E3", x1, ST.E3.S1(x1), h1), P("E3", x2, ST.E3.S2(x1), h1));
+    const zu = 120 + T_E - h1; pts.push([x2, h1, zu], [x2, 130 - h1, zu], [x2, 130 - h1, 20 - (130 - h1)]);
+  } else {
+    const h = 100 - Z, x1 = 3 * X - 45, h1 = ST.O2.g(h), x2 = L * fnum(nx.u);
+    pts.push([X, h, Z], P("O1", X, ST.O1.S1(X), h), P("O1", x1, ST.O1.S2(X), h), P("O2", h, ST.O2.S1(h), x1), P("O2", h1, ST.O2.S2(h), x1),
+      [x1, h1, -SD], [x2, h1, -(SD - HD)]);
+    const zu = h1 - 120 - T_O; pts.push([x2, h1, zu], [x2, 100 - h1, zu], [x2, 100 - h1, 100 - h1 + 70]);
+  }
+  return pts;
+}
+
+/* ================= 3D view ================= */
+const canvas = $("canvas");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+const U = 1 / 200, CEN = [60, 50, 0];
+const W = p => new THREE.Vector3((p[0] - CEN[0]) * U, (p[1] - CEN[1]) * U, (p[2] - CEN[2]) * U);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0d1118);
+scene.fog = new THREE.Fog(0x0d1118, 5, 13);
+const camera = new THREE.PerspectiveCamera(36, 1.6, 0.0005, 60);
+let lastNear = 0;
+const HOME = { pos: new THREE.Vector3(3.3, 1.55, 1.2), tgt: new THREE.Vector3(0, 0, 0.05) };
+camera.position.copy(HOME.pos);
+const controls = new OrbitControls(camera, canvas);
+controls.target.copy(HOME.tgt); controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.minDistance = 1e-6; controls.zoomToCursor = true; controls.maxDistance = 10; controls.autoRotate = true; controls.autoRotateSpeed = 0.35; controls.zoomSpeed = 1.4;
+scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x10141c, 0.9));
+const keyL = new THREE.DirectionalLight(0xffffff, 1.4); keyL.position.set(3, 5, 2); scene.add(keyL);
+const css = (name, fb) => new THREE.Color(getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fb);
+const COL = { brass: css("--zero", "#e0c068"), geo: css("--geo", "#9aa8ff"), mem: css("--mark", "#d39bc6"), glass: css("--ellipse", "#5fb7c0"), beam: css("--even", "#e59a72"), muted: css("--muted", "#a3abba") };
+const glassMat = (color, opacity) => new THREE.MeshPhysicalMaterial({ color, transparent: true, opacity, side: THREE.DoubleSide, roughness: 0.18, metalness: 0.35, depthWrite: false });
+const edge = (pts, color, opacity) => new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({ color, transparent: true, opacity }));
+function quad(cs, color, op = 0.24, eop = 0.9) {
+  const geo = new THREE.BufferGeometry().setFromPoints([cs[0], cs[1], cs[2], cs[0], cs[2], cs[3]]); geo.computeVertexNormals();
+  scene.add(new THREE.Mesh(geo, glassMat(color, op)), edge([...cs, cs[0]], color, eop));
+}
+/* the smooth gutters */
+const STCOL = { E1: COL.geo, O1: COL.geo, E2: COL.mem, O2: COL.mem, E3: COL.glass };
+for (const [k, st] of Object.entries(ST)) for (const which of [1, 2]) {
+  const n = 80, pos = [], idx = [], rim = [];
+  for (let i = 0; i <= n; i++) {
+    const w = st.w0 + (st.w1 - st.w0) * i / n, lw = which === 1 ? w : st.g(w), s = which === 1 ? st.S1(w) : st.S2(w);
+    for (const e of st.ext) { const v = W(P(k, lw, s, e)); pos.push(v.x, v.y, v.z); }
+    if (i < n) { const a = 2 * i; idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2); }
+  }
+  for (let i = 0; i <= n; i++) rim.push(new THREE.Vector3(pos[6 * i], pos[6 * i + 1], pos[6 * i + 2]));
+  for (let i = n; i >= 0; i--) rim.push(new THREE.Vector3(pos[6 * i + 3], pos[6 * i + 4], pos[6 * i + 5]));
+  rim.push(rim[0].clone());
+  const geo = new THREE.BufferGeometry(); geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+  scene.add(new THREE.Mesh(geo, glassMat(STCOL[k], 0.2)), edge(rim, STCOL[k], 0.9));
+}
+/* flat mirrors: the bent parity mirror, the entries, the U-turns */
+const plane = (x0, x1, f) => [[x0, f[0]], [x1, f[0]], [x1, f[1]], [x0, f[1]]];
+quad([[-1, 39, -1], [30, 39, -1], [30, 101, 61], [-1, 101, 61]].map(W), COL.brass, 0.32, 1);          /* y - z = 40 */
+quad([[30, 101, -1], [61, 101, -1], [61, 39, 61], [30, 39, 61]].map(W), COL.brass, 0.32, 1);          /* y + z = 100 */
+quad([[-1, 21, -1], [61, 21, -1], [61, -1, 21], [-1, -1, 21]].map(W), COL.muted, 0.14, 0.5);            /* entries */
+quad([[-1, -31, 39], [61, -31, 39], [61, -9, 61], [-1, -9, 61]].map(W), COL.muted, 0.14, 0.5);
+for (const [y0, y1, zf] of [[109, 131, y => 120 + T_E - y], [-1, 21, y => y - 10 + T_E]]) quad([[-1, y0, zf(y0)], [61, y0, zf(y0)], [61, y1, zf(y1)], [-1, y1, zf(y1)]].map(W), COL.glass, 0.18, 0.7);
+for (const [y0, y1, zf] of [[109, 131, y => y - 120 - T_O], [-31, -9, y => -20 - T_O - y]]) quad([[-1, y0, zf(y0)], [61, y0, zf(y0)], [61, y1, zf(y1)], [-1, y1, zf(y1)]].map(W), COL.brass, 0.18, 0.7);
+/* the shattered pair, drawn down to level 11 (2048 shards per row; the machine has 16 384, the ideal one infinitely many).
+   Colours follow the loupe: at level k, a shard's colour is given by its next five digits, read in order along the row. */
+const C3 = [new THREE.Color("#5fb7c0"), new THREE.Color("#e0c068"), new THREE.Color("#d39bc6")];
+const ramp = t => t < 0.5 ? C3[0].clone().lerp(C3[1], t * 2) : C3[1].clone().lerp(C3[2], t * 2 - 1);
+const DEEP = 11, NQ = 1 << DEEP;
+const shardRows = [], shardLines = [];
+{
+  const w3 = 1 / 3 ** DEEP, geo = new THREE.PlaneGeometry(1, 1);
+  const m4 = new THREE.Matrix4(), up = new THREE.Vector3(0, 1, 0);
+  for (let r = 0; r < 2; r++) {
+    shardRows.push(new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9, side: THREE.DoubleSide, depthWrite: false }), NQ));
+    const lg = new THREE.BufferGeometry(); lg.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(NQ * 6), 3)); lg.setAttribute("color", new THREE.Float32BufferAttribute(new Float32Array(NQ * 6), 3));
+    shardLines.push(new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.6 })));
+  }
+  for (let q = 0; q < NQ; q++) {
+    let pre = 0; for (let j = 0; j < DEEP; j++) if ((q >> j) & 1) pre += 2 / 3 ** (j + 1);
+    const shift = fnum(facetShift(cant(B(q))));
+    const win = Dx + L * (pre + w3 / 2), wout = L * (pre + shift + w3 / 2);
+    const vw = wout - win, vs = -HD, ln = Math.hypot(vw, vs), nw = vw / ln, ns = vs / ln - 1, nl = Math.hypot(nw, ns);
+    const tw = ns / nl, ts = -nw / nl, len = L * w3 / Math.abs(tw);
+    [[win, SD], [wout, SD - HD]].forEach(([cw, cs], r) => {
+      const t = new THREE.Vector3(tw, 0, -ts).normalize(), n = new THREE.Vector3().crossVectors(t, up);
+      m4.makeBasis(t, up, n); m4.scale(new THREE.Vector3(len * U, 22 * U, 1)); m4.setPosition(W([cw, 120, -cs]));
+      shardRows[r].setMatrixAt(q, m4);
+      const a = shardLines[r].geometry.attributes.position, p0 = W([cw, 109, -cs]), p1 = W([cw, 131, -cs]);
+      a.setXYZ(2 * q, p0.x, p0.y, p0.z); a.setXYZ(2 * q + 1, p1.x, p1.y, p1.z);
+    });
+  }
+  shardRows.forEach(r => { r.instanceMatrix.needsUpdate = true; scene.add(r); });
+  shardLines.forEach(l => { l.geometry.attributes.position.needsUpdate = true; l.frustumCulled = false; scene.add(l); });
+}
+function recolor(k) {
+  const m = Math.max(0, Math.min(5, DEEP - k)), n = 1 << m;
+  for (let q = 0; q < NQ; q++) {
+    let rank = 0; for (let j = 0; j < m; j++) if ((q >> (k + j)) & 1) rank |= 1 << (m - 1 - j);
+    const col = ramp(n > 1 ? rank / (n - 1) : 0.5).multiplyScalar(1.15);
+    for (let r = 0; r < 2; r++) {
+      shardRows[r].setColorAt(q, col);
+      const c = shardLines[r].geometry.attributes.color; c.setXYZ(2 * q, col.r, col.g, col.b); c.setXYZ(2 * q + 1, col.r, col.g, col.b);
+    }
+  }
+  shardRows.forEach(r => r.instanceColor.needsUpdate = true); shardLines.forEach(l => l.geometry.attributes.color.needsUpdate = true);
+}
+recolor(0);
+/* the ray */
+const MAXP = 12 * 400;
+const trail = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: COL.beam, transparent: true, opacity: 0.38 }));
+trail.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(MAXP * 3), 3)); trail.frustumCulled = false;
+const hot = new THREE.Line(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({ color: new THREE.Color(1.7, 1.2, 0.85) }));
+hot.geometry.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(16 * 3), 3)); hot.frustumCulled = false;
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.006, 14, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(3, 2.2, 1.5) }));
+const flash = new THREE.Mesh(new THREE.SphereGeometry(0.012, 14, 10), new THREE.MeshBasicMaterial({ color: new THREE.Color(3, 2.6, 1.4), transparent: true, opacity: 0 }));
+scene.add(trail, hot, head, flash);
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.85, 0.7, 0.2); composer.addPass(bloom);
+composer.addPass(new OutputPass());
+
+/* ================= the state map ================= */
+const plot = $("plot"), pg = plot.getContext("2d");
+function drawMap(states, cur) {
+  const S = plot.width, m = 30, Z = S - 2 * m, X = u => m + u * Z, Y = v => S - m - v * Z;
+  pg.clearRect(0, 0, S, S);
+  pg.fillStyle = "rgba(163,171,186,0.26)";
+  const D = 4, w = 1 / 3 ** D;
+  const ends = []; for (let q = 0; q < 1 << D; q++) { let a = 0; for (let j = 0; j < D; j++) if ((q >> (D - 1 - j)) & 1) a += 2 / 3 ** (j + 1); ends.push(a); }
+  for (const a of ends) for (const b of ends) pg.fillRect(X(a), Y(b + w), Math.max(1, w * Z), Math.max(1, w * Z));
+  pg.strokeStyle = "rgba(224,192,104,0.55)"; pg.setLineDash([6, 6]); pg.beginPath(); pg.moveTo(X(0.5), m - 8); pg.lineTo(X(0.5), S - m + 8); pg.stroke(); pg.setLineDash([]);
+  pg.font = '24px "Spectral", Georgia, serif'; pg.fillStyle = "rgba(163,171,186,0.85)"; pg.textAlign = "center";
+  pg.fillText("even", X(1 / 6), S - 6); pg.fillText("odd", X(5 / 6), S - 6);
+  pg.save(); pg.translate(16, S / 2); pg.rotate(-Math.PI / 2); pg.fillText("memory", 0, 0); pg.restore();
+  if (!states.length) return;
+  pg.strokeStyle = "rgba(229,154,114,0.35)"; pg.lineWidth = 1.5; pg.beginPath();
+  states.slice(0, cur + 1).forEach((s, i) => { const x = X(fnum(s.u)), y = Y(fnum(s.v)); i ? pg.lineTo(x, y) : pg.moveTo(x, y); }); pg.stroke();
+  states.slice(0, cur + 1).forEach((s, i) => { pg.beginPath(); pg.arc(X(fnum(s.u)), Y(fnum(s.v)), i === cur ? 9 : 4, 0, 2 * Math.PI); pg.fillStyle = i === cur ? "#e59a72" : "rgba(229,154,114,0.6)"; pg.fill(); });
+  const c = states[cur]; pg.fillStyle = "#e6e9ef"; pg.font = '600 26px "Spectral", Georgia, serif'; pg.textAlign = "left";
+  const lx = Math.min(X(fnum(c.u)) + 14, S - 90); pg.fillText(String(c.n), lx, Math.max(Y(fnum(c.v)) - 12, 30));
+}
+
+/* ================= the loupe ================= */
+const loupe = $("loupe"), lg = loupe.getContext("2d");
+let loupeKey = "";
+function currentS() {
+  /* the piece used by the most recent odd step, or the start's piece */
+  for (let i = Math.min(lastMark, states.length - 1); i > 0; i--) if (states[i].odd && states[i].s) return states[i].s;
+  const st = states[0]; return st ? fsub(fmul3(st.u), fr(2, 0)) : fr(0, 0);
+}
+function drawLoupe() {
+  const k = +$("level").value, s0 = currentS(), key = k + "|" + s0.p + "/" + s0.k;
+  if (key === loupeKey) return; loupeKey = key;
+  const SUP = ["", "", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹", "¹⁰", "¹¹", "¹²", "¹³", "¹⁴"];
+  $("levlab").textContent = k === 0 ? "the whole mirror" : `pieces of size 1/3${SUP[k]}`;
+  const Wc = loupe.width, Hc = loupe.height, mx = 40, span = Wc - 2 * mx;
+  lg.clearRect(0, 0, Wc, Hc);
+  const d = decode(s0, 60); let qk = 0n;
+  for (let j = 0; j < k; j++) { const b = j < d.bits.length ? d.bits[j] : (d.neg ? 1 : 0); if (b) qk |= 1n << B(j); }
+  const m = Math.min(5, KD - k), n = 1 << m;
+  lg.font = '22px "Spectral", Georgia, serif'; lg.fillStyle = "rgba(163,171,186,0.9)"; lg.textAlign = "left";
+  lg.fillText("input: one piece of the upper row", mx, 34);
+  lg.fillText("output: where the light sends it", mx, Hc - 18);
+  const inLeft = cant(qk), scaleK = fr(P3(k), 0);
+  const rel = (a, left) => fnum(fr((a.p * P3(left.k) - left.p * P3(a.k)) * P3(k), a.k + left.k));
+  const pieces = [];
+  for (let j = 0; j < n; j++) {
+    const p = qk + (B(j) << B(k)), sp = cant(p), out = fadd(sp, facetShift(sp));
+    pieces.push({ j, sp, out });
+  }
+  const od = decode(pieces[0].out, 80); let ok = 0n;
+  for (let j = 0; j < k; j++) { const b = j < od.bits.length ? od.bits[j] : (od.neg ? 1 : 0); if (b) ok |= 1n << B(j); }
+  const outLeft = cant(ok), wrel = 1 / 3 ** m, yT = 70, yB = Hc - 110, bh = 44;
+  pieces.forEach(pc => { pc.a = rel(pc.sp, inLeft); pc.b = rel(pc.out, outLeft); });
+  const order = [...pieces].sort((x, y) => x.a - y.a); order.forEach((pc, i) => { pc.col = "#" + ramp(n > 1 ? i / (n - 1) : 0.5).getHexString(); });
+  for (const pc of pieces) {
+    const x1 = mx + (pc.a + wrel / 2) * span, x2 = mx + (pc.b + wrel / 2) * span;
+    lg.strokeStyle = pc.col; lg.globalAlpha = 0.45; lg.lineWidth = 1.5;
+    lg.beginPath(); lg.moveTo(x1, yT + bh); lg.bezierCurveTo(x1, (yT + yB) / 2, x2, (yT + yB) / 2 + 20, x2, yB); lg.stroke(); lg.globalAlpha = 1;
+    lg.fillStyle = pc.col;
+    lg.fillRect(mx + pc.a * span, yT, Math.max(1.5, wrel * span), bh);
+    lg.fillRect(mx + pc.b * span, yB, Math.max(1.5, wrel * span), bh);
+  }
+  /* where the current ray is, if it is in this piece */
+  const ra = rel(s0, inLeft);
+  if (ra >= -1e-9 && ra <= 1 + 1e-9) {
+    const outRay = fadd(s0, facetShift(s0)), rb = rel(outRay, outLeft);
+    lg.fillStyle = "#ffffff";
+    for (const [x, y] of [[mx + ra * span, yT - 8], [mx + rb * span, yB + bh + 8]]) { lg.beginPath(); lg.moveTo(x, y); lg.lineTo(x - 7, y + (y < yT ? -12 : 12)); lg.lineTo(x + 7, y + (y < yT ? -12 : 12)); lg.closePath(); lg.fill(); }
+  }
+  lg.fillStyle = "rgba(163,171,186,0.9)"; lg.textAlign = "right";
+  lg.fillText(m > 0 ? `${n} sub-pieces` : "a single flat shard: this machine stops here", Wc - mx, 34);
+}
+$("level").addEventListener("input", () => setLevel(+$("level").value));
+
+/* ================= playing ================= */
+const STARTS = [27, 7, 97, 1, 0, -1, -5, -17];
+const CYCLES = { "1": [1, 2], "-1": [-1], "-5": [-5, -7, -10], "-17": [-17, -25, -37, -55, -82, -41, -61, -91, -136, -68, -34], "0": [0] };
+let start = 27, pinned = false, demo = 0, paused = false, fast = false;
+let states = [], pts = [], cum = [], marks = [], total = 0, dist = 0, waitUntil = 0, flashT = 0, lastMark = 0;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function addr(n) {
+  if (n === 0n) return "0 0 0 …";
+  if (n === -1n) return "… 1 1 1";
+  const neg = n < 0n; let r = neg ? -n - 1n : n, s = [];
+  while (r > 0n) { s.push(neg ? 1 - Number(r & 1n) : Number(r & 1n)); r >>= 1n; }
+  return s.join(" ") + (neg ? " 1 1 1 …" : " 0 0 0 …");
+}
+function load() {
+  /* run the light until the number reaches its circuit, then two more tours of the circuit */
+  let st = { u: cant(B(start)), v: fr(0, 0) }; st.n = value(decode(st.u)); states = [st];
+  const inCycle = n => Object.values(CYCLES).some(c => c.includes(Number(n)));
+  let extra = -1;
+  for (let i = 0; i < 300; i++) {
+    const nx = turn(st), d = decode(nx.u);
+    if (!d) { states.push({ ...nx, n: null }); break; }
+    nx.n = value(d); nx.path = turnPath(st, nx); states.push(nx); st = nx;
+    if (extra < 0 && inCycle(nx.n)) { const c = Object.values(CYCLES).find(c => c.includes(Number(nx.n))); extra = 2 * c.length + (c.length === 1 ? 2 : 0); }
+    if (extra >= 0 && --extra < 0) break;
+  }
+  const X0 = L * fnum(states[0].u), Z0 = L * fnum(states[0].v);
+  const raw = [[X0, 25, Z0]]; marks = [];
+  for (let i = 1; i < states.length; i++) if (states[i].path) { raw.push(...states[i].path); marks.push(raw.length - 1); }
+  pts = raw.slice(0, MAXP).map(W); cum = [0]; total = 0;
+  for (let i = 1; i < pts.length; i++) { total += pts[i].distanceTo(pts[i - 1]); cum.push(total); }
+  const a = trail.geometry.attributes.position; pts.forEach((v, i) => a.setXYZ(i, v.x, v.y, v.z)); a.needsUpdate = true;
+  dist = reduce ? total : 0; waitUntil = 0; lastMark = 0;
+  $("tape").innerHTML = states.map((s, i) => `<li data-i="${i}"${i < states.length - 1 && states[i + 1].odd ? ' class="odd"' : ""}>${s.n === null ? "?" : String(s.n).replace("-", "−")}</li>`).join("");
+  [...$("starts").children].forEach(b => b.setAttribute("aria-pressed", String(+b.textContent.replace("−", "-") === start)));
+  show(0);
+}
+function show(k) {
+  const s = states[k], n = s.n;
+  $("value").textContent = String(n).replace("-", "−");
+  let what;
+  if (k === 0) what = "start: the ray rises at the position of the number, with an empty memory";
+  else {
+    const p = states[k - 1].n;
+    what = s.odd
+      ? `${String(p).replace("-", "−")} is odd: its leading 1 is erased (y = ${String((p - 1n) / 2n).replace("-", "−")}), then the shattered mirror applies 3y + 2`
+      : `${String(p).replace("-", "−")} is even: its leading 0 is erased, so the position is multiplied by 3`;
+  }
+  $("what").textContent = what;
+  $("addr").innerHTML = `binary digits, read backwards: <code>${addr(n)}</code>`;
+  [...$("tape").children].forEach(li => { const i = +li.dataset.i; li.classList.toggle("done", i < k); li.classList.toggle("cur", i === k); });
+  drawMap(states, k);
+}
+function pick(n) { pinned = true; start = n; $("input").value = n; load(); }
+STARTS.forEach(n => { const b = document.createElement("button"); b.type = "button"; b.textContent = String(n).replace("-", "−"); b.addEventListener("click", () => pick(n)); $("starts").appendChild(b); });
+$("go").addEventListener("click", () => { const n = Math.round(+$("input").value); if (Number.isFinite(n) && n >= -99 && n <= 99) pick(n); else $("input").value = start; });
+$("input").addEventListener("keydown", e => { if (e.key === "Enter") $("go").click(); });
+$("fast").addEventListener("click", e => { fast = !fast; e.currentTarget.setAttribute("aria-pressed", String(fast)); });
+$("pause").addEventListener("click", e => { paused = !paused; e.currentTarget.setAttribute("aria-pressed", String(paused)); e.currentTarget.textContent = paused ? "Reprendre" : "Pause"; });
+$("spin").addEventListener("click", e => { controls.autoRotate = !controls.autoRotate; e.currentTarget.setAttribute("aria-pressed", String(controls.autoRotate)); });
+if (reduce) { controls.autoRotate = false; $("spin").setAttribute("aria-pressed", "false"); }
+let fly = null, shardOn = false;
+/* fly to the image, on the output row, of the level-k piece the ray last went through */
+const DIVEMAX = 9;
+function flyToLevel(k) {
+  const kk = Math.min(k, DIVEMAX), s0 = currentS(), d = decode(s0, 60); let qk = 0n;
+  for (let j = 0; j < kk; j++) { const b = j < d.bits.length ? d.bits[j] : (d.neg ? 1 : 0); if (b) qk |= 1n << B(j); }
+  const out = fadd(cant(qk), facetShift(cant(qk))), od = decode(out, 80); let ok = 0n;
+  for (let j = 0; j < kk; j++) { const b = j < od.bits.length ? od.bits[j] : (od.neg ? 1 : 0); if (b) ok |= 1n << B(j); }
+  const wk = L / 3 ** kk, xc = L * fnum(cant(ok)) + wk / 2;
+  const tgt = W([xc, 120, -(SD - HD)]), size = Math.max(wk, 0.02) * U;
+  const pos = tgt.clone().add(new THREE.Vector3(0.12, 0.22, 1).normalize().multiplyScalar(size * (kk === 0 ? 1.9 : 1.5) + (kk === 0 ? 0.08 : 0)));
+  fly = { t: 0, p0: camera.position.clone(), t0: controls.target.clone(), p1: pos, t1: tgt };
+}
+function setLevel(k) { $("level").value = k; loupeKey = ""; drawLoupe(); recolor(Math.min(k, DIVEMAX)); if (shardOn) flyToLevel(k); $("divelab").textContent = shardOn ? `level ${Math.min(k, DIVEMAX)}${k > DIVEMAX ? " (the magnifier goes further)" : ""}` : ""; }
+$("shards").addEventListener("click", e => {
+  shardOn = !shardOn; e.currentTarget.setAttribute("aria-pressed", String(shardOn));
+  $("dive").hidden = $("rise").hidden = !shardOn;
+  if (shardOn) { controls.autoRotate = false; $("spin").setAttribute("aria-pressed", "false"); flyToLevel(+$("level").value); }
+  else fly = { t: 0, p0: camera.position.clone(), t0: controls.target.clone(), p1: HOME.pos.clone(), t1: HOME.tgt.clone() };
+  $("divelab").textContent = shardOn ? `level ${Math.min(+$("level").value, DIVEMAX)}` : "";
+  bloom.strength = shardOn ? 0.3 : 0.85;
+});
+$("dive").addEventListener("click", () => setLevel(Math.min(DIVEMAX, +$("level").value + 1)));
+$("rise").addEventListener("click", () => setLevel(Math.max(0, +$("level").value - 1)));
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight; if (!w || !h) return;
+  renderer.setSize(w, h, false); composer.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas); resize();
+
+const clock = new THREE.Clock(), tmp = new THREE.Vector3();
+function frame() {
+  const dt = Math.min(clock.getDelta(), 0.05), now = clock.elapsedTime;
+  if (fly) { fly.t = Math.min(1, fly.t + dt / 1.4); const e = fly.t * fly.t * (3 - 2 * fly.t); camera.position.lerpVectors(fly.p0, fly.p1, e); controls.target.lerpVectors(fly.t0, fly.t1, e); if (fly.t >= 1) fly = null; }
+  if (pts.length > 1) {
+    if (!paused) {
+      if (dist < total) dist = Math.min(total, dist + (fast ? 14 : 4) * dt);
+      else if (!waitUntil) waitUntil = now + 4;
+      else if (now > waitUntil && !pinned && !reduce) { demo = (demo + 1) % STARTS.length; start = STARTS[demo]; $("input").value = start; load(); }
+    }
+    let i = 1; while (i < pts.length - 1 && cum[i] < dist) i++;
+    const f = cum[i] > cum[i - 1] ? Math.min(1, (dist - cum[i - 1]) / (cum[i] - cum[i - 1])) : 1;
+    tmp.lerpVectors(pts[i - 1], pts[i], f); head.position.copy(tmp);
+    const a = trail.geometry.attributes.position; a.setXYZ(i, tmp.x, tmp.y, tmp.z); a.needsUpdate = true; trail.geometry.setDrawRange(0, i + 1);
+    a.setXYZ(i, pts[i].x, pts[i].y, pts[i].z);
+    const hb = hot.geometry.attributes.position, j0 = Math.max(0, i - 3); let c = 0;
+    for (let j = j0; j < i; j++) hb.setXYZ(c++, pts[j].x, pts[j].y, pts[j].z);
+    hb.setXYZ(c++, tmp.x, tmp.y, tmp.z); hb.needsUpdate = true; hot.geometry.setDrawRange(0, c);
+    const reached = f >= 1 ? i : i - 1;
+    while (lastMark < marks.length && marks[lastMark] <= reached) { flash.position.copy(pts[marks[lastMark]]); flashT = 1; lastMark++; show(lastMark); }
+  }
+  if (flashT > 0) { flashT = Math.max(0, flashT - dt * 2.5); flash.material.opacity = flashT; flash.scale.setScalar(1 + (1 - flashT) * 2.5); }
+  controls.update();
+  { const d = camera.position.distanceTo(controls.target), nn = Math.max(1e-8, d * 0.01);
+    if (Math.abs(nn - lastNear) > lastNear * 0.2) { camera.near = nn; camera.updateProjectionMatrix(); lastNear = nn; }
+    const far = d < 1 ? d * 80 : 13, nearF = d < 1 ? d * 30 : 5; scene.fog.near = nearF; scene.fog.far = far; }
+  if (!panel.classList.contains("off")) { composer.render(); drawLoupe(); }
+  requestAnimationFrame(frame);
+}
+load();
+frame();
+
+}
+function amMaybeStart() {
+  if (amStarted || !amPanel || amPanel.classList.contains("off")) return;
+  amStarted = true;
+  amStart().catch(e => { console.error(e); const f = document.getElementById("am-fail"); if (f) f.style.display = "flex"; });
+}
+if (amPanel) { new MutationObserver(amMaybeStart).observe(amPanel, { attributes: true, attributeFilter: ["class"] }); requestAnimationFrame(amMaybeStart); }
+</script>
+</div>
+
+<div class="panel" id="tab-galois" role="tabpanel" aria-labelledby="tabbtn-galois" data-sections="galois galois-rules galois-move galois-result galois-why galois-fermat galois-others galois-status">
+<h1 class="tabtitle">Galois logic</h1>
+<nav class="toc-inline" aria-label="Sections of this tab"><p>In this tab</p><ol><li><a href="#galois">Two square roots nobody can tell apart</a></li><li><a href="#galois-rules">The rules of the game</a></li><li><a href="#galois-move">Watching proofs move</a></li><li><a href="#galois-result">The logic that comes out</a></li><li><a href="#galois-why">Why it comes out that way</a></li><li><a href="#galois-fermat">A proof that goes up and comes back</a></li><li><a href="#galois-others">Other symmetries, other logics</a></li><li><a href="#galois-status">Where this comes from, and the limits</a></li></ol></nav>
+<section id="galois">
+  <h2>Two square roots nobody can tell apart</h2>
+  <p>This tab is another side trip. It is a game with logic, played with the tools of Galois theory. Nothing in it is
+  new: it follows from known work, listed at the end. It is here because the picture is pleasant.</p>
+  <p>The equation \(x^2+1=0\) has two solutions, called \(i\) and \(-i\). Starting from the fractions, there is no
+  way to tell them apart. Every fact of algebra that holds for one holds for the other, and swapping the two changes
+  nothing. So we know that a square root of \(-1\) exists, but we cannot <em>name</em> one without making an arbitrary
+  choice.</p>
+  <p>The game is to take this seriously in logic.</p>
+  <ul>
+    <li>A statement has a set of <strong>proofs</strong>.</li>
+    <li>The symmetries of the algebraic numbers, which form the Galois group, <strong>move the proofs around</strong>,
+    just as they move the numbers. In symbols, the group is \(\mathrm{Gal}(\overline{\mathbb{Q}}/\mathbb{Q})\).</li>
+    <li>A statement counts as settled only if it has a proof that <strong>no symmetry moves</strong>. Call such a
+    proof <em>rational</em>, like a number that no symmetry moves.</li>
+  </ul>
+  <p>First example. Let R be the statement "\(-1\) has a square root". Its proofs are the square roots themselves:
+  \(i\) and \(-i\). The symmetry swaps them. So R has proofs, but no rational proof.</p>
+</section>
+
+<section id="galois-rules">
+  <h2>The rules of the game</h2>
+  <p>The proofs of a compound statement are built from the proofs of its parts, in the way constructive mathematics
+  has done since Brouwer, Heyting and Kolmogorov.</p>
+  <table>
+    <tr><th>Statement</th><th>A proof of it is</th></tr>
+    <tr><td>A and B</td><td>a proof of A together with a proof of B</td></tr>
+    <tr><td>A or B</td><td>a proof of A, or a proof of B, and you know which</td></tr>
+    <tr><td>A implies B</td><td>a recipe that turns each proof of A into a proof of B</td></tr>
+    <tr><td>not A</td><td>a recipe that turns each proof of A into a proof of something false, which has no proof</td></tr>
+  </table>
+  <p>A symmetry moves a recipe the way it moves anything else: undo the symmetry on the input, apply the recipe,
+  redo the symmetry on the output. A recipe is rational when this changes nothing, that is, when it treats all the
+  conjugate proofs alike.</p>
+  <p>Here is what the rules give for R, with its two proofs \(i\) and \(-i\).</p>
+  <table>
+    <tr><th>Statement</th><th>Its proofs</th><th>A rational proof?</th></tr>
+    <tr><td>R</td><td>\(i\) and \(-i\), swapped by the symmetry</td><td>no</td></tr>
+    <tr><td>not R</td><td>none: a recipe would have to send \(i\) to nothing</td><td>no</td></tr>
+    <tr><td>not not R</td><td>one: the empty recipe</td><td>yes</td></tr>
+    <tr><td>R or not R</td><td>\(i\) and \(-i\)</td><td>no</td></tr>
+    <tr><td>R implies R</td><td>the four ways to send \(\{i,-i\}\) into itself</td><td>yes, two: "keep it" and "change the sign"</td></tr>
+  </table>
+  <p>Already two familiar laws fail. "R or not R" has no rational proof. And "not not R" is settled while R is not:
+  it is not false that a root exists, yet no root can be named. The last line is a nice one: nobody can name a root,
+  but everybody can name the way to go from one root to the other.</p>
+</section>
+
+<section class="wide" id="galois-move">
+  <h2>Watching proofs move</h2>
+  <p>Take two statements: P, "5 has a square root", with proofs \(\sqrt5\) and \(-\sqrt5\); and Q, "13 has a square
+  root", with proofs \(\sqrt{13}\) and \(-\sqrt{13}\). The statement "P implies Q" has four proofs, the four
+  recipes below. Four symmetries act: do nothing, flip the sign of \(\sqrt5\), flip the sign of \(\sqrt{13}\), or
+  flip both. Press a button to see what each one does to the recipes.</p>
+<style>
+.gq{margin:1.2rem 0;max-width:52rem}
+.gq-btns{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.9rem}
+.gq-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+@media(min-width:52rem){.gq-cards{grid-template-columns:repeat(4,1fr)}}
+.gq-card{border:1px solid var(--rule);border-radius:6px;padding:.7rem .8rem;background:var(--tint);transition:border-color .2s}
+.gq-card.fix{border-color:var(--ellipse)}
+.gq-card b{display:block;font-weight:600;margin-bottom:.3rem}
+.gq-card span{display:block;color:var(--muted);font-size:.92rem}
+.gq-card em{display:block;font-style:normal;margin-top:.6rem;padding-top:.45rem;border-top:1px solid var(--rule);font-size:.92rem;min-height:2.9rem}
+.gq-card.fix em{color:var(--ellipse)}
+.gq-card:not(.fix) em{color:var(--even)}
+.gq-sum{color:var(--muted);font-size:.95rem;margin:.8rem 0 0;min-height:1.6rem}
+</style>
+<div class="gq" id="gq-root">
+  <div class="gq-btns" id="gq-btns">
+    <button type="button" data-a="1" data-b="1" aria-pressed="true">Do nothing</button>
+    <button type="button" data-a="-1" data-b="1" aria-pressed="false">Flip √5</button>
+    <button type="button" data-a="1" data-b="-1" aria-pressed="false">Flip √13</button>
+    <button type="button" data-a="-1" data-b="-1" aria-pressed="false">Flip both</button>
+  </div>
+  <div class="gq-cards" id="gq-cards"></div>
+  <p class="gq-sum" id="gq-sum"></p>
+</div>
+  <p>Three things to take away.</p>
+  <ul>
+    <li><strong>Each proof lives somewhere.</strong> The two constant recipes are left alone only by "flip \(\sqrt5\)":
+    they can be written with \(\sqrt{13}\) and nothing more. The two others are left alone only by "flip both": they
+    can be written with \(\sqrt{65}\), since \(\sqrt{65}/\sqrt5=\sqrt{13}\). A proof has a home, just as an algebraic
+    number does.</li>
+    <li><strong>None is left alone by all the symmetries.</strong> So "P implies Q" has no rational proof, and by the
+    same argument neither has "Q implies P".</li>
+    <li>Hence "P implies Q, or Q implies P" is not a law here, although ordinary logic accepts it for any two
+    statements.</li>
+  </ul>
+</section>
+
+<section id="galois-result">
+  <h2>The logic that comes out</h2>
+  <p>Call a formula a <em>law</em> of the game if it has a rational proof whatever statements are put in place of
+  its letters. The question is: which laws are there?</p>
+  <div class="box">
+    <p><strong>Answer.</strong> Exactly the laws of constructive logic, plus one more:</p>
+    <p style="font-size:1.1rem"><em>not A, or not not A</em>, in symbols \(\neg A\vee\neg\neg A\).</p>
+  </div>
+  <p>Constructive logic (also called intuitionistic) is the logic in which proving "A or B" means proving one of the
+  two and saying which. It does not accept "A or not A" in general. Between it and ordinary logic sit infinitely many
+  logics, and the one above is among the best known. Logicians call it the logic of the weak excluded middle, or
+  Jankov's logic, or De Morgan logic, and write it KC, because it restores the one De Morgan rule that constructive logic lacks:
+  from "not (A and B)" one may conclude "not A, or not B".</p>
+  <p>Its character, in plain words:</p>
+  <ul>
+    <li>A positive statement can stay in suspense. "\(-1\) has a square root" is neither settled nor refuted over
+    the fractions.</li>
+    <li>A negative statement never does. "Can A be refuted?" always has a clear yes or no.</li>
+    <li>There are infinitely many shades of truth. The value of a statement is the list of number systems over which
+    it becomes settled.</li>
+  </ul>
+</section>
+
+<section class="wide" id="galois-why">
+  <h2>Why it comes out that way</h2>
+  <h3>Step 1: forget the proofs, keep where they live</h3>
+  <p>For a statement A, look at the number systems over which A is settled, meaning that A has a proof which can be
+  written with the numbers of that system. If A is settled over a system, it is settled over every larger one. This
+  list is the <em>profile</em> of A.</p>
+  <figure style="max-width:40rem;margin:1rem 0">
+    <svg viewBox="0 0 680 262" role="img" aria-label="A few number systems ordered by inclusion, with the fractions at the bottom. Those containing i are highlighted.">
+      <g stroke="var(--rule)" stroke-width="1.4">
+        <line x1="340" y1="206" x2="150" y2="150"/><line x1="340" y1="206" x2="340" y2="150"/><line x1="340" y1="206" x2="530" y2="150"/>
+        <line x1="150" y1="114" x2="230" y2="58"/><line x1="340" y1="114" x2="230" y2="58"/>
+        <line x1="340" y1="114" x2="450" y2="58"/><line x1="530" y1="114" x2="450" y2="58"/>
+      </g>
+      <g fill="var(--tint)" stroke="var(--muted)" stroke-width="1">
+        <rect x="280" y="206" width="120" height="36" rx="6"/><rect x="280" y="114" width="120" height="36" rx="6"/><rect x="470" y="114" width="120" height="36" rx="6"/><rect x="380" y="22" width="140" height="36" rx="6"/>
+      </g>
+      <g fill="color-mix(in srgb,var(--ellipse) 22%,var(--paper))" stroke="var(--ellipse)" stroke-width="1.4">
+        <rect x="90" y="114" width="120" height="36" rx="6"/><rect x="160" y="22" width="140" height="36" rx="6"/>
+      </g>
+      <g fill="var(--ink)" font-family="Spectral,Georgia,serif" font-size="16" text-anchor="middle">
+        <text x="340" y="229">fractions</text><text x="150" y="137">with i</text><text x="340" y="137">with √5</text><text x="530" y="137">with √13</text>
+        <text x="230" y="45">with i and √5</text><text x="450" y="45">with √5 and √13</text>
+      </g>
+    </svg>
+    <figcaption>A small corner of the world of number systems, each joined to the larger ones above it. Highlighted:
+    the profile of R, the systems that contain \(i\).</figcaption>
+  </figure>
+  <p>The useful fact is that the profile of a compound statement can be computed from the profiles of its parts,
+  without looking at the proofs at all. "A and B" is settled where both are; "A or B" where at least one is. And
+  "A implies B" is settled over a system exactly when, <em>over every larger system</em>, B is settled as soon as A
+  is. Logicians will recognise the way Kripke described constructive logic in the 1960s: a set of states of
+  knowledge that can only grow. Here the states of knowledge are the number systems.</p>
+
+  <h3>Step 2: why "not A, or not not A" always holds</h3>
+  <p>Look at the proofs of "not A". If A has a proof somewhere, there is no recipe at all. If A has none anywhere,
+  there is exactly one, the empty recipe, and no symmetry moves it. So "not A" is either settled over the fractions
+  or settled nowhere. In the first case "not A" holds; in the second, "not not A" does.</p>
+  <p>Behind this is a plain fact about number systems: any two of them fit together inside a larger one. All possible
+  futures meet again. This is a special case of a general criterion of Olivia Caramello, which ties De Morgan's law
+  to exactly this fitting-together property.</p>
+
+  <h3>Step 3: why there is no other law</h3>
+  <p>One has to show that anything else fails somewhere. A known fact reduces this to a simple shape: it is enough to
+  imitate, with number systems, a row of \(n\) independent switches, each of which can be turned on and never off
+  again.</p>
+  <p>Arithmetic provides such switches. Say that a prime number <em>ramifies</em> in a number system when it becomes
+  a perfect square there, up to a harmless factor: in the system containing \(\sqrt5\), we have
+  \(5=\sqrt5\times\sqrt5\). Once this happens, it stays true in every larger system. And for a prime such as 5, 13
+  or 17, adding its square root turns on that switch and no other.</p>
+  <table>
+    <tr><th>Numbers allowed</th><th>Switches on, among 5, 13, 17</th></tr>
+    <tr><td>fractions only</td><td>none</td></tr>
+    <tr><td>with \(i\)</td><td>none (only the prime 2 is touched)</td></tr>
+    <tr><td>with \(\sqrt5\)</td><td>5</td></tr>
+    <tr><td>with \(\sqrt{13}\)</td><td>13</td></tr>
+    <tr><td>with \(\sqrt5\) and \(\sqrt{17}\)</td><td>5 and 17</td></tr>
+    <tr><td>with \(\sqrt{65}\)</td><td>5 and 13</td></tr>
+  </table>
+  <p>The last line shows why switches are read this way and not by asking "does the system contain \(\sqrt5\)?".
+  The system built on \(\sqrt{65}\) contains neither \(\sqrt5\) nor \(\sqrt{13}\), but as soon as one is added the
+  other comes with it. The two naive questions are not independent there. Ramification sees this at once: both
+  switches are already on.</p>
+</section>
+
+<section class="wide" id="galois-fermat">
+  <h2>A proof that goes up and comes back</h2>
+  <p>A classical theorem shows what reasoning in this game looks like. Fermat's theorem on sums of two squares says
+  that a prime number \(p\) which leaves remainder 1 when divided by 4 can be written \(a^2+b^2\). For example
+  \(13=3^2+2^2\). The statement speaks of whole numbers only. The usual proof does not stay there.</p>
+  <ol>
+    <li><strong>Among whole numbers.</strong> Because of the remainder 1, there is a whole number \(m\) such that
+    \(p\) divides \(m^2+1\).</li>
+    <li><strong>Up, with \(i\) allowed.</strong> Now \(m^2+1=(m+i)(m-i)\), and one finds that \(p\) itself breaks
+    into two factors: \(p=\pi\times\bar\pi\), with \(\pi=a+bi\) and \(\bar\pi=a-bi\).</li>
+    <li><strong>Back down.</strong> Multiplying out, \(p=a^2+b^2\).</li>
+  </ol>
+  <figure style="max-width:44rem;margin:1rem 0">
+    <svg viewBox="0 0 680 340" role="img" aria-label="The proof goes up to the system containing i, where the two conjugate factors live, then comes back down to whole numbers through their product.">
+      <defs><marker id="gq-ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+      <g fill="none" stroke="var(--rule)" stroke-width="1.2" stroke-dasharray="6 5">
+        <rect x="20" y="20" width="640" height="130" rx="12"/><rect x="20" y="190" width="640" height="130" rx="12"/>
+      </g>
+      <g fill="var(--muted)" font-family="Spectral,Georgia,serif" font-size="15.5">
+        <text x="40" y="46">With i allowed: a factor can be named</text>
+        <text x="40" y="312">Whole numbers: only what is symmetric survives</text>
+      </g>
+      <g fill="color-mix(in srgb,var(--even) 20%,var(--paper))" stroke="var(--even)" stroke-width="1.3">
+        <rect x="200" y="68" width="120" height="56" rx="8"/><rect x="360" y="68" width="120" height="56" rx="8"/>
+      </g>
+      <g fill="color-mix(in srgb,var(--ellipse) 20%,var(--paper))" stroke="var(--ellipse)" stroke-width="1.3">
+        <rect x="40" y="238" width="200" height="56" rx="8"/><rect x="440" y="238" width="200" height="56" rx="8"/>
+      </g>
+      <g fill="var(--ink)" font-family="Spectral,Georgia,serif" font-size="16.5" text-anchor="middle">
+        <text x="260" y="92">a + bi</text><text x="420" y="92">a − bi</text>
+        <text x="140" y="262">p leaves remainder 1</text><text x="540" y="262">p = a² + b²</text>
+      </g>
+      <g fill="var(--muted)" font-family="Spectral,Georgia,serif" font-size="14" text-anchor="middle">
+        <text x="260" y="112">not rational</text><text x="420" y="112">not rational</text>
+        <text x="140" y="282">p divides m² + 1</text><text x="540" y="282">settled among whole numbers</text>
+        <text x="340" y="60">swapped</text>
+        <text x="140" y="176">up: p breaks in two</text><text x="540" y="176">down: multiply the two</text>
+      </g>
+      <g fill="none" stroke="var(--muted)" stroke-width="1.5">
+        <line x1="323" y1="96" x2="357" y2="96" marker-start="url(#gq-ar)" marker-end="url(#gq-ar)"/>
+        <path d="M140 236 L140 190 M140 150 L140 96 L197 96" marker-end="url(#gq-ar)"/>
+        <path d="M483 96 L540 96 L540 150 M540 190 L540 235" marker-end="url(#gq-ar)"/>
+      </g>
+    </svg>
+    <figcaption>The statement lives among whole numbers. The proof climbs to where \(i\) exists, picks up two
+    conjugate factors, and comes back through an operation that treats them alike.</figcaption>
+  </figure>
+  <p>In the words of this tab: the statement "\(p\) has a factor of that kind" has two proofs, \(\pi\) and
+  \(\bar\pi\), swapped by the symmetry. It is settled once \(i\) is allowed and not before. Choosing \(\pi\) over
+  \(\bar\pi\) is the same arbitrary choice as choosing \(i\) over \(-i\). The product \(\pi\times\bar\pi\) treats the
+  two alike, so it is a rational recipe, and it brings the proof home.</p>
+  <p>The same pattern, climbing to a larger number system and coming back by a symmetric operation, occurs for the
+  primes of the form \(x^2+ny^2\), where the system visited grows without limit as \(n\) varies. There is also a
+  limit to the game worth knowing: a statement about whole numbers, once it has a proof anywhere, has a rational one,
+  since nothing moves whole numbers. The game measures where a proof lives, not how it was found.</p>
+  <p>One more echo. Counting the proofs of "\(-1\) has a \(u\)-th root" up to symmetry, over the real numbers,
+  gives back the Syracuse sequence. That story is told in the <a href="#syr-poly">Syracuse Machina</a> tab.</p>
+</section>
+
+<section id="galois-others">
+  <h2>Other symmetries, other logics</h2>
+  <p>Nothing forces the use of all the symmetries of the algebraic numbers. Any group of symmetries gives a logic by
+  the same rules, and the logic only depends on how its subgroups are nested.</p>
+  <table>
+    <tr><th>Symmetries</th><th>Shape of the states of knowledge</th><th>Logic</th></tr>
+    <tr><td>none</td><td>a single state</td><td>ordinary logic</td></tr>
+    <tr><td>one symmetry of order 2, such as \(i\) to \(-i\)</td><td>two states, one above the other</td><td>three values: no proof, a proof but no rational one, a rational proof</td></tr>
+    <tr><td>a cycle whose length is a power of a prime</td><td>a finite line</td><td>Gödel's logics with finitely many values</td></tr>
+    <tr><td>an endless tower of such cycles</td><td>an endless line</td><td>Dummett's logic</td></tr>
+    <tr><td>all symmetries of the algebraic numbers</td><td>branches that always meet again</td><td>weak excluded middle</td></tr>
+  </table>
+  <p>For a finite group, "A or not A" always fails and "not A, or not not A" always holds. The formula
+  "P implies Q, or Q implies P" is a law exactly when the group is a single cycle whose length is a power of a prime:
+  the only case where the states of knowledge form a line.</p>
+  <p>For readers who know toposes: the sets of proofs with their symmetries form the topos that Grothendieck attaches
+  to the fractions. Its usual internal logic is the ordinary one. The game above looks at something else: it reads a
+  statement as a whole object and asks whether the object has a point defined over the base. The gap between "not
+  empty" and "has a rational point" is the phenomenon of \(i\) against \(-i\).</p>
+</section>
+
+<section id="galois-status">
+  <h2>Where this comes from, and the limits</h2>
+  <div class="status"><strong>Status.</strong> This tab is an exploration and a piece of popularisation. It claims
+  nothing new. Everything follows, without much effort, from the work listed below. The arguments sketched here were
+  not reviewed by a specialist.</div>
+  <ul>
+    <li><strong>Statements as problems, proofs as solutions:</strong> A. Kolmogorov, 1932; Y. Medvedev's logic of
+    finite problems, 1962.</li>
+    <li><strong>The logic of the weak excluded middle</strong> and its description by finite orders with a top
+    element: V. Jankov, 1968.</li>
+    <li><strong>De Morgan's law holds when things can always be fitted together:</strong> O. Caramello,
+    <em>De Morgan classifying toposes</em> (2009); O. Caramello and P. Johnstone, <em>De Morgan's law and the theory
+    of fields</em> (2009); O. Caramello and Y. Chamoun, <em>De Morgan's law in toposes I</em> (2025). Step 2 above is
+    a special case.</li>
+    <li><strong>Rows of switches are enough to test this logic:</strong> H. Xiao, <em>Non-finite Axiomatizability of
+    Generalized Medvedev Logics</em> (2026). This is the "known fact" of step 3.</li>
+    <li><strong>What is done here:</strong> reading the game as "proofs moved by Galois", passing to profiles, and
+    using ramification to get the switches. These are elementary checks.</li>
+  </ul>
+  <ul>
+    <li><strong>A technical condition.</strong> Each proof is asked to be writable in some number system of finite
+    size over the fractions, as an algebraic number is.</li>
+    <li><strong>Only "and, or, implies, not".</strong> With "for all" and "there exists" the game becomes richer and
+    much less understood. One law appears that ordinary constructive logic does not have: if exactly one thing has a
+    property, that thing is rational.</li>
+  </ul>
+</section>
+</div>
+<script>
+/* ---------- Galois logic: the four proofs of "P implies Q" and the symmetries ---------- */
+(function () {
+  "use strict";
+  const box = document.getElementById("gq-cards");
+  if (!box) return;
+  const r13 = s => (s > 0 ? "√13" : "−√13");
+  const proofs = [
+    { u: 1, v: 1, name: "Always √13", f: "written with √13" },
+    { u: -1, v: -1, name: "Always −√13", f: "written with √13" },
+    { u: 1, v: -1, name: "Keep the sign", f: "x goes to √65 / x" },
+    { u: -1, v: 1, name: "Change the sign", f: "x goes to −√65 / x" }
+  ];
+  const find = (u, v) => proofs.findIndex(p => p.u === u && p.v === v);
+  /* a = sign change on √5, b = sign change on √13 : undo on the input, apply, redo on the output */
+  const image = (i, a, b) => { const p = proofs[i], fu = a > 0 ? p.u : p.v, fv = a > 0 ? p.v : p.u; return find(b * fu, b * fv); };
+  const cards = proofs.map(p => {
+    const c = document.createElement("div"); c.className = "gq-card";
+    const n = document.createElement("b"); n.textContent = p.name;
+    const l1 = document.createElement("span"); l1.textContent = "√5 goes to " + r13(p.u);
+    const l2 = document.createElement("span"); l2.textContent = "−√5 goes to " + r13(p.v);
+    const l3 = document.createElement("span"); l3.textContent = p.f;
+    const s = document.createElement("em");
+    c.append(n, l1, l2, l3, s); box.appendChild(c); return { c, s };
+  });
+  const sums = {
+    "1,1": "Doing nothing moves nothing.",
+    "-1,1": "Flipping √5 leaves the two constant recipes alone: they live in the system built on √13.",
+    "1,-1": "Flipping √13 moves all four recipes: none of them lives in the system built on √5.",
+    "-1,-1": "Flipping both leaves the last two alone: they live in the system built on √65."
+  };
+  function show(a, b) {
+    cards.forEach((k, i) => {
+      const j = image(i, a, b);
+      k.c.classList.toggle("fix", j === i);
+      k.s.textContent = j === i ? "Stays in place" : "Becomes: " + proofs[j].name.toLowerCase();
+    });
+    document.getElementById("gq-sum").textContent = sums[a + "," + b];
+  }
+  const btns = Array.from(document.querySelectorAll("#gq-btns button"));
+  btns.forEach(bt => bt.addEventListener("click", () => {
+    btns.forEach(x => x.setAttribute("aria-pressed", x === bt ? "true" : "false"));
+    show(Number(bt.dataset.a), Number(bt.dataset.b));
+  }));
+  show(1, 1);
+})();
+</script>
+
 <footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.</footer>
 </main>
 </div>
@@ -4537,7 +5705,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 (function () {
   const panels = Array.from(document.querySelectorAll(".panel"));
   const tabs = Array.from(document.querySelectorAll(".tab"));
-  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-cover": "The surface behind the pen", "mirrorpen-disk": "Why some turns trap the pen", "mirrorpen-status": "What is checked, and what is open"};
+  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "syr-poly": "Syracuse in a polynomial", "syr-climb": "Changing the numbers allowed", "syr-loops": "Other loops", "syr-fields-status": "What is checked here", "galois": "Two square roots", "galois-rules": "The rules of the game", "galois-move": "Watching proofs move", "galois-result": "The logic that comes out", "galois-why": "Why", "galois-fermat": "A proof that goes up and back", "galois-others": "Other symmetries", "galois-status": "Sources and limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-cover": "The surface behind the pen", "mirrorpen-disk": "Why some turns trap the pen", "mirrorpen-status": "What is checked, and what is open", "adic": "The machine", "adic-shards": "The shattered mirror", "adic-how": "How it works", "adic-infinite": "With infinitely many shards", "adic-status": "What is checked, and the limits"};
   const tabOf = {};
   panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
   const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
@@ -4555,8 +5723,8 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     });
     title.textContent = tabs.find(a => a.dataset.tab === tab).textContent;
   }
-  function route(scroll) {
-    const h = decodeURIComponent(location.hash.slice(1));
+  function route(scroll, forced) {
+    const h = forced !== undefined ? forced : decodeURIComponent(location.hash.slice(1));
     if (h.startsWith("tab-") && document.getElementById(h)) { show(h.slice(4)); if (scroll) window.scrollTo(0, 0); return; }
     if (tabOf[h]) { show(tabOf[h]); const el = document.getElementById(h); if (el) requestAnimationFrame(() => el.scrollIntoView()); return; }
     const el = h && document.getElementById(h);
@@ -4564,6 +5732,18 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     show("home");
   }
   window.addEventListener("hashchange", () => route(true));
+  window.addEventListener("popstate", () => route(true));
+  /* tabs and in-page links also work where the browser blocks navigation by address (previews, embedded frames) */
+  document.addEventListener("click", e => {
+    if (e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest('a[href^="#"]');
+    if (!a) return;
+    const h = decodeURIComponent(a.getAttribute("href").slice(1));
+    if (!h || !document.getElementById(h)) return;
+    e.preventDefault();
+    try { history.pushState(null, "", "#" + h); } catch (err) {}
+    route(true, h);
+  });
   route(false);
   if ("IntersectionObserver" in window) {
     const vis = new Set();
