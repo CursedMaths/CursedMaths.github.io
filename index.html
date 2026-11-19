@@ -221,6 +221,46 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
 .l3-note{color:var(--muted);font-size:.85rem;margin:.4rem 0 0}
 .l3-small{width:100%;height:170px;display:block;background:#0d1118;border-radius:6px}
 </style>
+<style>
+/* ---------- navigation in two rows: themes, then the tabs of the open theme ---------- */
+.tabbar{--accent:var(--ellipse);padding-top:.35rem;padding-bottom:.5rem}
+.tabbar[data-group=dynamics],.theme[data-group=dynamics]{--accent:var(--zero)}
+.tabbar[data-group=syracuse],.theme[data-group=syracuse]{--accent:var(--even)}
+.tabbar[data-group=galois],.theme[data-group=galois]{--accent:var(--geo)}
+.groups{display:flex;align-items:baseline;gap:1.5rem;border-bottom:1px solid var(--rule);margin-bottom:.5rem}
+.brand{font-style:italic;color:var(--ink);text-decoration:none;margin-right:auto;font-size:1.02rem}
+.group{color:var(--muted);text-decoration:none;font-size:1rem;padding:.3rem 0 .4rem;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:color .15s,border-color .15s}
+.group:hover{color:var(--ink)}
+.group.on{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs{flex-wrap:wrap;overflow:visible;gap:.35rem}
+.tab{font-size:.88rem;padding:.16rem .75rem;transition:color .15s,border-color .15s,background-color .15s}
+.tab[hidden]{display:none}
+.tab[aria-selected=true]{background:var(--accent);border-color:var(--accent)}
+.tabbar{border-bottom:0;box-shadow:0 1px 0 var(--rule)}
+section,main [id]{scroll-margin-top:6.2rem}
+.panel{scroll-margin-top:60rem}
+@media(max-width:46rem){.brand{display:none}.groups{justify-content:space-between;gap:.6rem}.group .more{display:none}.group{font-size:.95rem}section,main [id]{scroll-margin-top:9rem}.panel{scroll-margin-top:60rem}.theme h3{line-height:1.3}}
+/* ---------- a tab appears ---------- */
+@keyframes panel-in{from{opacity:0}to{opacity:1}}
+.panel:not(.off){animation:panel-in .22s ease-out}
+@media(prefers-reduced-motion:reduce){.panel:not(.off){animation:none}.group,.tab{transition:none}}
+/* ---------- index of the four themes on the home tab ---------- */
+.themes{display:grid;grid-template-columns:1fr;margin-top:1.2rem;border-top:1px solid var(--rule)}
+.theme{--accent:var(--ellipse);--c:var(--accent);display:grid;grid-template-columns:4.2rem 1fr;gap:1.2rem;align-items:start;padding:1.3rem 0;border-bottom:1px solid var(--rule)}
+.theme svg{width:4.2rem;height:4.2rem}
+.theme h3{margin:0 0 .25rem;font-size:1.15rem;color:var(--accent)}
+.theme p{margin:0;color:var(--ink);max-width:32rem}
+.theme ul{list-style:none;display:flex;flex-wrap:wrap;gap:.2rem 1.2rem;margin:.5rem 0 0;padding:0;font-size:.95rem}
+.theme a{color:var(--muted);text-decoration-color:var(--rule)}
+.theme a:hover{color:var(--accent);text-decoration-color:currentColor}
+@media(min-width:60rem){.themes{grid-template-columns:1fr 1fr;column-gap:3rem}}
+/* ---------- previous / next ---------- */
+.pager{display:flex;justify-content:space-between;gap:1rem;margin-top:4.5rem;padding-top:1.2rem;border-top:1px solid var(--rule)}
+.pager a{text-decoration:none;color:var(--ink);font-size:1.05rem}
+.pager a span{display:block;color:var(--muted);font-size:.85rem}
+.pager a:hover{color:var(--ellipse)}
+.pager .next{margin-left:auto;text-align:right}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -231,12 +271,12 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   <ol id="toc-list"></ol>
 </nav>
 <main>
-<nav class="tabbar" aria-label="Parts of the site"><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a><a role="tab" class="tab" id="tabbtn-machina" href="#tab-machina" data-tab="machina" aria-controls="tab-machina">Syracuse Machina</a><a role="tab" class="tab" id="tabbtn-machina2" href="#tab-machina2" data-tab="machina2" aria-controls="tab-machina2">2-adic Machina</a><a role="tab" class="tab" id="tabbtn-mirrorpen" href="#tab-mirrorpen" data-tab="mirrorpen" aria-controls="tab-mirrorpen">The mirror pen</a><a role="tab" class="tab" id="tabbtn-galois" href="#tab-galois" data-tab="galois" aria-controls="tab-galois">Galois logic</a></div></nav>
-<div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="theorem-z idea map paper">
+<nav class="tabbar" aria-label="Parts of the site"><div class="groups"><a class="brand" href="#tab-home">cursedmaths</a><a class="group" href="#tab-home" data-group="blaschke">Blaschke<span class="more"> &amp; ellipses</span></a><a class="group" href="#tab-dynamics" data-group="dynamics">Dynamics<span class="more"> &amp; light</span></a><a class="group" href="#tab-machina" data-group="syracuse">Syracuse<span class="more"> &amp; mirrors</span></a><a class="group" href="#tab-galois" data-group="galois">Galois<span class="more"> logic</span></a></div><div class="tabs" role="tablist"><a role="tab" class="tab" id="tabbtn-home" data-group="blaschke" href="#tab-home" data-tab="home" aria-controls="tab-home">Theorem Z</a><a role="tab" class="tab" id="tabbtn-theory" data-group="blaschke" href="#tab-theory" data-tab="theory" aria-controls="tab-theory">Theory</a><a role="tab" class="tab" id="tabbtn-cases" data-group="blaschke" href="#tab-cases" data-tab="cases" aria-controls="tab-cases">Examples and cases</a><a role="tab" class="tab" id="tabbtn-formulas" data-group="blaschke" href="#tab-formulas" data-tab="formulas" aria-controls="tab-formulas">Formulas</a><a role="tab" class="tab" id="tabbtn-dynamics" data-group="dynamics" href="#tab-dynamics" data-tab="dynamics" aria-controls="tab-dynamics">Differential equations</a><a role="tab" class="tab" id="tabbtn-light" data-group="dynamics" href="#tab-light" data-tab="light" aria-controls="tab-light">Light on an ellipsoid</a><a role="tab" class="tab" id="tabbtn-light3d" data-group="dynamics" href="#tab-light3d" data-tab="light3d" aria-controls="tab-light3d">Light in 3D</a><a role="tab" class="tab" id="tabbtn-machina" data-group="syracuse" href="#tab-machina" data-tab="machina" aria-controls="tab-machina">Syracuse Machina</a><a role="tab" class="tab" id="tabbtn-machina2" data-group="syracuse" href="#tab-machina2" data-tab="machina2" aria-controls="tab-machina2">2-adic Machina</a><a role="tab" class="tab" id="tabbtn-mirrorpen" data-group="syracuse" href="#tab-mirrorpen" data-tab="mirrorpen" aria-controls="tab-mirrorpen">The mirror pen</a><a role="tab" class="tab" id="tabbtn-galois" data-group="galois" href="#tab-galois" data-tab="galois" aria-controls="tab-galois">Galois logic</a></div></nav>
+<div class="panel" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home" data-sections="themes theorem-z idea map paper">
 <div class="hero">
   <div>
     <h1>Blaschke products associated to ellipses</h1>
-    <p class="byline">Martin Baptiste, November 2026</p>
+    <p class="byline" id="contact">Martin Baptiste, November 2026<br>Questions and comments are welcome: <a class="mail" data-u="1cursed2math3" data-d="gmail.com" href="#contact">1cursed2math3 at gmail dot com</a></p>
     <div class="box theorem-z zfirst">
       <h2 class="zh">Theorem Z <span class="tag">new result, Martin Baptiste, 2026</span></h2>
     <p>Let <em>B</em> be a Blaschke product of degree \(n\geq 3\). Then <em>B</em> is
@@ -283,6 +323,15 @@ mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%}
   </figure>
 </div>
 
+<section class="wide" id="themes">
+  <h2>What is on this site</h2>
+  <div class="themes">
+    <div class="theme" data-group="blaschke"><svg viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true"><circle r="1" fill="none" stroke="var(--muted)" stroke-width=".04"/><ellipse cx="0.075" cy="-0.200" rx="0.580" ry="0.382" transform="rotate(13.24 0.075 -0.200)" fill="none" stroke="var(--c)" stroke-width=".07"/><polygon points="-0.424,0.906 0.962,-0.273 -0.532,-0.847" fill="none" stroke="var(--ink)" stroke-width=".04" stroke-linejoin="round"/></svg><div><h3>Blaschke products and ellipses</h3><p>When do the polygons of a Blaschke product all touch one ellipse? Theorem Z answers, and the other tabs give the theory around it, the worked cases and the formulas.</p><ul><li><a href="#theorem-z">Theorem Z</a></li><li><a href="#tab-theory">Theory</a></li><li><a href="#tab-cases">Examples and cases</a></li><li><a href="#tab-formulas">Formulas</a></li></ul></div></div>
+    <div class="theme" data-group="dynamics"><svg viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true"><ellipse rx="1" ry=".72" fill="none" stroke="var(--muted)" stroke-width=".04"/><path d="M-.96,-.2Q0,.02 .96,-.2M-.96,.2Q0,.42 .96,.2" fill="none" stroke="var(--muted)" stroke-width=".03" stroke-dasharray=".08 .06"/><polyline points="-0.80,-0.20 -0.60,0.20 -0.40,-0.20 -0.20,0.20 0.00,-0.20 0.20,0.20 0.40,-0.20 0.60,0.20 0.80,-0.20" fill="none" stroke="var(--c)" stroke-width=".07" stroke-linejoin="round"/></svg><div><h3>Dynamics and light</h3><p>The same polygons seen as motion: a point turning on a circle under a force, and light rays that close up around an ellipsoid.</p><ul><li><a href="#tab-dynamics">Differential equations</a></li><li><a href="#tab-light">Light on an ellipsoid</a></li><li><a href="#tab-light3d">Light in 3D</a></li></ul></div></div>
+    <div class="theme" data-group="syracuse"><svg viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true"><line x1="-1" x2="1" y1=".9" y2=".9" stroke="var(--muted)" stroke-width=".04"/><polyline points="-0.950,0.415 -0.777,0.138 -0.605,-0.277 -0.432,-0.900 -0.259,-0.000 -0.086,-0.485 0.086,0.208 0.259,0.554 0.432,0.346 0.605,0.623 0.777,0.762 0.950,0.831" fill="none" stroke="var(--ink)" stroke-width=".04" stroke-linejoin="round"/><circle cx="-0.950" cy="0.415" r=".06" fill="var(--c)"/><circle cx="-0.777" cy="0.138" r=".06" fill="var(--c)"/><circle cx="-0.605" cy="-0.277" r=".06" fill="var(--c)"/><circle cx="-0.432" cy="-0.900" r=".06" fill="var(--c)"/><circle cx="-0.259" cy="-0.000" r=".06" fill="var(--c)"/><circle cx="-0.086" cy="-0.485" r=".06" fill="var(--c)"/><circle cx="0.086" cy="0.208" r=".06" fill="var(--c)"/><circle cx="0.259" cy="0.554" r=".06" fill="var(--c)"/><circle cx="0.432" cy="0.346" r=".06" fill="var(--c)"/><circle cx="0.605" cy="0.623" r=".06" fill="var(--c)"/><circle cx="0.777" cy="0.762" r=".06" fill="var(--c)"/><circle cx="0.950" cy="0.831" r=".06" fill="var(--c)"/></svg><div><h3>Syracuse and mirrors</h3><p>Side trips with mirrors: a ray of light that carries out the \(3n+1\) sequence by bouncing, a variant with a fractal mirror, and a pen driven by a trapped ray.</p><ul><li><a href="#tab-machina">Syracuse Machina</a></li><li><a href="#tab-machina2">2-adic Machina</a></li><li><a href="#tab-mirrorpen">The mirror pen</a></li></ul></div></div>
+    <div class="theme" data-group="galois"><svg viewBox="-1.1 -1.1 2.2 2.2" aria-hidden="true"><line x1="-1" x2="1" y1="0" y2="0" stroke="var(--muted)" stroke-width=".04"/><path d="M.28,-.52A.6,.6 0 0 1 .28,.52M-.28,.52A.6,.6 0 0 1 -.28,-.52" fill="none" stroke="var(--ink)" stroke-width=".04"/><path d="M.36,.34L.28,.54L.08,.46M-.36,-.34L-.28,-.54L-.08,-.46" fill="none" stroke="var(--ink)" stroke-width=".04" stroke-linejoin="round"/><circle cy="-.6" r=".13" fill="var(--c)"/><circle cy=".6" r=".13" fill="var(--c)"/></svg><div><h3>Galois logic</h3><p>A game with logic, played with the tools of Galois theory. It starts from the two square roots of \(-1\), which nobody can tell apart.</p><ul><li><a href="#tab-galois">Galois logic</a></li></ul></div></div>
+  </div>
+</section>
 <section id="theorem-z">
   <h2>Theorem Z in detail</h2>
   <div class="box theorem-z">
@@ -5464,7 +5513,7 @@ if (amPanel) { new MutationObserver(amMaybeStart).observe(amPanel, { attributes:
 })();
 </script>
 
-<footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.</footer>
+<footer>Martin Baptiste. The figures are computed from the examples of the paper and from the working note.<br>Contact: <a class="mail" data-u="1cursed2math3" data-d="gmail.com" href="#contact">1cursed2math3 at gmail dot com</a></footer>
 </main>
 </div>
 </div>
@@ -5744,16 +5793,31 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 (function () {
   const panels = Array.from(document.querySelectorAll(".panel"));
   const tabs = Array.from(document.querySelectorAll(".tab"));
-  const names = {"theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "syr-poly": "Syracuse in a polynomial", "syr-climb": "Changing the numbers allowed", "syr-loops": "Other loops", "syr-fields-status": "What is checked here", "galois": "Two square roots", "galois-rules": "The rules of the game", "galois-move": "Watching proofs move", "galois-result": "The logic that comes out", "galois-why": "Why", "galois-fermat": "A proof that goes up and back", "galois-others": "Other symmetries", "galois-status": "Sources and limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-cover": "The surface behind the pen", "mirrorpen-disk": "Why some turns trap the pen", "mirrorpen-status": "What is checked, and what is open", "adic": "The machine", "adic-shards": "The shattered mirror", "adic-how": "How it works", "adic-infinite": "With infinitely many shards", "adic-status": "What is checked, and the limits"};
+  const names = {"themes": "What is on this site", "theorem-z": "Theorem Z in detail", "idea": "The idea", "map": "Map of the site", "paper": "The paper", "theorems": "Theorems X, Y, L", "dihedral": "The dihedral group", "torus": "The torus", "critical": "Critical points", "values": "Critical values", "degree4": "Degree 4, all cases", "degree6": "Degree 6, all cases", "numrange": "The numerical range", "theorem-w": "Theorem W", "dessins": "Dessins d'enfants", "algorithm": "The algorithm", "explicit": "Explicit ellipses", "chiu-ng": "The Chiu-Ng conjecture", "roots": "Solving B(z) = λ", "pendulum": "Poncelet from a pendulum", "clocks": "Blaschke clocks and trees", "light": "A Poncelet porism in Minkowski space", "light-result": "What is known: the closing condition", "light-proof": "Where the formula comes from", "light3d": "Light in three dimensions", "light3d-closing": "The closing condition, tested", "light3d-more": "What is checked, and what is open", "machina": "The machine", "machina-how": "How it works", "machina-status": "What is checked, and the limits", "syr-poly": "Syracuse in a polynomial", "syr-climb": "Changing the numbers allowed", "syr-loops": "Other loops", "syr-fields-status": "What is checked here", "galois": "Two square roots", "galois-rules": "The rules of the game", "galois-move": "Watching proofs move", "galois-result": "The logic that comes out", "galois-why": "Why", "galois-fermat": "A proof that goes up and back", "galois-others": "Other symmetries", "galois-status": "Sources and limits", "mirrorpen": "The machine", "mirrorpen-periods": "When does the drawing repeat?", "mirrorpen-trap": "Which turns keep the pen trapped", "mirrorpen-cover": "The surface behind the pen", "mirrorpen-disk": "Why some turns trap the pen", "mirrorpen-status": "What is checked, and what is open", "adic": "The machine", "adic-shards": "The shattered mirror", "adic-how": "How it works", "adic-infinite": "With infinitely many shards", "adic-status": "What is checked, and the limits"};
   const tabOf = {};
   panels.forEach(p => p.dataset.sections.split(" ").forEach(s => { tabOf[s] = p.id.slice(4); }));
   const list = document.getElementById("toc-list"), title = document.getElementById("toc-title");
   let links = [], current = null;
+  const bar = document.querySelector(".tabbar"), groups = Array.from(document.querySelectorAll(".group"));
+  /* previous / next tab at the bottom of every tab */
+  tabs.forEach((a, i) => {
+    const nav = document.createElement("nav"); nav.className = "pager"; nav.setAttribute("aria-label", "Previous and next tab");
+    for (const [j, word, cls] of [[i - 1, "Previous", "prev"], [i + 1, "Next", "next"]]) {
+      const b = tabs[j]; if (!b) continue;
+      const l = document.createElement("a"); l.href = "#tab-" + b.dataset.tab; l.className = cls;
+      const w = document.createElement("span"); w.textContent = word; l.append(w, b.textContent); nav.appendChild(l);
+    }
+    document.getElementById("tab-" + a.dataset.tab).appendChild(nav);
+  });
   function show(tab) {
     if (tab === current) return;
     current = tab;
     panels.forEach(p => p.classList.toggle("off", p.id !== "tab-" + tab));
     tabs.forEach(a => a.setAttribute("aria-selected", a.dataset.tab === tab ? "true" : "false"));
+    const group = tabs.find(a => a.dataset.tab === tab).dataset.group;
+    tabs.forEach(a => { a.hidden = a.dataset.group !== group; });
+    groups.forEach(a => a.classList.toggle("on", a.dataset.group === group));
+    bar.dataset.group = group;
     const p = document.getElementById("tab-" + tab);
     list.innerHTML = "";
     links = p.dataset.sections.split(" ").map(s => {
@@ -5784,6 +5848,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
     try { history.pushState(null, "", "#" + h); } catch (err) {}
     route(true, h);
   });
+  document.querySelectorAll("a.mail").forEach(a => { const m = a.dataset.u + "@" + a.dataset.d; a.href = "mailto:" + m; a.textContent = m; });
   route(false);
   if ("IntersectionObserver" in window) {
     const vis = new Set();
